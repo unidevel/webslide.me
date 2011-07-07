@@ -1,0 +1,38 @@
+---RULESET---
+--/css/play-animations.css--
+section{transition-property:transform,opacity;transition-duration:1s,1s}
+section[aria-selected],section .animation-step{transition-delay:1s,1s;transform:scale(1.0) translate(0, 0)}
+section .animation-step{opacity:0;transition:1s all ease}
+#slides [data-animation]{transform:none}
+[data-prev][data-animation="slide"]{transform:translate(-100%,0)}
+[data-next][data-animation="slide"]{transform:translate( 100%,0)}
+[data-prev][data-animation="rotate"]{transform:scale(0.3) rotate( 180deg)}
+[data-next][data-animation="rotate"]{transform:scale(5.0) rotate(-180deg)}
+[data-prev][data-animation="spin"]{transform:scale3d(0.3,0.3,0.3) rotateX(-90deg) translateZ(500px) rotate( 180deg)}
+[data-next][data-animation="spin"]{transform:scale3d(0.3,0.3,0.3) rotateX( 90deg) translateZ(  0px) rotate(-180deg)}
+
+---RULESET---
+--/css/library.css--
+.button{border-radius:5px}
+.sidebar{border-radius:10px}
+.lightbox[id] header,.sidebar header{border-radius:10px 10px 0 0}
+.lightbox[id] article,.sidebar article{border-radius:0 0 10px 10px}
+.lightbox legend{border-radius:5px}
+.lightbox,.lightbox.hidden{transition:all 1s ease}
+
+---RULESET---
+--/css/play.css--
+#navigation>button{border-radius:5px}
+footer,footer:hover{transition:all 0.5s ease}
+
+---RULESET---
+--/css/portal.css--
+#dashboard .themes-preview{border-radius:10px}
+#dashboard .themes-preview,#dashboard .themes-preview:hover{transition:all 1s ease}
+
+---RULESET---
+--/css/edit.css--
+.spritemap div{border-radius:5px}
+div.themes-preview{border-radius:10px}
+#wizard-bubble{border-radius:20px}
+

@@ -1,0 +1,26 @@
+/*
+ * @author Christoph Martens
+ * @url http://webslide.me
+ * 
+ * This file is the basic theme
+ * @required by editor && player
+ */
+
+section{text-align:center;font-size:30px;}
+section>*, section p, section pre{margin:.2em auto auto auto;padding:0}
+/* content hierarchy */
+section h1{font-size:130%}
+section h2{font-size:115%}
+section small,section .small{font-size:50%}
+section a{color:#e33;text-decoration:underline}
+/* media */
+section mark,section .mark{color:#444;background:#ddd}
+section pre{white-space:pre-wrap;word-wrap:break-word}
+section pre,section ol,section ul{display:block;width:80%;padding:0;text-align:left}
+section img,section video{vertical-align:middle}
+/* element alignments */
+section *.full-width{width:100%}
+section *.half-width{width:50%}
+section *.fit-height{width:auto;height:100%}
+section *.fit-width{width:100%;height:auto}
+section *.centered{text-align:center}

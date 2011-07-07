@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Portal | webslide.me | Online HTML5 Slides Presentation Framework</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="/css/library.css" media="screen" />
+	<link rel="stylesheet" href="/css/portal.css" media="screen" />
+	<meta name="description" content="webslide.me is a free service to create, play and share online presentations based on its own html5 and css3 framework">
+	<meta name="keywords" content="webslides, online presentation framework, player, control, editor">
+	<meta name="creator" content="http://webslide.me">
+	<meta name="author" content="Christoph Martens">
+	<meta name="viewport" content="width=device-width">
+	<!-- crazy IE9 stuff -->
+	<meta name="application-name" content="webslide.me" />
+	<meta name="msapplication-tooltip" content="Online presentation framework" />
+	<meta name="msapplication-starturl" content="http://webslide.me/" />
+	<meta name="msapplication-task" content="name=Control;action-uri=/control/;icon-uri=/favicon.ico"/>
+	<meta name="msapplication-task" content="name=Dashboard;action-uri=/dashboard;icon-uri=/favicon.ico"/>
+	<meta name="msapplication-task" content="name=Editor;action-uri=/edit/;icon-uri=/favicon.ico"/>
+	<meta name="msapplication-task" content="name=Tour;action-uri=/tour/;icon-uri=/favicon.ico"/>
+
+	<!--[if lt IE 9]>
+	<script>
+	var html5 = 'aside nav article section header hgroup footer'.split(' ');
+	for (var i = 0, l = html5.length; i < l; i++) {
+		document.createElement(html5[i]);
+	}
+	</script>
+	<![endif]-->
+</head>
+
+<body>
+<header id="header" role="banner">
+	<hgroup>
+		<h1><a href="http://webslide.me">webslide<span>.me</span></a></h1>
+		<h2>Reinventing Slides for the web.</h2>
+	</hgroup>
+</header>
+
+<div id="portal" role="main">
+<article>
+	webslide.me is a free HTML5 and CSS3 presentation framework.<br/>
+	<br/>
+	It offers the capabilities to create, share and play webslides.<br/>
+	You can use it online and offline in your preferred web browser.
+</article>
+
+<article>
+	<a class="button big" href="http://demo.webslide.me/edit" title="webslide.me html5 and css3 presentation editor">Launch Editor</a>
+	<a class="button big" href="#login" onclick="portal.login.show()">Login</a>
+	<br/>
+	<small><strong>No signup required</strong>, but recommended for regular usage.</small>
+</article>
+
+<article>
+	Want more?<br/>
+	<a href="http://demo.webslide.me/play/example.html" title="example webslide and demonstration">View a Webslide</a> or <a href="/tour/">Take the Tour</a>.
+</article>
+</div>
+
+<ul id="social">
+	<li><a class="social facebook" title="webslide.me on facebook" href="http://www.facebook.com/pages/webslideme/142240309152261"><span>webslide.me on facebook</span></a></li>
+	<li><a class="social skype" title="webslide.me on skype" href="skype:martens.ms"><span>webslide.me on skype</span></a></li>
+	<li><a class="social twitter" title="webslide.me on twitter" href="http://twitter.com/martensms"><span>webslide.me on twitter</span></a></li>
+</ul>
+
+<div id="login" class="lightbox{{switch}}">
+	<header>Login / Register</header>
+	<article>
+		<fieldset>
+			<legend>Login Credentials</legend>
+			<p id="login-user">
+				<label for="login-1">Account</label>
+				<input id="login-1" type="text" name="user" placeholder="myaccount"/>.webslide.me
+			</p>
+			<p id="login-email" style="display:none">
+				<label for="login-2">E-Mail</label>
+				<input id="login-2" type="email" name="email" placeholder="your@email.com"/>
+			</p>
+			<p id="login-pass">
+				<label for="login-3">Password</label>
+				<input id="login-3" type="password" name="pass"/>
+			</p>
+			<br/>
+			<p>
+				<input id="login-switch" type="checkbox" name="switch" value="yes" onclick="portal.login.update(this)"/> I don't have a webslide.me account, create one.
+			</p>
+			<p>
+				You also agree to <a href="http://webslide.me/license">the license</a> and that
+				<a href="http://webslide.me">webslide.me</a> will always stay free of charge.
+			</p>
+		</fieldset>
+		<fieldset id="fieldset-links" style="display:none">
+			<legend>How your links will look like</legend>
+			http://<span class="login-1">myaccount</span>.webslide.me/dashboard<br/>
+			http://<span class="login-1">myaccount</span>.webslide.me/play/example.html
+		</fieldset>
+		<p id="login-notify">&nbsp;</p>
+		<button class="button" onclick="portal.login.hide()">Cancel</button>
+		<button class="button" onclick="portal.login.submit()">Login</button>
+	</article>
+</div>
+
+<footer role="contentinfo">
+	&copy;2010 by <a href="http://martens.ms">Christoph Martens</a> |
+	<a href="/license">License</a> |
+	<a href="/tour">Tour</a> |
+	<a href="http://twitter.com/martensms">Twitter</a>
+	<br/>
+	<a href="/tour/#compatibility-browsers">Supported Browsers</a> |
+	<a href="/tour/#compatibility-platforms">Supported Platforms</a>
+	<br/><small>Proudly powered by PHP5 &amp; NodeJS</small>
+</footer>
+
+<script src="/js/library.js"></script>
+<script src="/js/portal.js"></script>
+</body>
+</html>

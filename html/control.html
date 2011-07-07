@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Control | webslide.me</title>
+	<meta charset="utf-8">
+	<meta name="robots" content="NOINDEX,NOFOLLOW" />
+	<meta name="copyright" content="Christoph Martens / martens.ms" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<!--[if lt IE 9]>
+	<script>
+	var html5 = 'aside nav article section header hgroup footer'.split(' ');
+	for (var i = 0, l = html5.length; i < l; i++) {
+		document.createElement(html5[i]);
+	}
+	</script>
+	<![endif]-->
+
+	<link rel="stylesheet" media="screen" href="/css/library.css" />
+	<link rel="stylesheet" media="screen" href="/css/control.css" />
+</head>
+<body>
+<aside id="notification">
+	Please select the webslide you want to control.
+</aside>
+
+<div id="workspace"></div>
+
+<script src="/js/library.js"></script>
+<script src="/js/control.js"></script>
+<script>
+(function(){
+	var control = new webslide.me.control();
+})();
+</script>
+</body>
+</html>

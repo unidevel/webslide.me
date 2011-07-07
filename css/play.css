@@ -1,0 +1,26 @@
+/*
+ * @author Christoph Martens
+ * @url http://webslide.me
+ * 
+ * @required by player
+ */
+
+html{overflow:hidden}
+body,html{height:100%;padding:0px}
+body{margin:0px;position:relative;color:#fff;background-color:#444}
+/* slides */
+section{position:absolute;display:block;width:100%;height:100%;overflow:hidden;pointer-events:none;opacity:0}
+section[aria-selected]{pointer-events:auto;opacity:1}
+/* footer */
+footer{color:white}
+footer:hover{background:rgba(0,0,0,0.5);opacity:1}
+footer,footer:hover{transition:all 0.5s ease}
+footer .title{float:left;text-align:left}
+footer .index{float:right;text-align:right}
+#footer{position:absolute;display:block;width:98%;bottom:0;padding:5px 1%;text-align:left;font-size:25px;opacity:0.5}
+#footer[id]{position:fixed;z-index:10}
+/* navigation */
+#navigation{display:block;width:6em;margin:0 auto;text-align:center}
+#navigation>button{font-size:120%;font-weight:bold}
+#navigation>button{margin:0 2px;color:#fff;background:#000;background:rgba(0,0,0,0.5);border:1px solid transparent;border-radius:5px}
+#navigation>button:hover,#navigation>button:focus{border:1px solid #fff}

@@ -1,0 +1,127 @@
+/*
+ * @author Christoph Martens
+ * @url http://webslide.me
+ * 
+ * @required by /portal, /dashboard, /license, /tour
+ *
+ * @palette:
+ * @blue: #12a1d9 | rgba(18,161,217,0.8)
+ * @black: #202020
+ * @grey: #c0c0c0
+ * 
+ * @background:
+ * @grey: #e8e8e8
+ * @white: #fff
+*/
+
+body{margin:0;padding:0;color:#202020;background:url('portal.png') #fff repeat-x;font-family:Georgia,serif;font-size:14px}
+a{color:#12a1d9;text-decoration:none}
+a:focus,a:hover{color:#933}
+a.none{ color:#404040; text-decoration:none; }
+
+/* common things - the header*/
+#header,#portal article{height:auto;margin:1em auto;padding:1em;text-align:center;font-size:18px}
+#header,#header a,strong{color:#404040;text-decoration:none}
+h1,strong{margin:0;padding:0;font-family:Arial,sans-serif}
+h1 span{color:#12a1d9}
+#header h2{margin:0;padding:0;font-size:1em}
+footer{margin-top:3em;border-top:1px solid #aaa;padding:0.5em 2em 0.5em 2em;text-align:right}
+
+/* /portal */
+#portal article{font-size:1.2em;color:#404040;padding:0.5em 0}
+.button.big{margin:0 10px;padding:5px 10px;font-size:1.2em}
+#login-notify{color:#933;font-weight:bold;text-align:center}
+#login-notify ul{text-align:left}
+#social{text-align:center;margin:0;padding:0}
+#social li{display:inline-block;width:auto;margin:0.5em;list-style:none}
+.social{display:inline-block;width:48px;height:48px;background:url('social.png') no-repeat 0px 0px}
+.social span{display:none;visibility:hidden;font-size:0px}
+.social.facebook{background-position:0px 0px}
+.social.skype{background-position:-48px 0px}
+.social.twitter{background-position:-96px 0px}
+
+/* /portal - viewport dependend changes */
+/*  and (max-width:800px) ...doesnt work in webkit and doesnt make sense =/ */
+@media screen and (max-height:500px){
+	#login{position:relative;width:100%;height:auto;background:transparent}
+	#login header,#login article{border:1px solid #aaa}
+}
+
+/* /dashboard */
+#dashboard,#profile,#settings{width:auto;min-height:300px;height:auto;margin-right:200px;padding:1em 0 1em 1em;font-size:1.2em}
+#hint{display:block;text-align:center;font-size:120%}
+#dashboard,#profile,#settings{display:none}
+#dashboard:target,#profile:target,#settings:target{display:block}
+
+#dashboard .themes-preview{display:block;display:inline-block;float:left;position:relative;width:220px;height:170px;margin:0 20px 20px 0;padding:10px 10px 0 10px;opacity:0.9;border:1px solid #404040;border-radius:10px}
+#dashboard .themes-preview,#dashboard .themes-preview:hover{transition:all 1s ease}
+#dashboard .themes-preview:hover{opacity:1;background:#933;border-color:#600}
+#dashboard .themes-preview h4,#dashboard .themes-preview p{margin:0.25em 0;padding:0;text-align:center}
+#dashboard .themes-preview h4{font-size:24px;line-height:24px}
+#dashboard .webslide-actions{display:block;position:absolute;bottom:0px;left:0px;right:0px;padding:0.5em 0;font-size:1.2em;text-align:center;border-radius:0 0 10px 10px}
+#dashboard .webslide-actions{background:#ffffff;background:-moz-linear-gradient(top,#ffffff 0%,#eaeaea 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#eaeaea));filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#eaeaea',GradientType=0)}
+
+#dashboard-sidebar{display:block;position:absolute;width:220px;top:10%;right:0px}
+#dashboard-sidebar[id]{position:fixed}
+
+/* /dashboard - viewport dependend changes */
+@media screen and (max-width:500px){
+	#dashboard-sidebar,#dashboard-sidebar[id]{position:relative;width:100%;top:0px;right:0px;bottom:0px;left:0px}
+	#dashboard-wrapper{position:relative;height:auto}
+	#dashboard,#profile,#settings{margin-right:0px;min-height:0px;border-top:1px solid #aaa;display:block}
+}
+
+/* sidebar /license and /tour */
+#sidebar{display:block;position:absolute;top:20%;right:0px}
+#sidebar[id]{position:fixed}
+#sidebar ol{margin:0;padding:0;list-style:decimal inside}
+#sidebar ul{list-style:upper-alpha}
+
+/* /license */
+#license{width:700px;margin:4em 0 0 10%}
+#license article{color:#404040}
+#license article>h3{font-size:28px}
+#license article>p,#license article>ol,#license article>ul{display:block;margin:1em 0 0 0;padding:0.5em 0 0.5em 1em;border-left:3px solid #aaa}
+#license article>ol,#license article>ul{padding-left:2em}
+#license article>p:hover,#license article>ol:hover,#license article>ul:hover{border-left:3px solid #12a1d9;background:rgba(18,161,217,0.2)}
+#license article>*{font-size:16px}
+#license section>h3{margin:0;font-size:20px}
+#license p{margin:0.5em 0}
+
+/* /tour */
+#tour{width:700px;margin:4em 0 0 10%}
+#tour article{color:#404040}
+#tour article>h3{font-size:28px}
+#tour article>p,#tour article>section{display:block;margin:1em 0 0 0;padding:0.5em 0 0.5em 1em;border-left:3px solid #aaa}
+#tour article>p:hover,#tour article>section:hover{border-left:3px solid #12a1d9;background:rgba(18,161,217,0.2)}
+#tour article>p,#tour section>*{font-size:16px}
+#tour section>h3{margin:0;font-size:20px}
+#tour p{margin:0.5em 0}
+/* used only in tour, but who cares? */
+#tour table a>mark{color:#404040}
+
+#tour .compatibility{width:100%;margin:2em 0 0 0}
+#tour .compatibility th,.compatibility td{width:7em;background:#fff}
+#tour .compatibility th{background:transparent}
+#tour .compatibility tr:hover td{color:#202020;border:1px solid #404040}
+#tour .compatibility .full-support{background:#3f3}
+#tour .compatibility .good-support{background:#393}
+#tour .compatibility .middle-support{background:#ff3}
+#tour .compatibility .bad-support{background:#f33}
+#tour .compatibility .tobetested{background:#ccc}
+
+#tour .browser{display:inline-block;width:64px;height:64px;margin:0 auto;padding:0;background:url('browsers.png') 0px 0px no-repeat}
+#tour .browser span{display:none;visibility:hidden;font-size:0px;color:transparent}
+#tour .browser.chromium{ background-position:0px 0px}
+#tour .browser.chrome{background-position:-64px 0px}
+#tour .browser.firefox{background-position:-128px 0px}
+#tour .browser.ie6{background-position:0px -64px}
+#tour .browser.ie8{background-position:-64px -64px}
+#tour .browser.ie9{background-position:-128px -64px}
+#tour .browser.opera{background-position:0px -128px}
+#tour .browser.safari{background-position:-64px -128px}
+#tour .browser.maxthon{background-position:-128px -128px}
+#tour .browser.midori{background-position:0px -192px}
+#tour .browser.seamonkey{background-position:-64px -192px}
+#tour .browser.iceape{background-position:0px -256px}
+#tour .browser.iceweasel{background-position:-64px -256px}

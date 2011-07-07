@@ -1,0 +1,41 @@
+RewriteEngine on
+
+# BEGIN Developer Mode
+RewriteRule ^(dashboard|license|login|logout|portal|tour)\/dev$ index.php?q=$1&dev=1
+RewriteRule ^(play)\/dev\/([A-Za-z0-9-_]+).html$ index.php?q=$1\/$2&dev=1
+RewriteRule ^(edit|play|control)\/dev$ index.php?q=$1&dev=1
+RewriteRule ^(play|edit|control)\/dev\/([A-Za-z0-9-_]+).(gif|jpg|jpeg|png)$ index.php?q=media\/img\/$2\.$3&dev=1
+# END Developer Mode
+
+# Portal
+RewriteRule ^(dashboard|license|login|logout|portal|tour)\/$ index.php?q=$1
+RewriteRule ^(dashboard|license|login|logout|portal|tour)$ index.php?q=$1
+
+# Editor, Player, Control
+RewriteRule ^(play)\/([A-Za-z0-9-_]+).html$ index.php?q=$1\/$2
+RewriteRule ^(edit|play|control)\/$ index.php?q=$1
+RewriteRule ^(edit|play|control)$ index.php?q=$1
+
+# HTML5 Cache Manifest
+RewriteRule ^(manifest)\/([A-Za-z0-9-_]+).manifest$ index.php?q=$1\/$2
+
+# API
+RewriteRule ^api\/login$ api/index.php?q=login
+# RewriteRule ^api\/logout$ api/index.php?q=logout
+RewriteRule ^api\/download\/([A-Za-z0-9-_]+).html$ api/index.php?q=download\/$1
+RewriteRule ^api\/edit\/open$ api/index.php?q=edit\/open
+RewriteRule ^api\/edit\/save$ api/index.php?q=edit\/save
+RewriteRule ^api\/edit\/remove$ api/index.php?q=edit\/remove
+RewriteRule ^api\/control\/([A-Za-z0-9-_]+).html$ api/index.php?q=control\/$1
+RewriteRule ^api\/control\/client\/([A-Za-z0-9-_]+).html$ api/index.php?q=control\/client\/$1
+
+# public API
+RewriteRule ^api\/webslides$ api/index.php?q=webslides
+RewriteRule ^api\/feedback$ api/index.php?q=feedback
+
+
+# Media Handling
+# q=media/img/test.png || media/css/myfile.css
+RewriteRule ^(js|css)\/(.*)$ index.php?q=media\/$1\/$2
+RewriteRule ^(play|edit|control)\/([A-Za-z0-9-_]+).(gif|jpg|jpeg|png)$ index.php?q=media\/img\/$2\.$3
+

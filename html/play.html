@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html manifest="{{manifest}}" lang="en">
+<head>
+	<title>{{meta:title}}</title>
+	<meta charset="utf-8">
+	<meta name="author" content="{{meta:author}}">
+	<meta name="description" content="{{meta:description}}">
+	<meta name="keywords" content="{{meta:keywords}}">
+	<meta name="copyright" content="{{meta:copyright}}">
+	<meta name="creator" content="http://webslide.me">
+	<meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="robots" content="noindex, nofollow">
+
+	<!--[if lt IE 9]>
+	<script>
+	var html5 = 'aside nav article section header hgroup footer'.split(' ');
+	for (var i = 0, l = html5.length; i < l; i++) {
+		document.createElement(html5[i]);
+	}
+	</script>
+	<![endif]-->
+
+	<link rel="stylesheet" media="screen" href="/css/play.css"/>
+	<link rel="stylesheet" media="screen" href="/css/play-animations.css"/>
+	<link rel="stylesheet" media="screen" href="/css/theme-basic.css"/>
+	<link rel="stylesheet" media="screen" href="/css/{{meta:theme}}"/>
+</head>
+
+<body id="workspace" aria-live="assertive" aria-relevant="additions">
+<section aria-selected="true">
+	<h1>{{meta:title}}</h1>
+	<p>{{meta:description}}</p>
+	<small>by {{meta:author}}</small>
+	<br/>
+	<small>Click / Touch on the right to continue.</small>
+	<br/>
+	<p class="small" id="control-notice"></p>
+</section>
+{{webslide}}
+
+<script src="/js/library.js"></script>
+<script src="/js/play.js"></script>
+<script>
+// control inserted by backend
+{{player:control}}
+
+window.setTimeout(function(){
+	// initialize webslide.me player
+	webslide.me.init(control);
+
+	// load slide if targeted
+	if(window.location.hash){
+		webslide.me.navigate_to(window.location.hash.replace(/#/,''));
+	}
+
+},200+(document.getElementsByTagName('img').length*100));
+
+</script>
+</body>
+</html>
