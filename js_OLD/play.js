@@ -10,6 +10,15 @@
  * details about the concept or the source code.
 */
 
+// translateable in later use
+var _errors={
+	403:'Session expired. Try to <a href="/login">login again</a>.',
+	404:'Sorry, but the webslide wasn\'t found.',
+	500:'Sorry, try again later.\nServer load is heavy at the moment.'
+};
+
+
+
 // (function(){
 var webslide={};
 webslide.me={
@@ -19,35 +28,7 @@ webslide.me={
 		// detect apabilities
 		this.detect_features();
 
-		var title = document.getElementsByTagName('title')[0].textContent;
-		var slides = document.getElementsByTagName('section');
 
-		// IE fix, because IE doesn't know textContent =/
-		title= (title) ? title : ((document.title) ? document.title : 'Please use a more up-to-date Web Browser!');
-
-		// cache the elements
-		for (var i=0;i<slides.length;i++){
-			slides[i].setAttribute('id','slide-'+(i + 1));
-			slides[i].setAttribute('data-next','true'); // prepare animation positioning
-			this.slides.push(slides[i]);
-		}
-
-		// create the footer with information
-		var footer = document.createElement('footer');
-		footer.id = 'footer';
-		footer.innerHTML = '<div class="title">'+title+'</div>'+'<div class="index"><span id="pagenumber">1</span> / ' + slides.length +'</div>';
-		document.getElementsByTagName('body')[0].appendChild(footer);
-
-		// set first slide to active
-		this.set('active',this.slides[0]);
-
-		// attach the events
-		this.attach_events();
-
-		// finally activate the remote control
-		if(remote){
-			this.remote.init();
-		}
 	},
 	'get':function(key){
 		return ((typeof(this.settings[key])!='undefined')?this.settings[key]:false);
@@ -56,63 +37,7 @@ webslide.me={
 		this.settings[key]=val;
 		return true;
 	},
-	'detect_features':function(){
-		if(window.addEventListener){
-			this.set('event_method','addEventListener');
-		}else if(window.attachEvent) {
-			this.set('event_method','attachEvent');
-		}else{
-			this.set('event_method',false);
-		}
 
-		var methods='';
-		if(window.Touch || document.ontouchstart){
-			methods+=' touchstart';
-		}
-
-		// Fuck you, Opera ASA, idiots!
-		// You're too silly to implement a simple if(window.event)!
-		// I hate Opera browser and its fucked up window.Event and window.event mixery.
-
-		// DOM Level 2 (except Opera)
-		if(window.event){ // typeof(window.event) crashes Opera. Amazing JS engine. No, really.
-			if(window.event.mouseup){
-				methods+=' mouseup';
-			}else if(window.event.keyup){
-				methods+=' keyup';
-			}
-		// Old Internet Explorer implementation
-		}else if(window.Event){
-			if(window.Event.MOUSEUP){
-				methods+=' mouseup';
-			}else if(window.Event.KEYUP){
-				methods+=' keyup';
-			}
-		}
-
-		// This is just for Opera and its buggy window.event mixery
-		if((document.onmouseup=function(){}) && !methods.match(/mouseup/)){
-			document.onmouseup=null;
-			methods+=' mouseup';
-		}
-		if((document.onkeyup=function(){}) && !methods.match(/keyup/)){
-			document.onkeyup=null;
-			methods+=' keyup';
-		}
-
-		// DOM Level 0 / Model 2
-		if((document.onclick=function(){}) && !methods.match(/mouseup/)){
-			// Well, we've got an old, old browser. Seems like grandma is online.
-			document.onclick=null;
-			methods=''; // clear methods.
-			// elemen.onclick is fallback if event_method is false
-		}
-
-		// only god knows which IE he's running =/
-		methods=(methods.length!==0) ? methods.trim().split(' ') : false;
-		// this.set('play_methods',[]);
-		this.set('play_methods',methods);
-	},
 	'attach_events':function(){
 		// default navigation methods
 		var navi=document.createElement('div');

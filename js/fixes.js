@@ -104,3 +104,35 @@ webslide.me.prototype.fixhtml5 = function() {
 	webslide.me.fixcss3();
 	webslide.me.fixhtml5();
 })();
+
+
+// advanced IE9 functionalities
+(function runIE9SiteMode(){
+
+	if (window.external && typeof (window.external.msIsSiteMode) != 'undefined' && window.external.msIsSiteMode()) {
+		webslide.me.ajax.post('/api/external/webslides', {
+			user: ws.login.user
+		}, function(json, status) {
+
+			if (status == 200) {
+
+				var slides = JSON.parse(json);
+				if (slides && slides.length) {
+
+					window.external.msSiteModeClearJumpList();
+					window.external.msSiteModeCreateJumpList('Edit ' + ws.login.user + '\'s Webslides');
+
+					for (var s = 0, l = slides.length; s < l; s++) {
+						window.external.msSiteModeAddJumpListItem(slides[s].title, '/edit/' + slides[i].file, '/favicon.ico');
+					}
+
+					window.external.msSiteModeShowJumpList();
+
+				}
+
+			}
+
+		});
+	}
+
+})();
