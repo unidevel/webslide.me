@@ -314,3 +314,46 @@ webslide.me.ajax = {
 	}
 
 };
+
+
+/*
+ * This is the publicly accessible API for retrieving the login or session data
+ */
+if (typeof ws == 'undefined') {
+	ws = {};
+}
+
+ws.login = (function(){
+
+
+	function getCookie(name) {
+
+		var cookie = document.cookie,
+			start, end;
+
+		if (cookie.length > 0) {
+
+			start = cookie.indexOf(name + '=');
+			if (start != -1) {
+				start = start + name.length + 1;
+				end = cookie.indexOf(";", start);
+
+				// last cookie value fix. There's no trailing ;
+				if (end == -1) { end = cookie.length; }
+
+				return unescape(cookie.substring(start, end));
+			}
+
+		}
+
+		return undefined;
+
+	}
+
+	// Publicly accessible login / session data
+	return {
+		user: getCookie('user') || 'demo',
+		skey: getCookie('skey') || 'demo'
+	};
+
+})();

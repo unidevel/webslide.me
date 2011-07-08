@@ -24,29 +24,6 @@ var _errors={
 	500:'Sorry, try again later.\nServer load is heavy at the moment.'
 };
 
-// load login environment
-(function setlogin(){
-	function get_cookie(c_name){
-		var d_c=document.cookie;
-		if(d_c.length>0){
-			var c_start=d_c.indexOf(c_name + "=");
-			if(c_start!=-1){
-				c_start=c_start + c_name.length+1;
-				var c_end=d_c.indexOf(";",c_start);
-				if(c_end==-1){ c_end=d_c.length; }
-				return unescape(d_c.substring(c_start,c_end));
-			}
-		}
-		return "";
-	}
-
-	// load cookie with session key
-	if(document.cookie){
-		login.user=(get_cookie('user'))?get_cookie('user'):'demo';
-		login.skey=(get_cookie('skey'))?get_cookie('skey'):'demo';
-	}
-})();
-
 
 
 // advanced IE9 functionalities
