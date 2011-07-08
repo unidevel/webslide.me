@@ -16,6 +16,9 @@ require_once("library.php");
 $obj['database']=@new database("../database/database.json");
 $db = $obj['database']->db;
 
+// FIXME: This needs to be improved somehow
+$domain = "webslide.me";
+
 // API Tests
 #$req['user']='christoph';
 #$req['pass']='mypassword123';
@@ -36,10 +39,13 @@ if(
 ){
 	if($return=$obj['database']->login($req['user'])){
 		header('HTTP/1.0 200 OK');
-		setcookie("skey", $return['skey'],$return['timestamp'],"/",".webslide.me");
-		setcookie("user", $req['user'],$return['timestamp'],"/",".webslide.me");
+		setcookie("skey", $return['skey'],$return['timestamp'],"/",".".$domain);
+		setcookie("user", $req['user'],$return['timestamp'],"/",".".$domain);
+
+		$host = $_SERVER['HTTP_HOST'];
+
 		// show the dashboard link
-		echo "http://".$req['user'].".webslide.me/dashboard";
+		echo "http://".$req['user'].".".$domain."/dashboard";
 		exit;
 	}
 
@@ -65,10 +71,10 @@ if(
 
 		if($return=$obj['database']->login($req['user'])){
 			header('HTTP/1.0 200 OK');
-			setcookie("skey", $return['skey'],$return['timestamp'],"/",".webslide.me");
-			setcookie("user", $req['user'],$return['timestamp'],"/",".webslide.me");
+			setcookie("skey", $return['skey'],$return['timestamp'],"/",".".$domain);
+			setcookie("user", $req['user'],$return['timestamp'],"/",".".$domain);
 			// show the dashboard link
-			echo "http://".$req['user'].".webslide.me/dashboard";
+			echo "http://".$req['user'].".".$domain."/dashboard";
 			exit;
 		}
 	}
