@@ -97,7 +97,7 @@ webslide.me.prototype.fixhtml5 = function() {
 
 	}
 
-}
+};
 
 
 (function runFixesNow(){

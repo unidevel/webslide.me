@@ -14,6 +14,7 @@ if(!empty($_POST)){
 
 require_once("library.php");
 $obj['database']=@new database("../database/database.json");
+$db = $obj['database']->db;
 
 // API Tests
 #$req['user']='christoph';

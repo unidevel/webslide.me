@@ -89,7 +89,7 @@ webslide.me.login.prototype = {
 	__submit: function() {
 
 		var data = {
-			name: document.getElementById('login-1').value,
+			user: document.getElementById('login-1').value,
 			pass: document.getElementById('login-3').value
 		};
 
@@ -102,7 +102,8 @@ webslide.me.login.prototype = {
 		}
 
 		var that = this;
-		webslide.me.ajax.post('/api/login', data, function(result, type, status) {
+		webslide.me.ajax.post('/api/login', data, function(result, status) {
+			console.log(result, status);
 			if (status == 200) {
 				window.location.href = result;
 			} else if (result.length) {
@@ -114,4 +115,4 @@ webslide.me.login.prototype = {
 
 	}
 
-}
+};

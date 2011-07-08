@@ -53,7 +53,7 @@ webslide.me.control.prototype = {
 			'skey': ws.login.skey,
 			'file': file,
 			'type': 'webslide'
-		}, function(data, type, status) {
+		}, function(data, status) {
 
 			if (workspace) {
 				workspace.innerHTML = '<section>WELCOME SCREEN</section>' + data;
@@ -209,7 +209,7 @@ webslide.me.control.prototype = {
 		// No WebSlide was loaded, so try to retrieve the index instead
 		if (slides.length == 0) {
 
-			webslide.me.ajax.get('/api/webslides', function(json, type, status) {
+			webslide.me.ajax.get('/api/webslides', function(json, status) {
 				var webslides = JSON.parse(json),	
 					workspace = document.getElementById('workspace');
 
@@ -264,10 +264,10 @@ webslide.me.control.prototype = {
 			data = (this.__activeSlide.id ? this.__activeSlide.id : 'slide-end') + ',' + this.__activeStep;
 
 		webslide.me.ajax.post('/api/control/' + file, {
-			'user':login.user,
-			'skey':login.skey,
+			'user':ws.login.user,
+			'skey':ws.login.skey,
 			'active': data
-		}, function(result, type, status) {
+		}, function(result, status) {
 			if (status == 200) {
 				if (that.__ui && that.__ui.pagenumber) {
 					that.__ui.pagenumber.innerHTML = data;

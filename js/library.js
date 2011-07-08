@@ -230,5 +230,87 @@ webslide.me.prototype = {
 
 	})()
 
+};
+
+
+/*
+ * The AJAX library that is required for sending / receiving data from the server.
+ * Simple implementation of POST / GET requests and responses
+ */
+
+
+
+webslide.me.ajax = {
+
+	/*
+	 * This will do a synchronous GET request
+	 * @param url The URL to get the data from
+	 * @param [callback] Optional callback. If no callback is given, the data will be returned instead.
+	 * @param [aSync] Optional flag for forcing asynchronous loading if set to true.
+	 */
+	get: function(url, callback, aSync) {
+
+		aSync = !!aSync || false;
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', url, aSync);
+
+		if (aSync && callback) {
+			xhr.onreadystatechange = function(){
+				if (xhr.readyState == 4) {
+					callback(xhr.responseText || xhr.responseXML, xhr.status);					
+				}
+			};
+		}
+
+		xhr.send(null);
+
+		if (!aSync && callback) {
+			callback(xhr.responseText || xhr.responseXML, xhr.status);
+		} else if (!aSync && !callback){
+			return xhr.responseText || xhr.responseXML;
+		}
+
+	},
+
+	/*
+	 * This will do a synchronous POST request
+	 * @param url The URL to post the data to
+	 * @param data The Data Object
+	 * @param [callback] The optional callback
+	 * @param [aSync] Optional flag for forcing asynchronous loading if set to true.
+	 */
+	post: function(url, data, callback, aSync) {
+
+		aSync = !!aSync || false;
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', url, aSync);
+
+		if (aSync && callback) {
+			xhr.onreadystatechange = function(){
+				if (xhr.readyState == 4) {
+					callback(xhr.responseText || xhr.responseXML, xhr.status);
+				}
+			};
+		}
+
+		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+		var _data = '', i = 0;
+		for (var d in data) {
+			_data += (i > 0 ? '&' : '') + d + '=' + encodeURI(data[d]);
+			i++;
+		}
+
+		xhr.send((_data) ? _data : null);
+
+		if (!aSync && callback) {
+			callback(xhr.responseText || xhr.responseXML, xhr.status);
+		} else if (!aSync && !callback){
+			return xhr.responseText || xhr.responseXML;
+		}
+
+	}
 
 };

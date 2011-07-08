@@ -1,1 +1,13 @@
-{"skeys":{"demo":{"user":"demo"}},"protected":["example.html"]}
+{
+	"skeys": {
+		"demo":{"user":"demo"}
+	},
+	"protected": ["example.html"],
+	"users": {
+		"test123": {
+			"name":"John Doe",
+			"email":"test@gmail.com",
+			"password":"123"
+		}
+	}
+}
