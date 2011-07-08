@@ -101,23 +101,26 @@
 
 <script src="/js/library.js"></script>
 <script>
-if(x=document.getElementsByTagName('a')){
-	for(i=0;i<x.length;i++){
-		if(x[i].parentNode.id=='navigation'){
-			x[i].onclick=function(){
-				if(y=document.getElementsByTagName('section')){
-					for(j=0;j<y.length;j++){
-						y[j].style.display='none';
+
+(function(){
+	var elements = document.getElementsByTagName('a');
+	for (var e = 0, l = elements.length; e < l; e++) {
+		if (elements[e].parentNode.id == 'navigation') {
+			elements[e].onclick = function(){
+				var sections = document.getElementsByTagName('section');
+				if (sections) {
+					for (var s = 0, sl = sections.length; s < sl; s++) {
+						sections[s].style.display = 'none';
 					}
-					document.getElementById(this.getAttribute('href').replace(/#/,'')).style.display='block';
+					document.getElementById(this.getAttribute('href').replace(/#/,'')).style.display = 'block';
 				}
 			};
 		}
 	}
-}
+})();
 
 if(!window.location.hash){
-	document.getElementById('dashboard').style.display='block';
+	document.getElementById('dashboard').style.display = 'block';
 }
 </script>
 </body>

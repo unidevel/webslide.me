@@ -76,7 +76,7 @@ String.prototype.strpos = function(needle, offset) {
 
 
 // webslide.me is our namespace for the whole library
-if (!webslide) {
+if (typeof webslide == 'undefined') {
 	webslide = {};
 	webslide.me = {};
 }

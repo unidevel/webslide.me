@@ -47,7 +47,7 @@
 
 <article>
 	<a class="button big" href="http://demo.webslide.me/edit" title="webslide.me html5 and css3 presentation editor">Launch Editor</a>
-	<a class="button big" href="#login" onclick="portal.login.show()">Login</a>
+	<a class="button big" href="#login" id="login-show">Login</a>
 	<br/>
 	<small><strong>No signup required</strong>, but recommended for regular usage.</small>
 </article>
@@ -83,7 +83,7 @@
 			</p>
 			<br/>
 			<p>
-				<input id="login-switch" type="checkbox" name="switch" value="yes" onclick="portal.login.update(this)"/> I don't have a webslide.me account, create one.
+				<input id="login-switch" type="checkbox" name="switch" value="yes"/> I don't have a webslide.me account, create one.
 			</p>
 			<p>
 				You also agree to <a href="http://webslide.me/license">the license</a> and that
@@ -96,8 +96,8 @@
 			http://<span class="login-1">myaccount</span>.webslide.me/play/example.html
 		</fieldset>
 		<p id="login-notify">&nbsp;</p>
-		<button class="button" onclick="portal.login.hide()">Cancel</button>
-		<button class="button" onclick="portal.login.submit()">Login</button>
+		<button class="button" id="login-hide">Cancel</button>
+		<button class="button" id="login-submit">Login</button>
 	</article>
 </div>
 
@@ -114,5 +114,31 @@
 
 <script src="/js/library.js"></script>
 <script src="/js/portal.js"></script>
+<script>
+(function(){
+	var login = new webslide.me.login();
+
+	function updateURLs(element) {
+		var targets = document.getElementsByClassName(element.id || element.getAttribute('data-class'));
+		if (targets && targets.length) {
+			for (var t = 0, l = targets.length; t < l; t++) {
+				targets[t].innerHTML = element.value;
+			}
+		}
+	}
+
+	var element = document.getElementById('login-1');
+	if (window.addEventListener) {
+		element.addEventListener('keyup', function(){
+			updateURLs(this);
+		}, true);
+	} else if (window.attachEvent) {
+		element.attachEvent('keyup', function(){
+			updateURLs(this);
+		});
+	}
+
+})();
+</script>
 </body>
 </html>
