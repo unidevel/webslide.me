@@ -12,10 +12,12 @@ webslide.me.control = function(file, context) {
 
 	this.context = (context && context.parentNode) ? context : document.body;
 
-	if (file){
+	if (!file && window.location.hash.match(/!/)) {
+		file = window.location.hash.split(/!/)[1];
+	}
+
+	if (file) {
 		this.open(file);
-	} else if (window.location.hash.match(/!/)) {
-		this.open(window.location.hash.split(/!/)[1]);
 	}
 
 	this.__init();
@@ -34,10 +36,7 @@ webslide.me.control.prototype = {
 
 	open: function(file) {
 
-		// hashbang compatibility 4tw!
-		if (file.match(/!/)) {
-			file = file.split(/!/)[1];
-		}
+		if (!file) return;
 
 		if (!this.__ui) {
 			this.__updateUI();
@@ -219,7 +218,7 @@ webslide.me.control.prototype = {
 
 					for (var w = 0, wl = webslides.length; w < wl; w++) {
 						var li = document.createElement('li');
-						li.innerHTML = '<a href="/control/#!' +webslides[w].file+ '">' + webslides[i].title + '</a>';
+						li.innerHTML = '<a href="/control/#!' +webslides[w].file+ '">' + webslides[w].title + '</a>';
 						li.onclick = function(){
 							that.open(this.href);
 						};
@@ -264,8 +263,8 @@ webslide.me.control.prototype = {
 			data = (this.__activeSlide.id ? this.__activeSlide.id : 'slide-end') + ',' + this.__activeStepIndex;
 
 		webslide.me.ajax.post('/api/control/' + file, {
-			'user':ws.login.user,
-			'skey':ws.login.skey,
+			'user': ws.login.user,
+			'skey': ws.login.skey,
 			'active': data
 		}, function(result, status) {
 			if (status == 200) {
@@ -293,7 +292,7 @@ webslide.me.control.prototype = {
 			// Previous Button
 			this.__ui.prev = document.createElement('button');
 			this.__ui.prev.title = 'Navigate Backward';
-			this.__ui.prev.innerText = '&lt;';
+			this.__ui.prev.innerHTML = '&lt;&lt;';
 			this.__ui.prev.onclick = function(){
 				that.zapp('prev');
 			};
@@ -301,7 +300,7 @@ webslide.me.control.prototype = {
 			// Next Button
 			this.__ui.next = document.createElement('button');
 			this.__ui.next.title = 'Navigate Forward';
-			this.__ui.prev.innerText = '&gt;';
+			this.__ui.next.innerHTML = '&gt;&gt;';
 			this.__ui.next.onclick = function(){
 				that.zapp('next');
 			};

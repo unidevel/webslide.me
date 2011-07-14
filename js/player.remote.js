@@ -144,7 +144,7 @@ webslide.me.player.remote.prototype = {
 	 * PRIVATE API
 	 */
 
-	__lastDelay: 500, // start with a delay of 500ms
+	__lastDelay: 1000, // start with a delay of 1000ms
 
 	__init: function() {
 		this.__state = 'running';
@@ -152,7 +152,7 @@ webslide.me.player.remote.prototype = {
 	},
 
 	__destroy: function() {
-		this.__lastDelay = 500;
+		this.__lastDelay = 1000;
 		this.__state = 'destroyed';
 	},
 
@@ -162,7 +162,7 @@ webslide.me.player.remote.prototype = {
 		if (this.__state != 'running') return;
 
 		var that = this,
-			url = window.location.href.replace(/#.+/, '').replace(/\/play\//, 'api/control/client/');
+			url = window.location.href.replace(/#.+/, '').replace(/\/play\//, '/api/control/client/');
 
 		// set the last up-date (haha, funny naming =D)
 		this.__lastUpDate = +new Date();
@@ -181,6 +181,9 @@ webslide.me.player.remote.prototype = {
 				if (delay > that.__lastDelay) {
 					that.__lastDelay = delay;
 				}
+
+				// Re-occuring via setTimeout
+				that.__update();
 
 			} else if (status >= 400) {
 				that.__destroy();
