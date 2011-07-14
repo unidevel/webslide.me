@@ -110,10 +110,10 @@ webslide.me.login.prototype = {
 		}
 
 		var that = this;
+
 		webslide.me.ajax.post('/api/login', data, function(result, status) {
-			console.log(result, status);
-			if (status == 200) {
-//				window.location.href = result;
+			if (status == 200 && result.match(/dashboard/)) {
+				window.location.href = result;
 			} else if (result.length) {
 				that.__notify(result.trim());
 			} else {
