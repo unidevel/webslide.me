@@ -208,9 +208,9 @@ switch($q[0]){
 
 		// check control status
 		if(file_exists($webslide['ctrl'])){
-			$control='var control=confirm(\'There\\\'s a presentation running!\n\nClick OK to activate remote control - slides will then be automatically updated by the presenter.\');';
+			$control='var control = confirm(\'There\\\'s a presentation running!\n\nClick OK to activate remote control - slides will then be automatically updated by the presenter.\');';
 		}else{
-			$control='var control=false;';
+			$control='var control = false;';
 		}
 
 		$arr=array(

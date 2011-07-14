@@ -1,4 +1,12 @@
-
+/*
+ * webslide.me / 2011 by Christoph Martens
+ *
+ * Web: http://webslide.me, http://martens.ms
+ *
+ * Source and License:
+ * http://github.com/martensms/webslide.me
+ *
+ */
 
 webslide.me.prototype.fixcss3 = function(sheet) {
 

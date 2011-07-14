@@ -1,3 +1,12 @@
+/*
+ * webslide.me / 2011 by Christoph Martens
+ *
+ * Web: http://webslide.me, http://martens.ms
+ *
+ * Source and License:
+ * http://github.com/martensms/webslide.me
+ *
+ */
 
 /*
  * Here are the patches for old Browsers. These Browsers miss e.g. document.getElementsByClassName

@@ -10,6 +10,14 @@
  * details about the concept or the source code.
 */
 
+// FIXME: ARGHS, maybe create something like _()_ stuff?
+var _errors={
+	403:'Session expired. Try to <a href="/login">login again</a>.',
+	404:'Sorry, but the webslide wasn\'t found.',
+	500:'Sorry, try again later.\nServer load is heavy at the moment.'
+};
+
+
 var webslide={};
 webslide.me={
 	'settings':{

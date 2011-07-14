@@ -39,22 +39,25 @@
 {{webslide}}
 
 <script src="/js/library.js"></script>
-<script src="/js/play.js"></script>
+<script src="/js/player.js"></script>
+<script src="/js/player.remote.js"></script>
 <script>
-// control inserted by backend
-{{player:control}}
-
 window.setTimeout(function(){
-	// initialize webslide.me player
-	webslide.me.init(control);
 
-	// load slide if targeted
-	if(window.location.hash){
-		webslide.me.navigate_to(window.location.hash.replace(/#/,''));
-	}
+	// This Control-Flag is inserted by Backend
+	// var control = confirm('...');
+	{{player:control}}
 
-},200+(document.getElementsByTagName('img').length*100));
+	(function(){
+		var player = new webslide.me.player(control);
+	})();
 
+	// FIXME: Loading a targeted Slide currently doesn't work out with Remote-Concept
+	//if(window.location.hash){
+	// webslide.me.navigate_to(window.location.hash.replace(/#/,''));
+	//}
+
+}, 200 + (document.getElementsByTagName('img').length*100));
 </script>
 </body>
 </html>

@@ -17,11 +17,11 @@ $obj['database']=@new database("../database/database.json");
 $db = $obj['database']->db;
 
 // FIXME: This needs to be improved somehow
-$domain = "webslide.me";
+$domain = "ws.me";
 
 // API Tests
-#$req['user']='christoph';
-#$req['pass']='mypassword123';
+// $req['user']='christoph';
+// $req['pass']='mypassword123';
 
 // Deny hacker attacks on demo user =/
 if($req['user']=='demo'){

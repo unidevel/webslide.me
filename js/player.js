@@ -1,5 +1,12 @@
-
-
+/*
+ * webslide.me / 2011 by Christoph Martens
+ *
+ * Web: http://webslide.me, http://martens.ms
+ *
+ * Source and License:
+ * http://github.com/martensms/webslide.me
+ *
+ */
 
 webslide.me.player = function(remote) {
 
@@ -8,12 +15,18 @@ webslide.me.player = function(remote) {
 
 	this.__init();
 
+	if (remote && webslide.me.player.remote) {
+		this.remote = new webslide.me.player.remote(this);
+	}
+
 };
 
 
 webslide.me.player.prototype = {
 
-
+	/*
+	 * PUBLIC API
+	 */
 
 	go: function(direction) {
 
@@ -27,16 +40,22 @@ webslide.me.player.prototype = {
 			// Animate a Step, not a Slide
 			if (steps && steps.length) {
 
+				var activeStepIndex = 0;
 				for (var s = 0, l = steps.length; s < l; s++) {
 					var step = steps[s];
 					if (
-						this.__activeSlide === step.parentNode
+						this.__activeSlide == step.parentNode
 						&& step.style.opacity != 1
 					) {
+
 						step.style.opacity = 1;
+						this.__activeStepIndex = activeStepIndex;
 
 						// Skip navigation to next Slide
 						return;
+
+					} else if (this.__activeSlide == step.parentNode){
+						activeStepIndex++;
 					}
 				}
 
@@ -61,7 +80,7 @@ webslide.me.player.prototype = {
 				currentSlide.setAttribute('data-prev', 'true');
 
 				// API for playback capabilities (e.g. video / audio)
-				if (currentSlide.hasAttribute('data-onunload') {
+				if (currentSlide.hasAttribute('data-onunload')) {
 					window[currentSlide.getAttribute('data-onunload')].call(window, currentSlide);
 				}
 
@@ -69,7 +88,7 @@ webslide.me.player.prototype = {
 				nextSlide.setAttribute('aria-selected', 'true');
 
 				// API for playback capabilities (e.g. video / audio)
-				if (nextSlide.hasAttribute('data-onload') {
+				if (nextSlide.hasAttribute('data-onload')) {
 					window[nextSlide.getAttribute('data-onload')].call(window, nextSlide);
 				}
 
@@ -88,6 +107,7 @@ webslide.me.player.prototype = {
 			// Animate a Step, not a Slide
 			if (steps && steps.length) {
 
+				// FIXME: Implement an activeStepIndex somehow
 				for (var s = (steps.length - 1); s >= 0; s--) {
 					var step = steps[s];
 					if (
@@ -122,7 +142,7 @@ webslide.me.player.prototype = {
 				currentSlide.setAttribute('data-next', 'true');
 
 				// API for playback capabilities (e.g. video / audio)
-				if (currentSlide.hasAttribute('data-onunload') {
+				if (currentSlide.hasAttribute('data-onunload')) {
 					window[currentSlide.getAttribute('data-onunload')].call(window, currentSlide);
 				}
 
@@ -130,7 +150,7 @@ webslide.me.player.prototype = {
 				prevSlide.setAttribute('aria-selected', 'true');
 
 				// API for playback capabilities (e.g. video / audio)
-				if (prevSlide.hasAttribute('data-onload') {
+				if (prevSlide.hasAttribute('data-onload')) {
 					window[prevSlide.getAttribute('data-onload')].call(window, prevSlide);
 				}
 
@@ -149,6 +169,13 @@ webslide.me.player.prototype = {
 	},
 
 
+
+
+
+
+	/*
+	 * PRIVATE API
+	 */
 
 	__init: function() {
 
@@ -221,10 +248,6 @@ webslide.me.player.prototype = {
 		this.__activeSlide = this.__slideCache[0];
 		this.__activeSlideIndex = 0;
 		this.__attachEvents();
-
-		if (remote) {
-			this.initRemote();
-		}
 
 	},
 

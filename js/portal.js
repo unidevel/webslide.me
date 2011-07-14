@@ -1,4 +1,12 @@
-
+/*
+ * webslide.me / 2011 by Christoph Martens
+ *
+ * Web: http://webslide.me, http://martens.ms
+ *
+ * Source and License:
+ * http://github.com/martensms/webslide.me
+ *
+ */
 
 webslide.me.login = function(context) {
 
@@ -105,7 +113,7 @@ webslide.me.login.prototype = {
 		webslide.me.ajax.post('/api/login', data, function(result, status) {
 			console.log(result, status);
 			if (status == 200) {
-				window.location.href = result;
+//				window.location.href = result;
 			} else if (result.length) {
 				that.__notify(result.trim());
 			} else {

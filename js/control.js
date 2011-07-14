@@ -89,7 +89,7 @@ webslide.me.control.prototype = {
 
 		// Let the Server know that we have started presentation
 		this.__activeSlide = slides[0];
-		this.__activeStep = 0;
+		this.__activeStepIndex = 0;
 
 		this.__update();
 
@@ -115,7 +115,7 @@ webslide.me.control.prototype = {
 
 		if (direction == 'next') {
 
-			var count = 0;
+			var activeStepIndex = 0;
 
 			if (steps) {
 
@@ -128,7 +128,7 @@ webslide.me.control.prototype = {
 						if (!foundStep) {
 							steps[s].style.color = 'red';
 							steps[s].setAttribute('data-counted', 'true');
-							count++;
+							activeStepIndex++;
 							foundStep = true;
 							break;
 						}
@@ -136,20 +136,20 @@ webslide.me.control.prototype = {
 						steps[s].removeAttribute('data-counted');
 					} else {
 						steps[s].style.cssText = ' ';
-						count++;
+						activeStepIndex++;
 					}
 
 				}
 
 				// flag was set, so we have found the active step
 				if (foundStep) {
-					this.__activeStep = count;
+					this.__activeStepIndex = activeStepIndex;
 					this.__update();
 
 					// animated successfully to the next step
 					return;
 				} else {
-					this.__activeStep = 0;
+					this.__activeStepIndex = 0;
 				}
 
 			}
@@ -165,7 +165,7 @@ webslide.me.control.prototype = {
 		} else if (direction == 'prev') {
 
 			// FIXME: This should be done a more complex way with de-animating steps or so.
-			this.__activeStep = 0;
+			this.__activeStepIndex = 0;
 
 			// animate to the prev slide now
 			// #slide-7 = slides[6] - 1 = slides[5]
@@ -261,7 +261,7 @@ webslide.me.control.prototype = {
 		// Let the Server know what the active slide and step is
 		var that = this,
 			file = window.location.href.split(/!/)[1],
-			data = (this.__activeSlide.id ? this.__activeSlide.id : 'slide-end') + ',' + this.__activeStep;
+			data = (this.__activeSlide.id ? this.__activeSlide.id : 'slide-end') + ',' + this.__activeStepIndex;
 
 		webslide.me.ajax.post('/api/control/' + file, {
 			'user':ws.login.user,
