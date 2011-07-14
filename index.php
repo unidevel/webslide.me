@@ -236,16 +236,17 @@ switch($q[0]){
 
 		// required for all
 		$manifest->add('/css/library.css','cache');
-		$manifest->add('/js/library.min.js','cache');
+		$manifest->add('/js/library.js','cache');
+		$manifest->add('/js/fixes.js','cache');
 
 		// required for editor
 		$manifest->add('/css/edit.css','cache');
-		$manifest->add('/js/edit.min.js','cache');
+		$manifest->add('/js/editor.js','cache');
 		$manifest->add('/css/spritemap.png','cache');
 
 		// required for player || editor
 		$manifest->add('/css/play.css','cache');
-		$manifest->add('/js/play.min.js','cache');
+		$manifest->add('/js/player.js','cache');
 		$manifest->add('/css/play-animations.css','cache');
 		$manifest->add('/css/theme-basic.css','cache');
 

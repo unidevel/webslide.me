@@ -91,155 +91,150 @@ if (typeof webslide == 'undefined') {
 }
 
 
-webslide.me.prototype = {
+webslide.me.style = (function(){
 
+	var helper = document.createElement('dontknownbybrowser'),
+		vendorPrefixes = 'Ms Moz Webkit O Khtml'.split(' '),
+		_cache = {};
 
-	style: (function(){
+	function getSyntax(property, type){
 
-		var helper = document.createElement('dontknownbybrowser'),
-			vendorPrefixes = 'Ms Moz Webkit O Khtml'.split(' '),
-			_cache = {};
+		var cssProperty = '',
+			jsProperty = '';
 
-		function getSyntax(property, type){
+		if (property.match(/-/)) {
+			cssProperty = property+'';
 
-			var cssProperty = '',
-				jsProperty = '';
-
-			if (property.match(/-/)) {
-				cssProperty = property+'';
-
-				var str = property.split(/-/);
-				for (var s = 0, l = str.length; s < l; s++) {
-					if (s === 0) {
-						jsProperty += str[s].charAt(0).toLowerCase() + str[s].substr(1);
-					} else {
-						jsProperty += str[s].charAt(0).toUpperCase() + str[s].substr(1);
-					}
-				}
-			} else {
-				cssProperty = jsProperty = property.toLowerCase();
-			}
-
-			// native property
-			if (helper.style[jsProperty] !== undefined) {
-				if (type == 'css') {
-					return cssProperty;
+			var str = property.split(/-/);
+			for (var s = 0, l = str.length; s < l; s++) {
+				if (s === 0) {
+					jsProperty += str[s].charAt(0).toLowerCase() + str[s].substr(1);
 				} else {
-					return jsProperty;
+					jsProperty += str[s].charAt(0).toUpperCase() + str[s].substr(1);
 				}
 			}
+		} else {
+			cssProperty = jsProperty = property.toLowerCase();
+		}
 
-			// vendor property
-			for (var v = 0, l = vendorPrefixes.length; v < l; v++) {
+		// native property
+		if (helper.style[jsProperty] !== undefined) {
+			if (type == 'css') {
+				return cssProperty;
+			} else {
+				return jsProperty;
+			}
+		}
 
-				var prefix = vendorPrefixes[v];
+		// vendor property
+		for (var v = 0, l = vendorPrefixes.length; v < l; v++) {
 
-				var _jsProperty = prefix + jsProperty.charAt(0).toUpperCase() + jsProperty.substr(1),
-					_cssProperty = '-'+prefix.toLowerCase() +'-'+ cssProperty.toLowerCase();
+			var prefix = vendorPrefixes[v];
 
-				if (helper.style[_jsProperty] !== undefined) {
-					if (type == 'css') {
-						return _cssProperty;
-					} else {
-						return _jsProperty;
-					}
+			var _jsProperty = prefix + jsProperty.charAt(0).toUpperCase() + jsProperty.substr(1),
+				_cssProperty = '-'+prefix.toLowerCase() +'-'+ cssProperty.toLowerCase();
+
+			if (helper.style[_jsProperty] !== undefined) {
+				if (type == 'css') {
+					return _cssProperty;
+				} else {
+					return _jsProperty;
 				}
-
 			}
 
 		}
 
+	}
 
-		// public API
-		return {
 
-			// return the css property
-			css: function(property) {
-				return getSyntax(property, 'css');
-			},
-			// return the js property
-			js: function(property) {
-				return getSyntax(property, 'js');
-			},
+	// public API
+	return {
 
-			// return the matching event property for usage with eventListeners
-			event: function(property, relatedProperty) {
+		// return the css property
+		css: function(property) {
+			return getSyntax(property, 'css');
+		},
+		// return the js property
+		js: function(property) {
+			return getSyntax(property, 'js');
+		},
 
-				var relatedCSS = getSyntax(relatedProperty, 'css');
-				if (!relatedCSS) {
-					return undefined;
-				}
+		// return the matching event property for usage with eventListeners
+		event: function(property, relatedProperty) {
 
-				// Sorry, but feature detection is just stupid for now. Every browser supports a completely different syntax =/
-				if (relatedCSS.match(/-webkit/)) {
-					switch (property) {
-						case 'transitionend': return 'webkitTransitionEnd';
-						case 'animationstart': return 'webkitAnimationStart';
-						case 'animationend': return 'webkitAnimationEnd';
-						case 'animationiteration': return 'webkitAnimationIteration';
-					}
-				} else if (relatedCSS.match(/-moz/)) {
-					return property;
-				} else if (relatedCSS.match(/-o/)) {
-					switch (property) {
-						case 'transitionend': return 'OTransitionEnd';
-						case 'animationstart': return 'OAnimationStart';
-						case 'animationend': return 'OAnimationEnd';
-						case 'animationiteration': return 'OAnimationIteration';
-					}
-				}
-
+			var relatedCSS = getSyntax(relatedProperty, 'css');
+			if (!relatedCSS) {
 				return undefined;
-
-				/*
-				// FEATURE DETECTION OF CSS EVENTS
-				var eventName = undefined,
-					eventSupported = false;
-
-				if (window.addEventListener) {
-
-					var handler = function(event) {
-						eventName = event.type;
-						eventSupported = true;
-
-						console.log(eventName, eventSupported);
-
-						this.removeEventListener(property.toLowerCase(), arguments.callee);
-						for (var v = 0, l = vendorPrefixes.length; v < l; v++) {
-							this.removeEventListener(vendorPrefixes[v]+property.charAt(0).toUpperCase()+property.substr(1), arguments.callee);
-						}
-
-					};
-
-					helper.style.cssText = 'position:absolute;top:0px;'+getSyntax('transition','css')+':top 1ms ease;';
-
-					helper.addEventListener(property.toLowerCase(), handler, false);
-					for (var v = 0, l = vendorPrefixes.length; v < l; v++) {
-						helper.addEventListener(vendorPrefixes[v]+property.charAt(0).toUpperCase()+property.substr(1), handler, false);
-					}
-
-					// start the transition now!
-					document.documentElement.appendChild(helper);
-					window.setTimeout(function() {
-
-						helper.style.top = '10px';
-
-						window.setTimeout(function() {
-							helper.parentNode.removeChild(helper);
-						}, 100);
-
-					}, 0);
-
-				}
-				*/
-
 			}
 
-		};
+			// Sorry, but feature detection is just stupid for now. Every browser supports a completely different syntax =/
+			if (relatedCSS.match(/-webkit/)) {
+				switch (property) {
+					case 'transitionend': return 'webkitTransitionEnd';
+					case 'animationstart': return 'webkitAnimationStart';
+					case 'animationend': return 'webkitAnimationEnd';
+					case 'animationiteration': return 'webkitAnimationIteration';
+				}
+			} else if (relatedCSS.match(/-moz/)) {
+				return property;
+			} else if (relatedCSS.match(/-o/)) {
+				switch (property) {
+					case 'transitionend': return 'OTransitionEnd';
+					case 'animationstart': return 'OAnimationStart';
+					case 'animationend': return 'OAnimationEnd';
+					case 'animationiteration': return 'OAnimationIteration';
+				}
+			}
 
-	})()
+			return undefined;
 
-};
+			/*
+			// FEATURE DETECTION OF CSS EVENTS
+			var eventName = undefined,
+				eventSupported = false;
+
+			if (window.addEventListener) {
+
+				var handler = function(event) {
+					eventName = event.type;
+					eventSupported = true;
+
+					console.log(eventName, eventSupported);
+
+					this.removeEventListener(property.toLowerCase(), arguments.callee);
+					for (var v = 0, l = vendorPrefixes.length; v < l; v++) {
+						this.removeEventListener(vendorPrefixes[v]+property.charAt(0).toUpperCase()+property.substr(1), arguments.callee);
+					}
+
+				};
+
+				helper.style.cssText = 'position:absolute;top:0px;'+getSyntax('transition','css')+':top 1ms ease;';
+
+				helper.addEventListener(property.toLowerCase(), handler, false);
+				for (var v = 0, l = vendorPrefixes.length; v < l; v++) {
+					helper.addEventListener(vendorPrefixes[v]+property.charAt(0).toUpperCase()+property.substr(1), handler, false);
+				}
+
+				// start the transition now!
+				document.documentElement.appendChild(helper);
+				window.setTimeout(function() {
+
+					helper.style.top = '10px';
+
+					window.setTimeout(function() {
+						helper.parentNode.removeChild(helper);
+					}, 100);
+
+				}, 0);
+
+			}
+			*/
+
+		}
+
+	};
+
+})();
 
 
 /*

@@ -8,14 +8,14 @@
  *
  */
 
-webslide.me.prototype.fixcss3 = function(sheet) {
+(function fixcss3(sheet) {
 
-	function insertVendorPrefixes = function(str) {
+	function insertVendorPrefixes(str) {
 
 		var properties = 'border-radius transition transform'.split(' ');
 
 		for (var p = 0, l = properties.length; p < l; p++) {
-			var property = this.style.css(properties[p]);
+			var property = webslide.me.style.css(properties[p]);
 			if (property) {
 				str = str.replace(new RegExp(properties[p],'g'), property);
 			}
@@ -69,9 +69,9 @@ webslide.me.prototype.fixcss3 = function(sheet) {
 				sheet = sheet.substr(sheet.strpos('--',2) + 3); // exclude the filename from sheet now (+3 > --\n)
 
 				if (files[file]) {
-					cssfixer.innerText += '\n' + insertVendorPrefixes(sheet).trim();
+					css3fixer.innerText += '\n' + insertVendorPrefixes(sheet).trim();
 				} else {
-					console.log('Not Found: ' + file);
+					console.log('No CSS3 patches for: ' + file);
 				}
 			}
 
@@ -79,9 +79,9 @@ webslide.me.prototype.fixcss3 = function(sheet) {
 
 	}
 
-};
+})();
 
-webslide.me.prototype.fixhtml5 = function() {
+(function fixhtml5(){
 
 	var supports_placeholder = (function(){
 		return 'placeholder' in document.createElement('input');
@@ -90,7 +90,7 @@ webslide.me.prototype.fixhtml5 = function() {
 	if (!supports_placeholder) {
 
 		var elements = document.getElementsByTagName('input');
-		for (var e = 0, l = elements.length; e++) {
+		for (var e = 0, l = elements.length; e < l; e++) {
 			var placeholder = elements[e].getAttribute('placeholder');
 
 			if (placeholder && placeholder.length) {
@@ -105,12 +105,6 @@ webslide.me.prototype.fixhtml5 = function() {
 
 	}
 
-};
-
-
-(function runFixesNow(){
-	webslide.me.fixcss3();
-	webslide.me.fixhtml5();
 })();
 
 

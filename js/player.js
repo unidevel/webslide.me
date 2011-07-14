@@ -24,6 +24,14 @@ webslide.me.player = function(remote) {
 
 webslide.me.player.prototype = {
 
+	// FIXME: This needs to be done more generic
+	settings: {
+		accesskeys: {
+			prev: 1,
+			next: 3
+		}
+	},
+
 	/*
 	 * PUBLIC API
 	 */
@@ -179,14 +187,14 @@ webslide.me.player.prototype = {
 
 	__init: function() {
 
-		var title = document.getElementsByTagName('title')[0].textContent,
+		var that = this,
+			title = document.getElementsByTagName('title')[0].textContent,
 			slides = document.getElementsByTagName('section');
-
 
 		// Update the document title
 		if (!title && document.title) {
-			title = document.title
-		} else {
+			title = document.title;
+		} else if (!title){
 			title = 'webslide.me | Please update your old Browser.';
 		}
 
@@ -197,7 +205,7 @@ webslide.me.player.prototype = {
 				if (s > 0) {
 					slides[s].setAttribute('data-next', 'true');
 				}
-				this.__slideCache.push(slides[i]);
+				this.__slideCache.push(slides[s]);
 			}
 		}
 
@@ -222,7 +230,7 @@ webslide.me.player.prototype = {
 		this.__ui.prevButton = document.createElement('button');
 		this.__ui.prevButton.title = 'previous slide';
 		this.__ui.prevButton.setAttribute('accesskey', this.settings.accesskeys.prev);
-		this.__ui.prevButton.innerText = '&lt;';
+		this.__ui.prevButton.innerText = '<';
 		this.__ui.prevButton.onclick = function(){
 			that.go('prev');
 		};
@@ -232,17 +240,18 @@ webslide.me.player.prototype = {
 		this.__ui.nextButton = document.createElement('button');
 		this.__ui.nextButton.title = 'next slide';
 		this.__ui.nextButton.setAttribute('accesskey', this.settings.accesskeys.next);
-		this.__ui.nextButton.innerText = '&gt;';
+		this.__ui.nextButton.innerText = '>';
 		this.__ui.nextButton.onclick = function(){
 			that.go('next');
 		};
 
 
+		document.body.appendChild(this.__ui.footer);
 		this.__ui.footer.appendChild(footerIndex);
-		this.__ui.navi.appendChild(this.__ui.backwardButton);
-		this.__ui.navi.appendChild(this.__ui.forwardButton);
+
 		this.__ui.footer.appendChild(this.__ui.navi);
-		document.body.appendChild(this.__ui.footer);		
+		this.__ui.navi.appendChild(this.__ui.prevButton);
+		this.__ui.navi.appendChild(this.__ui.nextButton);
 
 		// Initial Setup
 		this.__activeSlide = this.__slideCache[0];
