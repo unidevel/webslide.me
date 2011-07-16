@@ -128,6 +128,12 @@ webslide.me.editor.prototype = {
 
 	saveFile: function(callback) {
 
+		// Skip if user did pretty nothing and wants to save that -.-
+		if (!this.__parserCache || !this.__parserCache.meta) {
+			console.warn('Can\'t save a file without meta data.');
+			return;
+		}
+
 		var downloadYesOrNo = document.getElementById('meta-download').checked ? 'yes' : 'no';
 
 		var data = {
