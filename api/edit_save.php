@@ -65,7 +65,7 @@ if(
 				exit;
 			}else{ // reroute to download site
 				//header("Location: http://".$req['user'].".webslide.me/api/download/".basename($webslide['html']));
-				echo "http://".$req['user'].".webslide.me/api/download/".basename($webslide['html']);
+				echo "http://".$req['user'].".".$domain."/api/download/".basename($webslide['html']);
 				exit;
 			}
 		}else{

@@ -1,4 +1,8 @@
 <?php
+
+// FIXME: This needs to be improved somehow
+$domain = "ws.me";
+
 // webslide.me API index
 require_once("library.php");
 $q=explode("/",$_REQUEST['q']);

@@ -16,9 +16,6 @@ require_once("library.php");
 $obj['database']=@new database("../database/database.json");
 $db = $obj['database']->db;
 
-// FIXME: This needs to be improved somehow
-$domain = "ws.me";
-
 // API Tests
 // $req['user']='christoph';
 // $req['pass']='mypassword123';
