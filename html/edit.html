@@ -38,15 +38,15 @@
 			<div class="menu-new"></div>
 			<span>New</span>
 		</a>
-		<a class="spritemap lb-link" href="#lb-open" data-list="#lb-open-list" data-list-type="checkbox">
+		<a class="spritemap lb-show" href="#lb-open" data-list="#lb-open-list" data-list-type="checkbox">
 			<div class="menu-open"></div>
 			<span>Open</span>
 		</a>
-		<a class="spritemap lb-link" href="#lb-save">
+		<a class="spritemap lb-show" href="#lb-save">
 			<div class="menu-save"></div>
 			<span>Save</span>
 		</a>
-		<a class="spritemap lb-link" href="#lb-manage" data-list="#lb-manage-list" data-list-type="radio">
+		<a class="spritemap lb-show" href="#lb-manage" data-list="#lb-manage-list" data-list-type="radio">
 			<div class="menu-manage"></div>
 			<span>Manage</span>
 		</a>
@@ -57,33 +57,33 @@
 	</fieldset>
 	<fieldset>
 		<legend>Style</legend>
-		<a class="spritemap lb-link" href="#lb-themes">
+		<a class="spritemap lb-show" href="#lb-themes">
 			<div class="menu-themes"></div>
 			<span>Themes</span>
 		</a>
-		<a class="spritemap lb-link" href="#lb-layouts">
+		<a class="spritemap lb-show" href="#lb-layouts">
 			<div class="menu-layouts"></div>
 			<span>Layouts</span>
 		</a>
-		<a class="spritemap lb-link" href="#lb-animations">
+		<a class="spritemap lb-show" href="#lb-animations">
 			<div class="menu-animations"></div>
 			<span>Animations</span>
 		</a>
 	</fieldset>
 	<fieldset>
 		<legend>Media</legend>
-		<a class="spritemap lb-link" href="#lb-pictures">
+		<a class="spritemap lb-show" href="#lb-pictures">
 			<div class="menu-pictures"></div>
 			<span>Pictures</span>
 		</a>
-		<a class="spritemap lb-link" href="#lb-movies">
+		<a class="spritemap lb-show" href="#lb-movies">
 			<div class="menu-movies"></div>
 			<span>Movies</span>
 		</a>
 	</fieldset>
 	<fieldset style="float:right">
 		<legend>Miscellaneous</legend>
-		<a class="spritemap lb-link" href="#lb-feedback">
+		<a class="spritemap lb-show" href="#lb-feedback">
 			<div class="menu-feedback"></div>
 			<span>Feedback</span>
 		</a>
@@ -196,7 +196,7 @@
 					<div class="action-okay"></div>
 					<span>Open</span>
 				</a>
-				<a class="spritemap" href="#" onclick="webslide.me.hide('#lb-open')">
+				<a class="spritemap lb-hide" href="#lb-open">
 					<div class="action-cancel"></div>
 					<span>Cancel</span>
 				</a>
@@ -241,7 +241,7 @@
 					<div class="action-okay"></div>
 					<span>Save</span>
 				</a>
-				<a class="spritemap" href="#" onclick="webslide.me.hide('#lb-save')">
+				<a class="spritemap lb-hide" href="#lb-save">
 					<div class="action-cancel"></div>
 					<span>Cancel</span>
 				</a>
@@ -263,7 +263,7 @@
 					<div class="action-okay"></div>
 					<span style="font-weight:bold">Remove</span>
 				</a>
-				<a class="spritemap" href="#" onclick="webslide.me.hide('#lb-manage')">
+				<a class="spritemap lb-hide" href="#lb-manage">
 					<div class="action-cancel"></div>
 					<span>Cancel</span>
 				</a>
@@ -292,7 +292,7 @@
 			</div>
 
 			<div class="actions" style="clear:right;margin-top:180px">
-				<a class="spritemap" href="#" onclick="webslide.me.hide('#lb-themes')">
+				<a class="spritemap lb-hide" href="#lb-themes">
 					<div class="action-okay"></div>
 					<span>Apply</span>
 				</a>
@@ -322,7 +322,7 @@
 					<div class="action-okay"></div>
 					<span style="font-weight:bold">Submit</span>
 				</a>
-				<a class="spritemap" href="#" onclick="webslide.me.hide('#lb-feedback')">
+				<a class="spritemap lb-hide" href="#lb-feedback">
 					<div class="action-cancel"></div>
 					<span>Cancel</span>
 				</a>
@@ -341,16 +341,16 @@ var editor;
 		editor.openFile(window.location.hash.split(/!/)[1]);
 	}
 
-	// Update the login information
+	// Update the Login Information
 	var element = document.getElementById('lb-save-url-user');
-	if (element) element.innerHTML = ws.login.user;
+	if (element) element.innerHTML = webslide.me.login.user;
 
 
 	// FIXME: Implement POST-capabilities?
 	function updateListFromAPI(link, type, callback) {
 		var context = document.querySelector(link),
-			api = elem.getAttribute('data-api'),
-			method = elem.getAttribute('data-method');
+			api = context.getAttribute('data-api'),
+			method = context.getAttribute('data-method');
 
 		if (context) {
 
@@ -387,24 +387,34 @@ var editor;
 
 	}
 
-	// Prepare Lightbox Functionality
-	var elements = document.getElementsByClassName('lb-link');
+	// Prepare Lightbox Show Functionality & API-Callbacks of List-Updates
+	var elements = document.getElementsByClassName('lb-show');
 	for (var e = 0, l = elements.length; e < l; e++) {
 		var element = elements[e];
 		if (element.getAttribute('data-list')) {
 			element.onclick = function(){
 				var href = this.href;
 				updateListFromAPI(this.getAttribute('data-list'), this.getAttribute('data-list-type'), function(){
-					showLightbox(href);
+					webslide.me.show(href);
 				});
 				return false;
 			};
 		} else {
 			element.onclick = function(){
-				showLightbox(this.href);
+				webslide.me.show(this.href);
 				return false;
 			};
 		}
+	}
+
+	// Prepare Lightbox Hide Functionality
+	var elements = document.getElementsByClassName('lb-hide');
+	for (var e = 0, l = elements.length; e < l; e++) {
+		var element = elements[e];
+		element.onclick = function(){
+			webslide.me.hide(this.href);
+			return false;
+		};
 	}
 
 })();

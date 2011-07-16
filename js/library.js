@@ -237,13 +237,11 @@ webslide.me.style = (function(){
 })();
 
 
+
 /*
  * The AJAX library that is required for sending / receiving data from the server.
  * Simple implementation of POST / GET requests and responses
  */
-
-
-
 webslide.me.ajax = {
 
 	/*
@@ -320,14 +318,46 @@ webslide.me.ajax = {
 };
 
 
+
+/*
+ * This is the CSS3 Lightbox functionality
+ */
+webslide.me.show = function(query, callback){
+
+	if (!query || !query.match(/#/)) return;
+	query = query.split(/#/)[1];
+
+	var element = document.querySelector('#'+query);
+	if (!element) return;
+
+	if (element) {
+		element.className = 'lightbox';
+		callback && callback();
+	}
+
+};
+
+webslide.me.hide = function(query, callback) {
+
+	if (!query || !query.match(/#/)) return;
+	query = query.split(/#/)[1];
+
+	var element = document.querySelector('#'+query);
+	if (!element) return;
+
+	if (element) {
+		element.className = 'lightbox hidden';
+		callback && callback();
+	}
+
+};
+
+
+
 /*
  * This is the publicly accessible API for retrieving the login or session data
  */
-if (typeof ws == 'undefined') {
-	ws = {};
-}
-
-ws.login = (function(){
+webslide.me.login = (function(){
 
 
 	function getCookie(name) {

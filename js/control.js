@@ -36,7 +36,7 @@ webslide.me.control.prototype = {
 
 	open: function(file) {
 
-		if (!file) return;
+		if (!file || typeof webslide == 'undefined') return;
 
 		if (!this.__ui) {
 			this.__updateUI();
@@ -48,8 +48,8 @@ webslide.me.control.prototype = {
 			toolbar = this.__ui.toolbar;
 
 		webslide.me.ajax.post('/api/edit/open', {
-			'user': ws.login.user,
-			'skey': ws.login.skey,
+			'user': webslide.me.login.user,
+			'skey': webslide.me.login.skey,
 			'file': file,
 			'type': 'webslide'
 		}, function(data, status) {

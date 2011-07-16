@@ -115,8 +115,6 @@ webslide.me.editor.prototype = {
 		// Fix for having no undefined classNames in DOM =/
 		if (!element.className.length) this.__parserCache.element.className = undefined;
 
-		console.log(this.__parserCache);
-
 		// Update the UI (Parser related Elements)
 		this.__updateUIFromParser('element');
 

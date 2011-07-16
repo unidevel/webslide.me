@@ -207,36 +207,6 @@ webslide.me={
 			return false;
 		}
 	},
-	// lightbox functionality
-	'show':function(url){
-		var callback=(arguments[1])?arguments[1]:false;
-		var arr=url.split("#");
-		var id=arr[arr.length-1];
-
-		// lightbox functionality
-		var lb=document.getElementById(id);
-		if(lb){
-			if(lb.setAttribute('class','lightbox')){
-				if(callback){ callback(); }
-			}
-		}
-
-		return false;
-	},
-	// lightbox functionality
-	'hide':function(url){
-		var callback=(arguments[1])?arguments[1]:false;
-		var arr=url.split("#");
-		var id=arr[arr.length-1];
-
-		var lb=document.getElementById(id);
-		if(lb){
-			if(lb.setAttribute('class','lightbox hidden')){
-				if(callback){ callback(); }
-			}
-		}
-		return false;
-	},
 	// notification functionality
 	'notify':function(msg){
 		var notification=document.getElementById('notification');
