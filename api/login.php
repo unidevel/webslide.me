@@ -34,7 +34,7 @@ if(
 	&& !empty($db['users'][$req['user']]['password'])
 	&& $db['users'][$req['user']]['password']===$req['pass']
 ){
-	if($return=$obj['database']->login($req['user'])){
+	if($return = $obj['database']->login($req['user'])){
 		header('HTTP/1.0 200 OK');
 		setcookie("skey", $return['skey'],$return['timestamp'],"/",".".$domain);
 		setcookie("user", $req['user'],$return['timestamp'],"/",".".$domain);

@@ -114,8 +114,87 @@ webslide.me.editor.prototype = {
 
 	},
 
-	saveFile: function() {
-		throw "Not implemented yet.";
+	playFile: function() {
+
+		this.saveFile(function(file, status) {
+
+			if (status == 200 && window.confirm('Sure to play the webslide?\nUse the back button to get to the editor again.')) {
+				window.location.href = '/play/' + file;
+			}
+
+		});
+
+	},
+
+	saveFile: function(callback) {
+
+		var downloadYesOrNo = document.getElementById('meta-download').checked ? 'yes' : 'no';
+
+		var data = {
+			filename: this.__parserCache.meta.filename,
+			meta: JSON.stringify(this.__parserCache.meta),
+			webslide: ''
+		};
+
+		var slides = this.__slideCache;
+		for (var s = 0, l = slides.length; s < l; s++) {
+			var slide = slides[s],
+				slideAnimation = slide.getAttribute('data-animation'),
+				slideLayout = slide.getAttribute('data-layout'),
+				addAttr = '';
+
+			if (slideAnimation) {
+				addAttr += ' data-animation="' + slideAnimation + '"';
+			}
+			if (slideLayout) {
+				addAttr += ' data-layout="' + slideLayout + '"';
+			}
+
+			// Add Slide to our String Cache
+			data.webslide += '<section' + addAttr + '>' + slide.innerHTML.trim() + '</section>\n';
+
+		}
+
+		// Skip if there went something wrong while parsing
+		if (!data.meta || !data.webslide || !data.filename) return false;
+
+		if (data.meta.length && data.webslide.length && data.filename.length) {
+
+			webslide.me.ajax.post('/api/edit/save', {
+				user: webslide.me.login.user,
+				skey: webslide.me.login.skey,
+				file: data.filename + '.html',
+				download: downloadYesOrNo,
+				meta: data.meta,
+				webslide: data.webslide
+			}, function(result, status) {
+
+				callback && callback(result, status);
+
+				if (status == 200) {
+					console.log('webslide successfully saved.');
+				}
+
+				webslide.me.hide('#lb-save');
+			});
+
+			return true;
+		}
+
+		return false;
+
+	},
+
+	removeFile: function(file, callback) {
+
+		webslide.me.ajax.post('/api/edit/remove', {
+			user: webslide.me.login.user,
+			skey: webslide.me.login.skey,
+			file: file
+		}, function(result, status) {
+			callback && callback(result, status);
+		});
+
 	},
 
 	openTheme: function(file) {
@@ -545,7 +624,7 @@ webslide.me.editor.prototype = {
 					if (attr) {
 						// Yes, seems to make no sense... but has to be done this way. Defaults 4tw!
 						if (value == element.getAttribute('placeholder')) value = undefined;
-						if (!value.length) value = element.getAttribute('placeholder');
+						if (value && !value.length) value = element.getAttribute('placeholder');
 						data[attr] = value;
 					}
 
@@ -692,12 +771,34 @@ webslide.me.editor.prototype = {
 				that.createFile();
 			};
 
+			this.__ui.playFile = document.getElementById('play-file');
+			this.__ui.playFile.onclick = function() {
+				that.playFile();
+			};
+
 			this.__ui.saveFile = document.getElementById('save-file');
 			this.__ui.saveFile.onclick = function() {
 				that.__updateParserFromUI('meta');
 				that.saveFile();
 			};
 
+			this.__ui.removeFiles = document.getElementById('remove-files');
+			this.__ui.removeFiles.onclick = function() {
+
+				var list = document.querySelector(this.getAttribute('data-api'));
+
+				if (!list) return false;
+
+				var items = list.getElementsByTagName('input');
+				for (var i = 0, l = items.length; i < l; i++) {
+					if (items[i] && items[i].checked && window.confirm('Sure to remove webslide "' + items[i].value +'"?')) {
+						that.removeFile(items[i].value);
+						// Item itself is within <li> or <p> in DOM
+						list.removeChild(items[i].parentNode);
+					}
+				}
+
+			};
 
 			// UI: Slide functionality
 			this.__ui.createSlide = document.getElementById('create-slide');

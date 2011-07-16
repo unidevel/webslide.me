@@ -112,9 +112,9 @@ webslide.me.login.prototype = {
 		var that = this;
 
 		webslide.me.ajax.post('/api/login', data, function(result, status) {
-			if (status == 200 && result.match(/dashboard/)) {
+			if (status == 200 && result && result.match(/dashboard/)) {
 				window.location.href = result;
-			} else if (result.length) {
+			} else if (result && result.length) {
 				that.__notify(result.trim());
 			} else {
 				that.__notify('Sorry, request failed. Please check your credentials.');

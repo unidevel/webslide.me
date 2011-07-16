@@ -14,7 +14,7 @@ $q=explode("/",$q);
 // setting up request
 $req=array();
 $tmp=explode(".",$_SERVER['HTTP_HOST']);
-$req['user']=(($_REQUEST['user'])?$_REQUEST['user']:(($tmp[0]!='webslide' && $tmp[0]!='www')?$tmp[0]:(($_COOKIE['user'])?$_COOKIE['user']:'demo')));
+$req['user']=(($_REQUEST['user'])?$_REQUEST['user']:(($_COOKIE['user'])?$_COOKIE['user']:'demo'));
 $req['skey']=(($_COOKIE['skey'])?$_COOKIE['skey']:'demo');
 $req['pass']=(($_REQUEST['pass'])?$_REQUEST['pass']:'demo');
 
@@ -22,7 +22,7 @@ $req['pass']=(($_REQUEST['pass'])?$_REQUEST['pass']:'demo');
 $dir['root']=".";
 $dir['db']=$dir['root']."/database";
 
-$db=json_decode(file_get_contents($dir['db']."/database.json"),true);
+$db = json_decode(file_get_contents($dir['db']."/database.json"),true);
 
 $obj['template']=@new template('./html');
 

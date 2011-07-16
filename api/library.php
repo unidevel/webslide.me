@@ -85,8 +85,9 @@ class database{
 		if(!$path){
 			$path=$this->path;
 		}
-		if(is_file($path) && file_put_contents($path,json_encode($this->db))){
-			return true;
+		if(is_file($path)){
+			$json = json_encode($this->db);
+			return file_put_contents($path, $json);
 		}
 		return false;
 	}

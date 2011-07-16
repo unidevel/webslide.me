@@ -33,11 +33,11 @@
 <nav class="toolbar" id="toolbar">
 	<fieldset>
 		<legend>Webslide</legend>
-		<a class="spritemap" id="create-file">
+		<a id="create-file" class="spritemap">
 			<div class="menu-create"></div>
 			<span>Create</span>
 		</a>
-		<a class="spritemap lb-show" href="#lb-open" data-list="#lb-open-list" data-list-type="checkbox">
+		<a class="spritemap lb-show" href="#lb-open" data-list="#lb-open-list" data-list-type="radio">
 			<div class="menu-open"></div>
 			<span>Open</span>
 		</a>
@@ -45,11 +45,11 @@
 			<div class="menu-save"></div>
 			<span>Save</span>
 		</a>
-		<a class="spritemap lb-show" href="#lb-manage" data-list="#lb-manage-list" data-list-type="radio">
+		<a class="spritemap lb-show" href="#lb-manage" data-list="#lb-manage-list" data-list-type="checkbox">
 			<div class="menu-manage"></div>
 			<span>Manage</span>
 		</a>
-		<a class="spritemap" onclick="editor.playFile()">
+		<a id="play-file" class="spritemap">
 			<div class="menu-play"></div>
 			<span>Play</span>
 		</a>
@@ -250,7 +250,7 @@
 			<div id="lb-manage-list" data-api="/api/webslides" data-method="get" class="inline-block">You've got no removable webslides online.</div>
 
 			<div class="actions">
-				<a class="spritemap" href="#" onclick="webslide.me.remove()">
+				<a id="remove-files" data-api="#lb-manage-list" class="spritemap">
 					<div class="action-okay"></div>
 					<span style="font-weight:bold">Remove</span>
 				</a>
