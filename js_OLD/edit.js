@@ -133,60 +133,6 @@ webslide.me={
 		}
 		return false;
 	},
-	'apply_heuristics':function(str,backward,type){
-		str=str.replace(/^\s+/, '').replace(/\s+$/, '');
-		var i,j,parts;
-
-		// apply list heuristics
-		if(type.toLowerCase()=='ol' || type.toLowerCase()=='ul'){
-			// html2textarea
-			if(!backward){
-				var marker=this.get('heuristics').li[0];
-				parts=str.split(/<li/i); // <li class=...
-
-				str=''; // clear cache
-
-				for(i=0;i<parts.length;i++){
-					parts[i]=parts[i].substr(1);
-					parts[i]=parts[i].replace(/<\/li>/i,'');
-
-					if(parts[i].length>0){
-						str+=marker+' '+parts[i]+'\n';
-					}
-				}
-
-			// textarea2html
-			}else{
-				var markers=this.get('heuristics').li;
-				parts=str.split(/\n/);
-				str=''; // clear cache
-
-				for(i=0;i<parts.length;i++){
-					parts[i]=parts[i].replace(/^\s+/, '').replace(/\s+$/, '');
-
-					// check for markers at first position of trimmed string
-					for(j=0;j<markers.length;j++){
-						if(parts[i].indexOf(markers[j])===0){
-							parts[i]=parts[i].substr(markers[j].length);
-							// now fix spaces ("> Item" instead of ">Item")
-							parts[i]=parts[i].replace(/^\s+/, '').replace(/\s+$/, '');
-							str+="<li>"+parts[i]+"</li>";
-						}
-					}
-				}
-
-				// heuristics didn't work, so we don't give a fuck on the semantics
-				if(str===''){
-					for(i=0;i<parts.length;i++){
-						str+="<li>"+parts[i]+"</li>";
-					}
-				}
-			}
-
-		}
-
-		return ((str.length)?str:false);
-	},
 	// wizard functionality
 	'wizard':{
 		'steps':[

@@ -30,14 +30,6 @@ webslide.me.editor.prototype = {
 		elements: {
 			editable: [ 'h1', 'h2', 'p', 'ol', 'ul' ],
 			allowed: [ 'h1', 'h2', 'p', 'ol', 'ul', 'li', 'pre', 'img', 'audio', 'video', 'script' ]
-		},
-		heuristics: {
-			li: [
-				'>', // first char is default
-				'-', '#', '+', '*', '=',
-				'1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.',
-				'I.', 'II.', 'III.', 'IV.', 'V.', 'VI.', 'VII.', 'VIII.', 'IX.'
-			]
 		}
 	},
 
@@ -225,7 +217,12 @@ webslide.me.editor.prototype = {
 		if (target) {
 
 			var clone = document.createElement(target.tagName);
-			clone.innerHTML = 'New Element';
+			if (!target.tagName.match(/ul|ol/i)) {
+				clone.innerHTML = 'New Element';
+			} else {
+				clone.innerHTML = '<li>Entry A</li><li>Entry B</li>';
+			}
+
 			clone.className = target.className;
 			clone.onclick = function(){
 				that.openElement(this);
@@ -807,15 +804,36 @@ webslide.me.editor.prototype = {
 		var output = '';
 
 		// List-specific Heuristics
-		if (elementType.match(/ul|ol/)) {
+		if (elementType.match(/ul|ol/i)) {
 
-			console.warn('Unstable List Heuristics', format);
+			var parts = [];
+
+			// FIXME: Remove this if it was approved to be stable =)
+			window.console && console.warn('Unstable List Heuristics >', format);
 
 			// Applying Heuristics for HTML > Text
 			if (format == 'text') {
 
+				parts = elementContent.split(/<li>/);
+
+				for (var p = 0, l = parts.length; p < l; p++) {
+					var part = parts[p].replace(/<\/li>/,'').trim();
+					if (part.length) {
+						output += '- ' + part + '\n';
+					}
+				}
+
 			// Applying Heuristics for Text > HTML
 			} else {
+
+				parts = elementContent.split(/\n/);
+
+				for (var p = 0, l = parts.length; p < l; p++) {
+					var part = parts[p].trim();
+					if (part.charAt(0) == '-') {
+						output += '<li>' + part.substr(1) + '</li>';
+					}
+				}
 
 			}
 
@@ -862,12 +880,12 @@ webslide.me.editor.prototype = {
 				}
 			}
 
-			if (output && output.length) {
-				return output;
-			} else {
-				return 'PARSER ERROR';
-			}
+		}
 
+		if (output && output.length) {
+			return output;
+		} else {
+			return 'PARSE ERROR';
 		}
 
 	}
