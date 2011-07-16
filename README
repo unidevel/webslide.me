@@ -32,8 +32,8 @@ Usually there's a folder /etc/apache2/sites-enabled wherein symlinks to
 Remember that Symlinks in the DocumentRoot folder (e.g. /var/www/vhost-folder)
 are denied by default - so you should have an actual directory in there.
 
-[2a] Create the file /etc/apache2/sites-available/webslide.me
-with the following contents:
+[2a] Create the file /etc/apache2/sites-available/webslide.me with the
+following contents:
 
 <VirtualHost *:80>
 	ServerName webslide.me
@@ -59,16 +59,15 @@ in your terminal:
 
 sudo ln -s /etc/apache2/sites-available/webslide.me /etc/apache2/sites-enabled/webslide.me
 
+* Alternatively add the file contents to the END of the httpd.conf:
+
+
 --- --- ---
 [2c] Enable the mod_rewrite to let the .htaccess URL modifications run properly
 
 sudo ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
---- --- ---
-* Some systems may have a different configuration system. There you may
-have to edit the httpd.conf or apache2.conf (which is deprecated).
-
-Find and comment out the following line (remove the # character):
+* Alternatively add the following line to the END of the httpd.conf:
 
 LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
 
@@ -79,7 +78,7 @@ Add the following line to it on an IPv4 system (which is deprecated):
 
 127.0.0.1	webslide.me
 
-* On an IPv6 system, change the ::1 and add a host behind ip6-loopback:
+* On an IPv6 system, change the ::1 line and add a host behind ip6-loopback:
 ::1		ip6-localhost ip6-loopback webslide.me
 
 
