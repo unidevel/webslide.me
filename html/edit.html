@@ -34,7 +34,7 @@
 <nav class="toolbar" id="toolbar">
 	<fieldset>
 		<legend>Webslide</legend>
-		<a class="spritemap" id="new-file">
+		<a class="spritemap" id="create-file">
 			<div class="menu-new"></div>
 			<span>New</span>
 		</a>
@@ -96,7 +96,7 @@
 
 <!-- the slides sidebar -->
 <aside class="toolbar" title="Slide Index" id="slides">
-	<section title="Click here to add a new slide" id="new-slide"><br/><p>Click here to add slide</p></section>
+	<section title="Click here to add a new slide" id="create-slide"><br/><p>Click here to add slide</p></section>
 </aside>
 
 
@@ -113,8 +113,8 @@
 		<legend>Slide</legend>
 		<div>
 			<label for="properties-slide-animation">Animation</label>
-			<select id="properties-slide-animation" title="Animation" data-rel="slide" data-attr="data-animation" onchange="webslide.me.slide.save()">
-				<option value="false">-</option>
+			<select id="properties-slide-animation" title="Animation" data-rel="slide" data-attr="data-animation">
+				<option value="-">-</option>
 				<option value="slide">Slide</option>
 				<option value="rotate">Rotation</option>
 				<option value="spin">Spin</option>
@@ -122,21 +122,21 @@
 		</div>
 		<div>
 			<label for="properties-slide-layout">Layout</label>
-			<select id="properties-slide-layout" title="Layout" data-rel="slide" data-attr="data-layout" onchange="webslide.me.slide.save()">
-				<option value="false">-</option>
+			<select id="properties-slide-layout" title="Layout" data-rel="slide" data-attr="data-layout">
+				<option value="-">-</option>
 				<option value="cover">Cover</option>
 			</select>
 		</div>
 		<br class="clear"/>
 		<div class="actions">
-			<button onclick="webslide.me.slide.remove()">Remove</button>
+			<button id="remove-slide">Remove</button>
 		</div>
 	</fieldset>
 	<fieldset id="properties-element" class="disabled">
 		<legend>Element</legend>
 		<div>
 			<!-- <label for="properties-element-type">Type</label> -->
-			<select title="Type" id="properties-element-type" data-rel="element" data-attr="tagName" onchange="webslide.me.element.save()" style="width:100%">
+			<select title="Type" id="properties-element-type" data-rel="element" data-attr="tagName" style="width:100%">
 				<optgroup label="Headlines">
 					<option value="h1">Headline 1</option>
 					<option value="h2">Headline 2</option>
@@ -156,8 +156,8 @@
 		</div>
 		<div>
 			<label for="properties-element-alignment">Alignment</label>
-			<select id="properties-element-alignment" title="Alignment" data-rel="element" data-attr="class" onchange="webslide.me.element.save()">
-				<option value="false">-</option>
+			<select id="properties-element-alignment" title="Alignment" data-rel="element" data-attr="className">
+				<option value="-">-</option>
 				<option value="left">left</option>
 				<option value="center">center</option>
 				<option value="right">right</option>
@@ -166,8 +166,8 @@
 		</div>
 		<br class="clear"/>
 		<div class="actions">
-			<button onclick="editor.createElement()">Create</button>
-			<button onclick="editor.removeElement()">Remove</button>
+			<button id="create-element">Create</button>
+			<button id="remove-element">Remove</button>
 		</div>
 	</fieldset>
 </aside>
@@ -338,7 +338,7 @@ var editor;
 	editor = new webslide.me.editor();
 
 	if (window.location.hash.match(/!/)) {
-		editor.open(window.location.hash.split(/!/)[1]);
+		editor.openFile(window.location.hash.split(/!/)[1]);
 	}
 
 	// Update the login information

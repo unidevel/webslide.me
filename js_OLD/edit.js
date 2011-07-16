@@ -20,24 +20,6 @@ var _errors={
 
 var webslide={};
 webslide.me={
-	'settings':{
-		'ids':{},
-		'tags':{},
-		'heuristics':{},
-		'active':{}
-	},
-	'set':function(name,value){},
-	'get':function(name){},
-	'init':function(properties){},
-	// update list with api call
-	'updatelist':function(id){},
-	// new webslide
-	'new':function(){
-		if(window.confirm('Sure to create a new slide?\nAll unsaved changes will be lost.')){
-			var x=window.location.href+''.split('#');
-			window.location.href=x[0];
-		}
-	},
 	// open webslide from server
 	'open':function(){
 		var list=document.getElementById('lb-open-list');
@@ -209,44 +191,6 @@ webslide.me={
 		return false;
 	},
 
-	// slide manipulation
-	'slide':{
-		'open':function(slide){},
-		'save':function(){},
-		'create':function(){},
-		'remove':function(){
-			if(window.confirm('Sure to remove this slide?')){
-				// optional argument
-				var slide=(arguments[0]) ? arguments[0] : webslide.me.get('active.slide');
-				var parent=document.getElementById('slides');
-				parent.removeChild(slide);
-				webslide.me.slides.update();
-			}
-		}
-	},
-	// element manipulation
-	'element':{
-		'open':function(element){},
-		'update':function(){},
-		'save':function(){},
-		'create':function(_parent){},
-		'remove':function(){
-			var element = (arguments[0]) ? arguments[0] : webslide.me.get('active.element');
-
-			var overlay = document.getElementById('workspace-overlay');
-			overlay.removeAttribute('style'); overlay.value='';
-
-			var workspace = document.getElementById('workspace');
-			if(workspace.firstChild==element){
-				alert('You can\'t remove the first element!');
-				return false;
-			}
-			if(workspace.removeChild(element)){
-				webslide.me.slide.save(); // obj, html
-				return true;
-			}
-		}
-	},
 	// theme manipulation
 	'theme':{
 		'open':function(url){
@@ -261,74 +205,6 @@ webslide.me={
 				return true;
 			}
 			return false;
-		}
-	},
-	// parser
-	'parser':{
-		'get':function(relation){
-			var attribute=(arguments[1])?arguments[1]:false;
-
-			var cache={};
-			var types=['input','textarea','select'];
-			for(var i=0;i<types.length;i++){
-				var _=document.getElementsByTagName(types[i]);
-				for(var j=0;j<_.length;j++){
-					// filter all unrelated fieldtypes
-					if(_[j].getAttribute('data-rel')==relation){
-						if(_[j].tagName=='TEXTAREA'){
-							cache[_[j].getAttribute('data-attr')]=((_[j].value) ? _[j].value : '');
-						}else if(_[j].getAttribute('type')!='RADIO' || (_[j].getAttribute('type')=='RADIO' && _[j].checked)){
-							cache[_[j].getAttribute('data-attr')]=((_[j].value) ? _[j].value : '');
-						}else if(_[j].tagName=='SELECT'){
-							cache[_[j].getAttribute('data-attr')]=_[j].getElementsByTagName('option')[_[j].selectedIndex].value;
-						}
-					}
-				}
-			}
-
-			if(attribute){
-				return cache[attribute];
-			}else{
-				return cache;
-			}
-		},
-		'set':function(relation){
-			var attributes;
-			if(arguments[1] && arguments[2]){
-				attributes={};
-				attributes[arguments[1]]=arguments[2];
-			}else if(typeof(arguments[1])=='object'){
-				attributes=arguments[1];
-			}
-
-			var types=['input','textarea','select'];
-
-			for(var attr in attributes){ // fixed value
-				for(var j=0;j<types.length;j++){ // fixed value
-					var _=document.getElementsByTagName(types[j]);
-					for(var k=0;k<_.length;k++){ // dynamic value!
-						if(_[k].getAttribute('data-rel')==relation && _[k].getAttribute('data-attr')==attr){ // filter unrelated fields
-							if(_[k].getAttribute('type') && _[k].getAttribute('type').toLowerCase()=='select'){
-								var __=_[k].getElementsByTagName('option');
-								for(var l=0;l<__.length;l++){
-									if(__[l].value==attributes[attr]){
-										__[l].setAttribute('selected',true);
-									}else{
-										__[l].removeAttribute('selected');
-									}
-								}
-							}else{
-								_[k].value=(attributes[attr])?attributes[attr]:'';
-							}
-						}
-					}
-				}
-
-				// hook for updating theme in <link> element
-				if(attr=='theme'){
-					document.getElementById('meta-theme').href='/css/'+attributes[attr];
-				}
-			}
 		}
 	},
 	// lightbox functionality

@@ -45,7 +45,16 @@ webslide.me.editor.prototype = {
 	 * PUBLIC API
 	 */
 
-	open: function(file) {
+	openFile: function(file) {
+
+	},
+
+	createFile: function() {
+
+		if (window.confirm('Sure to create a new webslide?\nAll unsaved changes will be lost.')) {
+			var url = window.location.href.split('#');
+			window.location.href = url[0];
+		}
 
 	},
 
@@ -73,11 +82,24 @@ webslide.me.editor.prototype = {
 		slide.innerHTML = "<h1>Title</h1><p>Edit me!</p>";
 
 		// Append the created Slide to the DOM
-		this.__ui.newSlide.parentNode.insertBefore(slide, this.__ui.newSlide);
+		this.__ui.createSlide.parentNode.insertBefore(slide, this.__ui.createSlide);
 
 		// Update our internal cache and UI
 		this.__slideCache.push(slide);
 		this.__updateUI();
+
+	},
+
+	removeSlide: function() {
+
+		if (window.confirm('Sure to remove the active slide?')) {
+
+			this.__activeSlide.parentNode.removeChild(this.__activeSlide);
+			this.__activeSlide = undefined;
+
+			this.__updateWorkspace();
+
+		}
 
 	},
 
@@ -86,10 +108,17 @@ webslide.me.editor.prototype = {
 		this.__activeElement = element;
 
 		this.__parserCache.element = {
-			tagName: element.tagName,
-			className: element.className
+			tagName: element.tagName.toLowerCase(),
+			className: element.className.toLowerCase()
 		};
 
+		// Fix for having no undefined classNames in DOM =/
+		if (!element.className.length) this.__parserCache.element.className = undefined;
+
+		console.log(this.__parserCache);
+
+		// Update the UI (Parser related Elements)
+		this.__updateUIFromParser('element');
 
 		// Update the Overlay
 		this.__updateOverlay(element, true);
@@ -107,6 +136,7 @@ webslide.me.editor.prototype = {
 
 			var clone = document.createElement(target.tagName);
 			clone.innerHTML = 'New Element';
+			clone.className = target.className;
 			clone.onclick = function(){
 				that.openElement(this);
 			};
@@ -118,6 +148,24 @@ webslide.me.editor.prototype = {
 
 	},
 
+	removeElement: function() {
+
+		// Hide Overlay
+		this.__hideOverlay();
+
+		if (!this.__activeElement) return;
+
+		if (this.__activeElement != this.__ui.workspace.firstChild) {
+
+			this.__activeElement.parentNode.removeChild(this.__activeElement);
+			this.__activeElement = undefined;
+
+			// this.__updateWorkspace();
+			this.saveSlide();
+		}
+
+	},
+
 
 	/*
 	 * PRIVATE API
@@ -125,23 +173,25 @@ webslide.me.editor.prototype = {
 
 	__init: function() {
 
-		if (!this.__parserCache) {
-			this.__parserCache = {
-				slide: undefined,
-				element: undefined
-			};
-		}
+		this.__updateParserFromUI('element');
+		this.__updateParserFromUI('slide');
 
-		this.__updateCache(true); // will update the UI, too
+		this.__updateCache(true);
+		this.__updateUI();
 
 	},
 
 	saveSlide: function() {
 
+		// Find out what we have to do now.
+		var target = this.__parserCache.slide;
+
+		if (!this.__activeSlide) return;
+		if (!target) this.__updateParserFromUI('slide');
+
+
 		// Slide Content
 		this.__activeSlide.innerHTML = this.__ui.workspace.innerHTML;
-
-		var target = this.__parserCache.slide;
 
 		// Slide Animation
 		if (target['data-animation'] && target['data-animation'] != this.__activeSlide.getAttribute('data-animation')) {
@@ -150,8 +200,7 @@ webslide.me.editor.prototype = {
 			if (webslide.me.style.css('transform') && webslide.me.style.css('transition')) {
 
 				// Hide Overlay
-				this.__ui.overlay.style.cssText = ' ';
-				this.__ui.overlay.value = '';
+				this.__hideOverlay();
 
 				// Prepare Animation
 				this.__ui.workspace.setAttribute('data-animation', target['data-animation']);
@@ -193,18 +242,19 @@ webslide.me.editor.prototype = {
 		// Find out what we have to do now.
 		var target = this.__parserCache.element;
 
-		if (!this.__activeElement || !target) return;
+		if (!this.__activeElement) return;
+		if (!target) this.__updateParserFromUI('element');
 
 		// Get Contents from UI Overlay
 		target.innerHTML = this.__runHeuristics('html', target.tagName, this.__ui.overlay.value);
 
 		if (target) {
 
+			// Type
 			if (target.tagName != this.__activeElement.tagName) {
 
 				var that = this,
 					element = document.createElement(target.tagName);
-				element.innerHTML = target.innerHTML;
 				element.onclick = function() {
 					that.openElement(this);
 				};
@@ -223,16 +273,24 @@ webslide.me.editor.prototype = {
 
 				this.__activeElement = element;
 
-			} else if (this.__activeElement.innerHTML != target.innerHTML) {
+			}
+
+			// Content
+			if (target.innerHTML && this.__activeElement.innerHTML != target.innerHTML) {
 				this.__activeElement.innerHTML = target.innerHTML;
+			}
+
+			// Alignment
+			if (target.className && this.__activeElement.className != target.className) {
+				this.__activeElement.className = target.className;
 			}
 
 		}
 
+
 		// Hide Overlay
 		if (!dontHideOverlay) {
-			this.__ui.overlay.style.cssText = 'display:none';
-			this.__ui.overlay.value = '';
+			this.__hideOverlay();
 		}
 
 		this.saveSlide();
@@ -250,7 +308,7 @@ webslide.me.editor.prototype = {
 		for (var e = 0, l = elements.length; e < l; e++) {
 
 			var element = elements[e];
-			if (element.id == 'new-slide') continue;
+			if (element.id == 'create-slide') continue;
 
 			element.id = 'slides-' + (e + 1);
 			element.setAttribute('title', (e + 1) + ' of ' + (l - 1));
@@ -258,7 +316,14 @@ webslide.me.editor.prototype = {
 			this.__slideCache.push(element);
 		}
 
-		this.__updateUI();
+	},
+
+	__hideOverlay: function() {
+
+		if (!this.__ui) this.__updateUI();
+
+		this.__ui.overlay.style.cssText = 'display:none';
+		this.__ui.overlay.value = '';
 
 	},
 
@@ -318,6 +383,77 @@ webslide.me.editor.prototype = {
 
 	},
 
+	__updateParserFromUI: function(relation, scopedElement) {
+		// relation => element || slide
+
+		var elements;
+		if (scopedElement && scopedElement.tagName) {
+			elements = [ scopedElement ];
+		} else {
+			elements = document.querySelectorAll('select[data-rel='+relation+']');
+		}
+
+		if (elements && elements.length) {
+
+			var data = {};
+			for (var e = 0, l = elements.length; e < l; e++) {
+				var element = elements[e],
+					attr = element.getAttribute('data-attr'),
+					value = undefined;
+
+				if (attr) {
+					value = element.getElementsByTagName('option')[element.selectedIndex].value;
+				}
+
+				// This is a reserved value by our parsing concept.
+				if (value == '-') value = undefined;
+
+				data[attr] = value;
+
+			}
+
+			// Update the Parser's data now.
+			if (!this.__parserCache) this.__parserCache = {};
+			if (!this.__parserCache[relation]) this.__parserCache[relation] = {};
+
+			for (var d in data) {
+				this.__parserCache[relation][d] = data[d];
+			}
+
+		}
+
+	},
+
+	__updateUIFromParser: function(relation) {
+
+		// Skip if there's nothing parsed yet.
+		if (!this.__parserCache[relation]) return;
+
+		var elements = document.querySelectorAll('select[data-rel='+relation+']');
+
+		if (elements && elements.length) {
+			for (var e = 0, l = elements.length; e < l; e++) {
+
+				var element = elements[e],
+					attr = element.getAttribute('data-attr'),
+					options = element.getElementsByTagName('option');
+
+				for (var o = 0, ol = options.length; o < ol; o++) {
+					var option = options[o];
+					if (
+						option.value == this.__parserCache[relation][attr]
+						|| (option.value == '-' && this.__parserCache[relation][attr] === undefined) // Our reserved value
+					) {
+						element.selectedIndex = o;
+						break;
+					}
+				}
+
+			}
+		}
+
+	},
+
 	__updateUI: function() {
 
 		var that = this;
@@ -326,15 +462,42 @@ webslide.me.editor.prototype = {
 
 			this.__ui = {};
 
-			this.__ui.newFile = document.getElementById('new-file');
-			this.__ui.newFile.onclick = function() {
+			// Haha, cool parser stuff, dude.
+			this.__ui.parserElements = document.querySelectorAll('select[data-rel]');
+			for (var p = 0, l = this.__ui.parserElements.length; p < l; p++) {
+				this.__ui.parserElements[p].onchange = function() {
+					that.__updateParserFromUI(this.getAttribute('data-rel'), this);
+				};
+			}
+
+			this.__ui.createFile = document.getElementById('create-file');
+			this.__ui.createFile.onclick = function() {
 				that.createFile();
 			};
 
-			this.__ui.newSlide = document.getElementById('new-slide');
-			this.__ui.newSlide.onclick = function() {
+			this.__ui.createSlide = document.getElementById('create-slide');
+			this.__ui.createSlide.onclick = function() {
 				that.createSlide();
 			};
+
+			this.__ui.removeSlide = document.getElementById('remove-slide');
+			this.__ui.removeSlide.onclick = function() {
+				that.removeSlide();
+			};
+
+			this.__ui.createElement = document.getElementById('create-element');
+			this.__ui.createElement.onclick = function() {
+				// Not required anymore. See above (this.__ui.parserElements)
+				// that.__updateParserFromUI('element');
+				that.createElement();
+			};
+
+			this.__ui.removeElement = document.getElementById('remove-element');
+			this.__ui.removeElement.onclick = function() {
+				that.removeElement();
+			};
+
+
 
 			this.__ui.workspace = document.getElementById('workspace');
 
@@ -356,12 +519,16 @@ webslide.me.editor.prototype = {
 
 	__updateWorkspace: function() {
 
-		// Reset Overlay
-		this.__ui.overlay.style.cssText = ' ';
-		this.__ui.overlay.value = ' ';
+		// Hide Overlay
+		this.__hideOverlay();
 
-		// Update Workspace
-		this.__ui.workspace.innerHTML = this.__activeSlide.innerHTML;
+		// Update Workspace Content
+		if (this.__activeSlide) {
+			this.__ui.workspace.innerHTML = this.__activeSlide.innerHTML;
+		} else {
+			this.__ui.workspace.innerHTML = '';
+			return; // Nothing more to do if there's no active Slide
+		}
 
 		// Update Sidebar
 		var animation = this.__activeSlide.getAttribute('data-animation');
