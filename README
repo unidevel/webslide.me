@@ -59,7 +59,7 @@ in your terminal:
 
 sudo ln -s /etc/apache2/sites-available/webslide.me /etc/apache2/sites-enabled/webslide.me
 
-* Alternatively add the file contents to the END of the httpd.conf:
+* Alternatively add the file contents to the END of the httpd.conf
 
 
 --- --- ---
