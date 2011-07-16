@@ -1,0 +1,89 @@
+
+This file will guide you to a properly running local development instance
+of the webslide.me framework. You can easily run it on other hosts by
+changing the $domain variable in the /api/index.php
+
+
+--- --- --- --- --- --- ---
+[1] Installation / Requirements
+
+Currently, the webslide.me framework requires an underlying apache2 running.
+
+If you haven't installed it on your linux yet, you can do that on Debian
+or APT-based systems by running the following command in your terminal:
+
+sudo aptitude install libapache2-mod-php5
+
+* This command will also install several depencies, such as these packages:
+apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common
+libapache2-mod-php5 libapr1 libaprutil1 libaprutil1-dbd-sqlite3
+libaprutil1-ldap php5-cli php5-common
+
+
+--- --- --- --- --- --- ---
+[2] Configuration
+
+The webslide.me framework also requires the mod_rewrite to be loaded.
+Usually there's a folder /etc/apache2/sites-enabled wherein symlinks to
+/etc/apache2/sites-available are stored.
+
+Remember that Symlinks in the DocumentRoot folder (e.g. /var/www/vhost-folder)
+are denied by default - so you should have an actual directory in there.
+
+[2a] Create the file /etc/apache2/sites-available/webslide.me
+with the following contents:
+
+<VirtualHost *:80>
+	ServerName webslide.me
+	ServerAlias webslide.me *.webslide.me
+	DocumentRoot /var/www/webslide.me
+	ServerAdmin christoph@martens.ms
+
+	<Directory /var/www/webslide.me>
+		Options Indexes FollowSymLinks
+		AllowOverride All
+		Order allow,deny
+
+		# This will deny external clients to access your development
+		# instance. Safety first, right?
+		Allow from 127.0.0.0/255.0.0.0 ::1/128
+	</Directory>
+
+</VirtualHost>
+
+--- --- ---
+[2b] Symlink the file to the sites-enabled folder by running this command
+in your terminal:
+
+sudo ln -s /etc/apache2/sites-available/webslide.me /etc/apache2/sites-enabled/webslide.me
+
+--- --- ---
+[2c] Enable the mod_rewrite to let the .htaccess URL modifications run properly
+
+sudo ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+
+--- --- ---
+* Some systems may have a different configuration system. There you may
+have to edit the httpd.conf or apache2.conf (which is deprecated).
+
+Find and comment out the following line (remove the # character):
+
+LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
+
+
+--- --- ---
+[2d] Edit your /etc/hosts file to route webslide.me to your local host.
+Add the following line to it on an IPv4 system (which is deprecated):
+
+127.0.0.1	webslide.me
+
+* On an IPv6 system, change the ::1 and add a host behind ip6-loopback:
+::1		ip6-localhost ip6-loopback webslide.me
+
+
+--- --- --- --- --- --- ---
+[3] Restarting your apache daemon
+
+Run the following command in your terminal to restart apache2:
+
+sudo /etc/init.d/apache2 restart
