@@ -3,6 +3,11 @@ This file will guide you to a properly running local development instance
 of the webslide.me framework. You can easily run it on other hosts by
 changing the $domain variable in the /api/index.php
 
+IMPORTANT NOTE:
+The webslide.me api requires READ and WRITE ACCESS to the following paths:
+/database/database.json
+/database (to create sub-folders)
+/api/feedback.txt
 
 --- --- --- --- --- --- ---
 [1] Installation / Requirements
