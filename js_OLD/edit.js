@@ -183,38 +183,6 @@ webslide.me={
 				}
 			}
 
-		// no list, so standard stuff =)
-		}else{
-			// html2textarea
-			if(!backward){
-				if(str.match(/<br>/i)){ // browser is in html5 mode
-					parts=str.split(/<br>/i);
-				}else{ // browser is in xhtml mode
-					parts=str.split(/<br\/>/i);
-				}
-				str=''; // clear cache
-				for(i=0;i<parts.length;i++){
-					if(i!=parseInt(parts.length-1,10)){
-						str+=parts[i]+'\n';
-					}else{
-						str+=parts[i];
-					}
-				}
-
-			// textarea2html
-			}else{
-				parts=str.split(/\n/);
-				str=''; // clear cache
-
-				for(i=0;i<parts.length;i++){
-					parts[i].replace(/^\s+/, '').replace(/\s+$/, '');
-					if(i<parseInt(parts.length-1,10) && parts[i].length>0){
-						str+=parts[i]+'<br/>';
-					}else if(parts[i].length>0){ // allow only <br/>, not <br/><br/>
-						str+=parts[i];
-					}
-				}
-			}
 		}
 
 		return ((str.length)?str:false);

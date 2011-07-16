@@ -804,9 +804,71 @@ webslide.me.editor.prototype = {
 
 	__runHeuristics: function(format, elementType, elementContent) {
 
-		console.log('runHeuristics on', format, elementType, elementContent);
+		var output = '';
 
-		return elementContent;
+		// List-specific Heuristics
+		if (elementType.match(/ul|ol/)) {
+
+			console.warn('Unstable List Heuristics', format);
+
+			// Applying Heuristics for HTML > Text
+			if (format == 'text') {
+
+			// Applying Heuristics for Text > HTML
+			} else {
+
+			}
+
+		// Standard Heuristics
+		} else {
+
+			var parts = [];
+
+			// Applying Heuristics for HTML > Text
+			if (format == 'text') {
+
+				// HTML5 Mode
+				if (elementContent.match(/<br>/i)) {
+					parts = elementContent.split(/<br>/i);
+				// XHTML Mode
+				} else {
+					parts = elementContent.split(/<br\/>/i);
+				}
+
+				for (var p = 0, l = parts.length; p < l; p++) {
+					if (p < (l-1)) {
+						output += parts[p] + '\n';
+					} else {
+						output += parts[p];
+					}
+				}
+
+			// Applying Heuristics for Text > HTML
+			} else {
+
+				var parts = elementContent.split(/\n/);
+
+				for (var p = 0, l = parts.length; p < l; p++) {
+
+					// parts[p].replace(/^s+/, '').replace(/\s+$/, '');
+					parts[p] = parts[p].trim();
+
+					if ( p < (l-1)) {
+						output += parts[p] + '<br/>';
+					} else if (parts[p].length) {
+						output += parts[p];
+					}
+
+				}
+			}
+
+			if (output && output.length) {
+				return output;
+			} else {
+				return 'PARSER ERROR';
+			}
+
+		}
 
 	}
 
