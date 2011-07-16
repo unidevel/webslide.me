@@ -387,6 +387,27 @@ webslide.me.editor.prototype = {
 
 	},
 
+	sendFeedback: function() {
+
+		this.__updateParserFromUI('feedback');
+
+		var data = this.__parserCache.feedback;
+		if (data && data.idea && data.idea.length > 20) {
+
+			webslide.me.ajax.post('/api/feedback', {
+				user: webslide.me.login.user,
+				skey: webslide.me.login.skey,
+				email: data.email,
+				idea: data.idea
+			}, function(){
+				window.alert('Thanks for your feedback!');
+				webslide.me.hide('#lb-feedback');
+			});
+
+		}
+
+	},
+
 	__updateCache: function(reset) {
 
 		if (!this.__slideCache || reset) {
@@ -474,10 +495,9 @@ webslide.me.editor.prototype = {
 	},
 
 	__updateParserFromUI: function(relation, scopedElement) {
-		// relation => element || slide
 
-		// Standard behaviour with select-menus
-		if (relation != 'meta') {
+		// Standard Behaviour with Select-Menus
+		if (!relation.match(/feedback|meta/)) {
 
 			var elements;
 			if (scopedElement && scopedElement.tagName) {
@@ -506,14 +526,14 @@ webslide.me.editor.prototype = {
 
 			}
 
-		// Crazy stuff for meta data (and input fields)
+		// Input-Field based Behaviour
 		} else {
 
 			var elements;
 			if (scopedElement && scopedElement.tagName) {
 				elements = [ scopedElement ];
 			} else {
-				elements = document.querySelectorAll('input[data-rel='+relation+']');
+				elements = document.querySelectorAll('input[data-rel='+relation+'],textarea[data-rel='+relation+']');
 			}
 
 			if (elements && elements.length) {
@@ -555,8 +575,8 @@ webslide.me.editor.prototype = {
 		// Skip if there's nothing parsed yet.
 		if (!this.__parserCache[relation]) return;
 
-		// Standard behaviour with select-menus
-		if (relation != 'meta') {
+		// Standard Behaviour with Select-Menus
+		if (!relation.match(/feedback|meta/)) {
 
 			var elements = document.querySelectorAll('select[data-rel='+relation+']');
 			if (elements && elements.length) {
@@ -583,7 +603,7 @@ webslide.me.editor.prototype = {
 				}
 			}
 
-		// Crazy stuff for meta data (and input fields)
+		// Input-Field based Behaviour
 		} else {
 
 			var elements = document.querySelectorAll('input[data-rel='+relation+']');
@@ -618,6 +638,11 @@ webslide.me.editor.prototype = {
 			this.__ui = {};
 
 			this.__ui.slideCache = document.getElementById('slides');
+
+			this.__ui.sendFeedback = document.getElementById('send-feedback');
+			this.__ui.sendFeedback.onclick = function() {
+				that.sendFeedback();
+			};
 
 			// Parser: Properties (sidebar)
 			var elements = document.querySelectorAll('select[data-rel]');

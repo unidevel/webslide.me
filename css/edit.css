@@ -3,20 +3,13 @@ body a{text-decoration:underline}
 /*
 	z-indexes:
 	#wizard-bubble	40
-	#notification		30
-	.lightbox			30
+	#notification	30
+	.lightbox		30
 	#toolbar		20
 	#slides			20
 	#properties		20
-	#workspace			10
+	#workspace		10
 */
-/* notifications */
-/*
-#notification{display:block;position:fixed;top:0px;right:0px;padding:0.5em 1em;color:#202020;background:rgba(255,255,255,0.3);font-size:20px;z-index:30}
-#notification a{color:#992020}
-*/
-#notification{display:block;position:absolute;bottom:0px;right:0px;padding:1em;color:#404040}
-#notification[id]{position:fixed}
 
 /* toolbar */
 #toolbar{display:block;position:absolute;left:0px;right:0px;border-bottom:1px solid #aaa;font-size:12px;z-index:20}
@@ -24,23 +17,17 @@ body a{text-decoration:underline}
 #toolbar fieldset{display:inline;margin:0;padding:0px 10px;border:0 none;border-left:1px solid #aaa}
 #toolbar legend{display:none}
 .toolbar{background-color:#ffffff;background-image:-moz-linear-gradient(top,#ffffff 0%,#d0d0d0 100%);background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#d0d0d0));filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#d0d0d0',GradientType=0)}
-/* slides sidebar */
+
+/* sidebar: #slides */
 #slides{display:block;position:absolute;width:220px;top:76px;bottom:0px;border-right:1px solid #aaa;overflow:scroll;z-index:20}
 #slides[id]{position:fixed}
 #slides section,#slides section *{color:#444;opacity:1}
 #slides section,#themes-preview{display:block;margin:20px auto;width:180px;height:135px;border:2px solid #bbb;font-size:8px;text-align:center;opacity:1;overflow:hidden}
 #slides section.active,#slides section:hover{background:rgba(18,161,217,0.4);position:relative}
-#slides section:not(#slides-new):hover:after{position:absolute;bottom:3px;right:3px;content:attr(title)}
-#slides #slides-new{font-size:1.2em;cursor:pointer}
-/* workspace */
-#workspace{display:block;position:absolute;top:78px;right:220px;bottom:0px;left:220px;text-align:center;opacity:1;z-index:10}
-#workspace[id]{position:fixed}
-#workspace>*:hover{background:rgba(18,161,217,0.3)}
-/* workspace-overlay is the wysiwyg item */
-#workspace-overlay{display:none;position:absolute;top:0px;right:0px;bottom:0px;left:0px;padding:0;z-index:30;background:rgba(255,255,255,0.8)}
-#workspace-overlay[id]{position:fixed}
-#workspace-overlay{outline:none;border:0 none}
-/* properties sidebar */
+#slides section:not(#create-slide):hover:after{position:absolute;bottom:3px;right:3px;content:attr(title)}
+#slides #create-slide{font-size:1.2em;cursor:pointer}
+
+/* sidebar: #properties */
 #properties{display:block;position:absolute;width:220px;top:76px;right:0px;bottom:0px;border-left:1px solid #aaa;overflow:hidden;z-index:20}
 #properties[id]{position:fixed}
 #properties fieldset{margin:0;padding:0.5em 2%;border:0 none;background:#fff;border-bottom:1px solid #999}
@@ -52,6 +39,17 @@ body a{text-decoration:underline}
 #properties label{float:left;color:#404040;line-height:24px}
 #properties div,#properties .clear{clear:both}
 #properties .actions{margin-top:0.5em;padding-top:0.25em;border-top:1px solid #aaa;text-align:right}
+
+/* workspace */
+#workspace{display:block;position:absolute;top:78px;right:220px;bottom:0px;left:220px;text-align:center;opacity:1;z-index:10}
+#workspace[id]{position:fixed}
+#workspace>*:hover{background:rgba(18,161,217,0.3)}
+
+/* workspace-overlay is the wysiwyg item */
+#workspace-overlay{display:none;position:absolute;top:0px;right:0px;bottom:0px;left:0px;padding:0;z-index:30;background:rgba(255,255,255,0.8)}
+#workspace-overlay[id]{position:fixed}
+#workspace-overlay{outline:none;border:0 none}
+
 /* spritemap */
 .spritemap{display:inline-block;width:80px;height:auto;padding:5px 0px;color:#404040;text-decoration:none}
 .spritemap div{border-radius:5px}
@@ -59,7 +57,7 @@ body a{text-decoration:underline}
 .spritemap div,.spritemap span{display:block;text-align:center}
 .spritemap div{width:48px;height:48px;margin:0px auto;padding:0px;border:1px solid transparent;background-image:url('spritemap.png');background-position:0px 0px;cursor:pointer}
 .spritemap:hover div,.spritemap:focus div{border:1px solid #12a1d9}
-.spritemap .menu-new{background-position:0px 0px}
+.spritemap .menu-create{background-position:0px 0px}
 .spritemap .menu-open{background-position:-48px 0px}
 .spritemap .menu-save{background-position:-96px 0px}
 .spritemap .menu-manage{background-position:-144px 0px}
@@ -73,12 +71,14 @@ body a{text-decoration:underline}
 .spritemap .menu-login{background-position:-48px -96px}
 .spritemap .action-okay{background-position:0px -144px}
 .spritemap .action-cancel{background-position:-48px -144px}
+
 /* other stuff */
 #themes-preview{width:400px;height:300px;margin:0 0 0.5em 0;font-size:30px}
 div.themes-preview{display:inline-block;width:50px;height:50px;margin:0 0.5em 0 0;border:1px solid #aaa;border-radius:10px}
 .lightbox .actions{display:inline-block;float:right;margin:0}
 .lightbox input[type=text],.lightbox input[type=email],.lightbox textarea{display:inline-block;width:15em;border:0 none;border-bottom:1px dotted #999}
 .lightbox textarea{float:left;padding:0;width:60%;height:10em;border:1px dotted #999;}
+
 
 
 /* sweet speech bubbles */

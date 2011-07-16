@@ -219,20 +219,6 @@ webslide.me={
 
 		return ((str.length)?str:false);
 	},
-	'feedback':function(){
-		var feedback=webslide.me.parser.get('feedback');
-		if(feedback && feedback.idea.length>20){
-			ajax.post('/api/feedback',{
-				'user':login.user,
-				'skey':login.skey,
-				'email':feedback.email,
-				'idea':feedback.idea
-			});
-		}
-
-		webslide.me.notify('Thanks for your feedback! We\'ll have a look on it soon.');
-		return;
-	},
 	// wizard functionality
 	'wizard':{
 		'steps':[

@@ -47,6 +47,9 @@ message:
 		$fh=fopen('./feedback.txt','a+');
 		fwrite($fh,$message);
 		fclose($fh);
+
+		header('HTTP/1.0 200 OK');
+		exit;
 	}
 }else{
 	header('HTTP/1.0 403 Forbidden');

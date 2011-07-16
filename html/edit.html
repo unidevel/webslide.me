@@ -27,7 +27,6 @@
 </head>
 <body>
 
-<div id="notification">Please activate JavaScript!</div>
 <div id="wizard-bubble" class="left">Click here to create your first slide</div>
 
 <!-- the toolbar -->
@@ -35,8 +34,8 @@
 	<fieldset>
 		<legend>Webslide</legend>
 		<a class="spritemap" id="create-file">
-			<div class="menu-new"></div>
-			<span>New</span>
+			<div class="menu-create"></div>
+			<span>Create</span>
 		</a>
 		<a class="spritemap lb-show" href="#lb-open" data-list="#lb-open-list" data-list-type="checkbox">
 			<div class="menu-open"></div>
@@ -94,22 +93,14 @@
 	</fieldset>
 </nav>
 
-<!-- the slides sidebar -->
-<aside class="toolbar" title="Slide Index" id="slides">
-	<section title="Click here to add a new slide" id="create-slide"><br/><p>Click here to add slide</p></section>
+<!-- sidebar: #slides -->
+<aside class="toolbar" id="slides">
+	<section title="Click/Tap here to add a Slide" id="create-slide"><br/><p>Click/Tap to add a Slide</p></section>
 </aside>
 
-
-
-
-
-
-<!-- FIXME -->
-
-
-<!-- the properties sidebar -->
+<!-- sidebar: #properties -->
 <aside class="toolbar" title="Properties" id="properties">
-	<fieldset id="properties-slide" class="enabled">
+	<fieldset id="properties-slide">
 		<legend>Slide</legend>
 		<div>
 			<label for="properties-slide-animation">Animation</label>
@@ -132,7 +123,7 @@
 			<button id="remove-slide">Remove</button>
 		</div>
 	</fieldset>
-	<fieldset id="properties-element" class="disabled">
+	<fieldset id="properties-element">
 		<legend>Element</legend>
 		<div>
 			<!-- <label for="properties-element-type">Type</label> -->
@@ -318,7 +309,7 @@
 				<textarea data-rel="feedback" data-attr="idea"></textarea>
 			</p>
 			<div class="actions">
-				<a class="spritemap" href="#" onclick="webslide.me.feedback()">
+				<a id="send-feedback" class="spritemap">
 					<div class="action-okay"></div>
 					<span style="font-weight:bold">Submit</span>
 				</a>
