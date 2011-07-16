@@ -24,8 +24,6 @@
 	<link rel="stylesheet" media="screen" href="/css/theme-basic.css" />
 	<link id="meta-theme" rel="stylesheet" media="screen" href="/css/theme-blue.css" />
 	<link rel="stylesheet" media="screen" href="/css/edit.css" />
-	<script src="/js/library.js"></script>
-	<script src="/js/editor.js"></script>
 </head>
 <body>
 
@@ -36,7 +34,7 @@
 <nav class="toolbar" id="toolbar">
 	<fieldset>
 		<legend>Webslide</legend>
-		<a class="spritemap" onclick="editor.createFile()">
+		<a class="spritemap" id="new-file">
 			<div class="menu-new"></div>
 			<span>New</span>
 		</a>
@@ -97,7 +95,9 @@
 </nav>
 
 <!-- the slides sidebar -->
-<aside class="toolbar" title="Slide Index" id="slides"><section title="Click here to add a new slide" id="new-slide"><br/><p>Click here to add slide</p></section></aside>
+<aside class="toolbar" title="Slide Index" id="slides">
+	<section title="Click here to add a new slide" id="new-slide"><br/><p>Click here to add slide</p></section>
+</aside>
 
 
 
@@ -330,9 +330,8 @@
 		</fieldset>
 	</article>
 </div>
-
-
-
+<script src="/js/library.js"></script>
+<script src="/js/editor.js"></script>
 <script>
 var editor;
 (function() {

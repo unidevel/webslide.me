@@ -52,6 +52,9 @@
 			document.getElementsByTagName('head')[0].appendChild(css3fixer);
 		}
 
+		// Fatal mistake. No webslide.me library was load.
+		if (typeof webslide == 'undefined') return;
+
 		webslide.me.ajax.get('/css/css3fixes.htc', function(sheet, type, status) {
 
 			var raw = sheet.split('---RULESET---');
@@ -137,4 +140,14 @@
 		});
 	}
 
+})();
+
+// This will replace links to webslide.me by correcting every a.href
+(function fixDomainIssues(){
+	var elements = document.getElementsByTagName('a');
+	for (var e = 0, l = elements.length; e < l; e++) {
+		if (elements[e].href.match(/webslide.me/)) {
+			elements[e].href = elements[e].href.replace(/webslide.me/, document.location.host);
+		}
+	}
 })();

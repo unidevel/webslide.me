@@ -98,8 +98,11 @@ webslide.me.editor.prototype = {
 
 	createElement: function() {
 
+		if (!this.__ui) this.__updateUI();
+
 		var that = this,
 			target = this.__parserCache.element;
+
 		if (target) {
 
 			var clone = document.createElement(target.tagName);
@@ -108,35 +111,10 @@ webslide.me.editor.prototype = {
 				that.openElement(this);
 			};
 
+			this.__ui.workspace.appendChild(clone);
+			this.saveSlide();
+
 		}
-
-
-		// optional argument
-		var workspace = (arguments[0]) ? arguments[0] : document.getElementById('workspace');
-		var target = webslide.me.parser.get('element');
-
-		if(target){
-			target.innerHTML='New element';
-
-			var _clone=document.createElement(target.tagName);
-			_clone.innerHTML=target.innerHTML;
-			_clone.onclick=function(){ webslide.me.element.open(this); };
-
-			if(workspace.appendChild(_clone)){
-				webslide.me.slide.save();
-				return true;
-			}else{
-				return false;
-			}
-		}
-
-
-
-
-
-
-
-
 
 	},
 
@@ -218,7 +196,7 @@ webslide.me.editor.prototype = {
 		if (!this.__activeElement || !target) return;
 
 		// Get Contents from UI Overlay
-		target.innerHTML = this.__runHeuristics('html', target.tagName, this.__ui.overlay.innerText);
+		target.innerHTML = this.__runHeuristics('html', target.tagName, this.__ui.overlay.value);
 
 		if (target) {
 
@@ -253,7 +231,7 @@ webslide.me.editor.prototype = {
 
 		// Hide Overlay
 		if (!dontHideOverlay) {
-			this.__ui.overlay.style.cssText = ' ';
+			this.__ui.overlay.style.cssText = 'display:none';
 			this.__ui.overlay.value = '';
 		}
 
@@ -272,10 +250,10 @@ webslide.me.editor.prototype = {
 		for (var e = 0, l = elements.length; e < l; e++) {
 
 			var element = elements[e];
-			if (element.id == 'slides-new') continue;
+			if (element.id == 'new-slide') continue;
 
-			element.id = 'slides-' + (s + 1);
-			element.setAttribute('title', (s + 1) + ' of ' + (l - 1));
+			element.id = 'slides-' + (e + 1);
+			element.setAttribute('title', (e + 1) + ' of ' + (l - 1));
 
 			this.__slideCache.push(element);
 		}
@@ -286,14 +264,14 @@ webslide.me.editor.prototype = {
 
 	__updateOverlay: function(element, showOverlay) {
 
-		if (!this.__ui){
-			this.__updateUI();	
-		}
+		if (!this.__ui) this.__updateUI();
+
+		var that = this;
 
 		this.__ui.overlay.value = this.__runHeuristics('text', element.tagName, element.innerHTML);
 
 		this.__ui.overlay.onblur = function() {
-			that.saveElement(true);
+			that.saveElement();
 		};
 
 		this.__ui.overlay.onkeypress = function(event) {
@@ -329,6 +307,9 @@ webslide.me.editor.prototype = {
 		for (var p = 0, l = properties.length; p < l; p++) {
 			cssText.push(properties[p] + ':' + computedStyle.getPropertyValue(properties[p]));
 		}
+
+		// Apply generated Styles to overlay
+		this.__ui.overlay.style.cssText = cssText.join(';');
 
 		if (showOverlay) {
 			this.__ui.overlay.style.display = 'block';
@@ -380,7 +361,7 @@ webslide.me.editor.prototype = {
 		this.__ui.overlay.value = ' ';
 
 		// Update Workspace
-		this.__ui.workspace.innerHTML = slide.innerHTML;
+		this.__ui.workspace.innerHTML = this.__activeSlide.innerHTML;
 
 		// Update Sidebar
 		var animation = this.__activeSlide.getAttribute('data-animation');
@@ -397,10 +378,13 @@ webslide.me.editor.prototype = {
 			this.__ui.workspace.removeAttribute('data-layout');
 		}
 
-		// Update the Parser's Data
-		this.__parser.call('set', 'data-animation', animation);
-		this.__parser.call('set', 'data-layout', layout);
+		if (!this.__parserCache.slide) {
+			this.__parserCache.slide = {};
+		}
 
+		// Update the Parser's Data
+		this.__parserCache.slide['data-animation'] = animation;
+		this.__parserCache.slide['data-layout'] = layout;
 
 		var that = this,
 			editableElements = this.settings.elements.editable;
@@ -417,6 +401,14 @@ webslide.me.editor.prototype = {
 			}
 
 		}
+
+	},
+
+	__runHeuristics: function(format, elementType, elementContent) {
+
+		console.log('runHeuristics on', format, elementType, elementContent);
+
+		return elementContent;
 
 	}
 
