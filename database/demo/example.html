@@ -1,0 +1,60 @@
+<section data-animation="rotate">
+	<h1>Cross-Browser Compatibility</h1>
+	<ul class="half-width">
+		<li>Chromium 3+</li>
+		<li>Firefox 2+</li>
+		<li>Internet Explorer 6+</li>
+		<li>Safari 4+</li>
+	</ul>
+	<p>...and any other standards compliant Web Browser</p>
+	<small>Seeing no animations? Go get <a target="_blank" href="http://build.chromium.org/buildbot/snapshots/">Chromium</a> Web Browser!</small>
+</section>
+<section data-animation="slide">
+	<h1>Features</h1>
+	<ul>
+		<li>Cross-Browser compatibility</li>
+		<li>Mobile compatibility</li>
+		<li>No Software and no plugin required</li>
+	</ul>
+</section>
+<section data-animation="rotate">
+	<h1>Features</h1>
+	<ul>
+		<li>Editor, (Remote-)Control and Player</li>
+		<li>Simple URLs <small>http://demo.webslide.me/play/example.html</small></li>
+		<li>Completely free!</li>
+	</ul>
+	<small>Have a look at <a target="_blank" href="http://webslide.me/tour">the Tour</a> for more information</small>
+</section>
+<section data-animation="slide">
+	<h1>Media</h1>
+	<p>Simply include images, videos and websites!</p>
+	<p>Nearly anything that's in your web browser can be included.</p>
+</section>
+<section data-animation="spin">
+	<h1>Images</h1>
+	<img class="fit-height" alt="Example image" src="example.jpg">
+</section>
+<section data-onload="playVideo" data-onunload="stopVideo">
+	<script>
+		// |section| referes to this section element
+		function playVideo(section) { section.querySelector('video').play(); }
+		function stopVideo(section) { section.querySelector('video').pause(); }
+	</script>
+	<h1>HTML5 Videos</h1>
+	<video tabindex="0" preload="" src="http://demos.hacks.mozilla.org/openweb/LONDONPROJECT/fight.ogv" controls="controls" autobuffer=""></video>
+</section>
+<section>
+	<h1>Code snippets</h1>
+	<pre>window.onload = function(event) {
+	foobar();
+	alert("mop");
+}</pre>
+</section>
+<section data-animation="rotate">
+	<h1>webslide.me</h1>
+	<p>Check out <a target="_blank" href="http://webslide.me/tour">the Tour</a>!</p>
+	<p>
+		<small>Get news @ <a target="_blank" href="http://twitter.com/martensms">http://twitter.com/martensms</a></small>
+	</p>
+</section>

@@ -20,63 +20,6 @@ var _errors={
 
 var webslide={};
 webslide.me={
-	// open webslide from server
-	'open':function(){
-		var list=document.getElementById('lb-open-list');
-		var items=list.getElementsByTagName('input');
-
-		// alternative calling variant
-		var file=(arguments[0])?arguments[0]:false;
-
-		// check for a selected file
-		for(var i=0;i<items.length;i++){
-			if(items[i].checked){
-				file=items[i].value;
-			}
-		}
-
-		// return if no file was found.
-		if(!file){ return; }
-
-		ajax.post('/api/edit/open',{
-			'user':login.user,
-			'skey':login.skey,
-			'file':file,
-			'type':'webslide'
-		},function(result,type,status){
-			if(status==200){
-				var parent=document.getElementById('slides');
-				if(parent){
-					var slides=parent.getElementsByTagName('section');
-					for(i=0;i<parseInt(slides.length - 1,10);i++){
-						parent.removeChild(slides[i]);
-					}
-					parent.innerHTML=result+parent.innerHTML; // insert once before #slides-new
-
-					webslide.me.slides.init();
-					webslide.me.events.init(); // re-attach all events to modified DOM
-
-					// load meta data
-					ajax.post('/api/edit/open',{
-						'user':login.user,
-						'skey':login.skey,
-						'file':file,
-						'type':'meta'
-					},function(json,type,status){
-						if(status==200){
-							webslide.me.parser.set('meta',JSON.parse(json));
-							document.getElementById('meta-filename').value=file.replace('.html','');
-						}
-					});
-
-				}
-			}else{
-				webslide.me.notify(_errors[status]);
-			}
-		});
-
-		webslide.me.hide('#lb-open');
-	},
 	// remove webslide from server
 	'remove':function(){
 		var list=document.getElementById('lb-manage-list');
@@ -189,34 +132,6 @@ webslide.me={
 			return true;
 		}
 		return false;
-	},
-
-	// theme manipulation
-	'theme':{
-		'open':function(url){
-			if(webslide.me.theme.update(url)){
-				webslide.me.parser.set('meta','theme',url);
-			}
-		},
-		'update':function(url){
-			var sheet=document.getElementById('meta-theme');
-			if(sheet){
-				sheet.href='/css/'+url;
-				return true;
-			}
-			return false;
-		}
-	},
-	// notification functionality
-	'notify':function(msg){
-		var notification=document.getElementById('notification');
-		if(notification){
-			notification.innerHTML=msg;
-			notification.style.display='block';
-			window.setTimeout(function(){
-				document.getElementById('notification').style.display='none';
-			},5000);
-		}
 	},
 	'apply_heuristics':function(str,backward,type){
 		str=str.replace(/^\s+/, '').replace(/\s+$/, '');

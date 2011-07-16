@@ -47,6 +47,70 @@ webslide.me.editor.prototype = {
 
 	openFile: function(file) {
 
+		if (!file) return;
+
+		var that = this;
+
+		webslide.me.ajax.post('/api/edit/open', {
+			user: webslide.me.login.user,
+			skey: webslide.me.login.skey,
+			file: file,
+			type: 'webslide'
+		}, function(html, status) {
+
+			if (status == 200 && that.__ui.slideCache) {
+
+				// Load Webslide
+				var parent = that.__ui.slideCache,
+					slides = that.__slideCache;
+
+				if (slides && slides.length) {
+					for (var s = 0, l = slides.length; s < l; s++) {
+						slides[s].parentNode.removeChild(slides[s]);
+					}
+				}
+
+				that.__ui.slideCache.innerHTML = html + that.__ui.slideCache.innerHTML;
+
+				// Refill the Cache & update UI afterwards
+				that.__updateCache(true);
+				that.__updateUI();
+
+
+
+				// Load Meta Information
+				webslide.me.ajax.post('/api/edit/open', {
+					user: webslide.me.login.user,
+					skey: webslide.me.login.skey,
+					file: file,
+					type: 'meta'
+				}, function(json, status) {
+					if (status == 200) {
+						var data = JSON.parse(json);
+						if (data) {
+							if (!that.__parserCache.meta) {
+								that.__parserCache.meta = {};
+							}
+							for (var d in data) {
+								that.__parserCache.meta[d] = data[d];
+							}
+						}
+
+						// Update UI
+						that.__updateUIFromParser('meta');
+
+						// Fix for Parser
+						document.getElementById('meta-filename').value = file.replace(/\.html/,'');
+
+					}
+				});
+
+			} else {
+				console.log('openFile', status);
+			}
+
+		});
+
 	},
 
 	createFile: function() {
@@ -54,6 +118,34 @@ webslide.me.editor.prototype = {
 		if (window.confirm('Sure to create a new webslide?\nAll unsaved changes will be lost.')) {
 			var url = window.location.href.split('#');
 			window.location.href = url[0];
+		}
+
+	},
+
+	saveFile: function() {
+		throw "Not implemented yet.";
+	},
+
+	openTheme: function(file) {
+
+		if (!this.__ui) this.__updateUI();
+
+		function updateSheetURL(fileName) {
+			var sheet = document.getElementById('meta-theme');
+			if (sheet) {
+				sheet.href = '/css/' + fileName;
+				return true;
+			}
+			return false;
+		}
+
+		if (updateSheetURL(file)) {
+
+			if (!this.__parserCache.meta) this.__parserCache.meta = {};
+			this.__parserCache.meta.theme = file;
+
+			this.__ui.theme.value = file;
+
 		}
 
 	},
@@ -384,40 +476,76 @@ webslide.me.editor.prototype = {
 	__updateParserFromUI: function(relation, scopedElement) {
 		// relation => element || slide
 
-		var elements;
-		if (scopedElement && scopedElement.tagName) {
-			elements = [ scopedElement ];
-		} else {
-			elements = document.querySelectorAll('select[data-rel='+relation+']');
-		}
+		// Standard behaviour with select-menus
+		if (relation != 'meta') {
 
-		if (elements && elements.length) {
+			var elements;
+			if (scopedElement && scopedElement.tagName) {
+				elements = [ scopedElement ];
+			} else {
+				elements = document.querySelectorAll('select[data-rel='+relation+']');
+			}
 
-			var data = {};
-			for (var e = 0, l = elements.length; e < l; e++) {
-				var element = elements[e],
-					attr = element.getAttribute('data-attr'),
-					value = undefined;
+			if (elements && elements.length) {
 
-				if (attr) {
-					value = element.getElementsByTagName('option')[element.selectedIndex].value;
+				var data = {};
+				for (var e = 0, l = elements.length; e < l; e++) {
+
+					var element = elements[e],
+						attr = element.getAttribute('data-attr'),
+						value = undefined;
+
+					if (attr) {
+						value = element.getElementsByTagName('option')[element.selectedIndex].value;
+						// This is a reserved value by our parsing concept.
+						if (value == '-') value = undefined;
+						data[attr] = value;
+					}
+
 				}
-
-				// This is a reserved value by our parsing concept.
-				if (value == '-') value = undefined;
-
-				data[attr] = value;
 
 			}
 
-			// Update the Parser's data now.
-			if (!this.__parserCache) this.__parserCache = {};
-			if (!this.__parserCache[relation]) this.__parserCache[relation] = {};
+		// Crazy stuff for meta data (and input fields)
+		} else {
 
+			var elements;
+			if (scopedElement && scopedElement.tagName) {
+				elements = [ scopedElement ];
+			} else {
+				elements = document.querySelectorAll('input[data-rel='+relation+']');
+			}
+
+			if (elements && elements.length) {
+
+				var data = {};
+				for (var e = 0, l = elements.length; e < l; e++) {
+
+					var element = elements[e],
+						attr = element.getAttribute('data-attr'),
+						value = element.value;
+
+					if (attr) {
+						// Yes, seems to make no sense... but has to be done this way. Defaults 4tw!
+						if (value == element.getAttribute('placeholder')) value = undefined;
+						if (!value.length) value = element.getAttribute('placeholder');
+						data[attr] = value;
+					}
+
+				}
+
+			}
+
+		}
+
+		// Update the Parser's data now.
+		if (!this.__parserCache) this.__parserCache = {};
+		if (!this.__parserCache[relation]) this.__parserCache[relation] = {};
+
+		if (typeof data == 'object') {
 			for (var d in data) {
 				this.__parserCache[relation][d] = data[d];
 			}
-
 		}
 
 	},
@@ -427,27 +555,56 @@ webslide.me.editor.prototype = {
 		// Skip if there's nothing parsed yet.
 		if (!this.__parserCache[relation]) return;
 
-		var elements = document.querySelectorAll('select[data-rel='+relation+']');
+		// Standard behaviour with select-menus
+		if (relation != 'meta') {
 
-		if (elements && elements.length) {
-			for (var e = 0, l = elements.length; e < l; e++) {
+			var elements = document.querySelectorAll('select[data-rel='+relation+']');
+			if (elements && elements.length) {
 
-				var element = elements[e],
-					attr = element.getAttribute('data-attr'),
-					options = element.getElementsByTagName('option');
+				for (var e = 0, l = elements.length; e < l; e++) {
 
-				for (var o = 0, ol = options.length; o < ol; o++) {
-					var option = options[o];
-					if (
-						option.value == this.__parserCache[relation][attr]
-						|| (option.value == '-' && this.__parserCache[relation][attr] === undefined) // Our reserved value
-					) {
-						element.selectedIndex = o;
-						break;
+					var element = elements[e],
+						attr = element.getAttribute('data-attr'),
+						options = element.getElementsByTagName('option');
+
+					for (var o = 0, ol = options.length; o < ol; o++) {
+
+						var option = options[o];
+						if (
+							option.value == this.__parserCache[relation][attr]
+							|| (option.value == '-' && this.__parserCache[relation][attr] === undefined) // Our reserved value
+						) {
+							element.selectedIndex = o; // yay, a setter! makes life much easier!
+							break;
+						}
+
 					}
+
+				}
+			}
+
+		// Crazy stuff for meta data (and input fields)
+		} else {
+
+			var elements = document.querySelectorAll('input[data-rel='+relation+']');
+			if (elements && elements.length) {
+
+				for (var e = 0, l = elements.length; e < l; e++) {
+
+					var element = elements[e],
+						attr = element.getAttribute('data-attr');
+
+					if (attr) {
+						var value = this.__parserCache[relation][attr];
+						if (value !== undefined && value.length) {
+							element.value = value;
+						}
+					}
+
 				}
 
 			}
+
 		}
 
 	},
@@ -460,19 +617,67 @@ webslide.me.editor.prototype = {
 
 			this.__ui = {};
 
-			// Haha, cool parser stuff, dude.
-			this.__ui.parserElements = document.querySelectorAll('select[data-rel]');
-			for (var p = 0, l = this.__ui.parserElements.length; p < l; p++) {
-				this.__ui.parserElements[p].onchange = function() {
+			this.__ui.slideCache = document.getElementById('slides');
+
+			// Parser: Properties (sidebar)
+			var elements = document.querySelectorAll('select[data-rel]');
+			for (var e = 0, l = elements.length; e < l; e++) {
+				elements[e].onchange = function() {
 					that.__updateParserFromUI(this.getAttribute('data-rel'), this);
 				};
 			}
+
+			// Parser: Themes (lightbox #lb-themes)
+			var elements = document.querySelectorAll('div.themes-preview');
+			for (var e = 0, l = elements.length; e < l; e++) {
+				elements[e].onclick = function() {
+					that.openTheme(this.getAttribute('data-api'));
+				};
+			}
+
+			this.__ui.theme = document.getElementById('meta-theme-preview');
+			if (this.__parserCache.meta && this.__parserCache.meta.theme) {
+				this.__ui.theme.value = this.__parserCache.meta.theme;
+			}
+
+			// UI: File (Webslide) functionality
+			this.__ui.openFile = document.getElementById('open-file');
+			this.__ui.openFile.onclick = function() {
+
+				var file = undefined,
+					list = document.querySelector(this.getAttribute('data-api'));
+
+				if (!list) return false;
+
+				var items = list.getElementsByTagName('input');
+				for (var i = 0, l = items.length; i < l; i++) {
+					if (items[i].checked) {
+						file = items[i].value;
+						break;
+					}
+				}
+
+				if (file) {
+					that.openFile(file);
+					webslide.me.hide('#lb-open');
+				}
+
+				return false;
+			};
 
 			this.__ui.createFile = document.getElementById('create-file');
 			this.__ui.createFile.onclick = function() {
 				that.createFile();
 			};
 
+			this.__ui.saveFile = document.getElementById('save-file');
+			this.__ui.saveFile.onclick = function() {
+				that.__updateParserFromUI('meta');
+				that.saveFile();
+			};
+
+
+			// UI: Slide functionality
 			this.__ui.createSlide = document.getElementById('create-slide');
 			this.__ui.createSlide.onclick = function() {
 				that.createSlide();
@@ -483,6 +688,8 @@ webslide.me.editor.prototype = {
 				that.removeSlide();
 			};
 
+
+			// UI: Element functionality
 			this.__ui.createElement = document.getElementById('create-element');
 			this.__ui.createElement.onclick = function() {
 				// Not required anymore. See above (this.__ui.parserElements)
@@ -496,7 +703,7 @@ webslide.me.editor.prototype = {
 			};
 
 
-
+			// UI: Workspace functionality
 			this.__ui.workspace = document.getElementById('workspace');
 
 			this.__ui.overlay = document.createElement('textarea');
@@ -507,6 +714,7 @@ webslide.me.editor.prototype = {
 
 		}
 
+		// UI: SlideCache and openSlide functionality
 		for (var s = 0, l = this.__slideCache.length; s < l; s++) {
 			this.__slideCache[s].onclick = function() {
 				that.openSlide(this);

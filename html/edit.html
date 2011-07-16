@@ -192,7 +192,7 @@
 			<div id="lb-open-list" data-api="/api/webslides" data-method="get" class="inline-block">You've got no webslides online.</div>
 
 			<div class="actions">
-				<a class="spritemap" href="#" onclick="webslide.me.open()">
+				<a id="open-file" data-api="#lb-open-list" class="spritemap">
 					<div class="action-okay"></div>
 					<span>Open</span>
 				</a>
@@ -237,7 +237,7 @@
 			</div>
 
 			<div class="actions">
-				<a class="spritemap" href="#" onclick="webslide.me.save()">
+				<a id="save-file" class="spritemap">
 					<div class="action-okay"></div>
 					<span>Save</span>
 				</a>
@@ -284,11 +284,11 @@
 			<legend>Available Themes</legend>
 			<section id="themes-preview" class="workspace left"><h1>Title</h1><p>Paragraph</p><ul><li>Item 1</li><li>Item 2</li></ul></section>
 
-			<input type="hidden" data-rel="meta" data-attr="theme" value="theme-blue.css"/>
+			<input id="meta-theme-preview" type="hidden" data-rel="meta" data-attr="theme" value="theme-blue.css"/>
 			<div class="auto right">
-				<div class="themes-preview brown" onclick="webslide.me.theme.open(this.getAttribute('data-href'))" data-href="theme-brown.css">&nbsp;</div>
-				<div class="themes-preview blue" onclick="webslide.me.theme.open(this.getAttribute('data-href'))" data-href="theme-blue.css">&nbsp;</div>
-				<div class="themes-preview white" onclick="webslide.me.theme.open(this.getAttribute('data-href'))" data-href="theme-white.css">&nbsp;</div>
+				<div class="themes-preview brown" data-api="theme-brown.css">&nbsp;</div>
+				<div class="themes-preview blue" data-api="theme-blue.css">&nbsp;</div>
+				<div class="themes-preview white" data-api="theme-white.css">&nbsp;</div>
 			</div>
 
 			<div class="actions" style="clear:right;margin-top:180px">
