@@ -1,7 +1,7 @@
 <?php
 
 // FIXME: This needs to be improved somehow
-$domain = "ws.me";
+$domain = "webslide.me";
 
 // webslide.me API index
 require_once("library.php");

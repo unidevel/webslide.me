@@ -44,7 +44,7 @@ message:
 
 		$message=$boundary.$message.$boundary;
 
-		$fh=fopen('./feedback.txt','a+');
+		$fh=fopen($dir['db'].'/feedback.txt','a+');
 		fwrite($fh,$message);
 		fclose($fh);
 

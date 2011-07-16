@@ -5,9 +5,10 @@ changing the $domain variable in the /api/index.php
 
 IMPORTANT NOTE:
 The webslide.me api requires READ and WRITE ACCESS to the following paths:
-/database/database.json
-/database (to create sub-folders)
-/api/feedback.txt
+
+/database (rwx - to create subfolders)
+/database/database.json (rw)
+/database/feedback.txt (rw)
 
 --- --- --- --- --- --- ---
 [1] Installation / Requirements
