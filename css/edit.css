@@ -12,14 +12,14 @@ body a{text-decoration:underline}
 */
 
 /* toolbar */
-#toolbar{display:block;position:absolute;left:0px;right:0px;border-bottom:1px solid #aaa;font-size:12px;z-index:20}
-#toolbar[id]{position:fixed}
+#toolbar{display:block;position:absolute;height:74px;left:0px;right:0px;border-bottom:1px solid #aaa;font-size:12px;z-index:20}
+#toolbar[id]{position:fixed;overflow:hidden}
 #toolbar fieldset{display:inline;margin:0;padding:0px 10px;border:0 none;border-left:1px solid #aaa}
 #toolbar legend{display:none}
 .toolbar{background-color:#ffffff;background-image:-moz-linear-gradient(top,#ffffff 0%,#d0d0d0 100%);background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#d0d0d0));filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#d0d0d0',GradientType=0)}
 
 /* sidebar: #slides */
-#slides{display:block;position:absolute;width:220px;top:76px;bottom:0px;border-right:1px solid #aaa;overflow:scroll;z-index:20}
+#slides{display:block;position:absolute;width:220px;top:75px;bottom:0px;border-right:1px solid #aaa;overflow:scroll;z-index:20}
 #slides[id]{position:fixed}
 #slides section,#slides section *{color:#444;opacity:1}
 #slides section,#themes-preview{display:block;margin:20px auto;width:180px;height:135px;border:2px solid #bbb;font-size:8px;text-align:center;opacity:1;overflow:hidden}
@@ -28,7 +28,7 @@ body a{text-decoration:underline}
 #slides #create-slide{font-size:1.2em;cursor:pointer}
 
 /* sidebar: #properties */
-#properties{display:block;position:absolute;width:220px;top:76px;right:0px;bottom:0px;border-left:1px solid #aaa;overflow:hidden;z-index:20}
+#properties{display:block;position:absolute;width:220px;top:75px;right:0px;bottom:0px;border-left:1px solid #aaa;overflow:hidden;z-index:20}
 #properties[id]{position:fixed}
 #properties fieldset{margin:0;padding:0.5em 2%;border:0 none;background:#fff;border-bottom:1px solid #999}
 #properties legend{display:block;width:104%;margin:0 -2%;padding:0;background:#e0e0e0;color:#404040;font-weight:bold;text-align:center}
@@ -41,7 +41,7 @@ body a{text-decoration:underline}
 #properties .actions{margin-top:0.5em;padding-top:0.25em;border-top:1px solid #aaa;text-align:right}
 
 /* workspace */
-#workspace{display:block;position:absolute;top:78px;right:220px;bottom:0px;left:220px;text-align:center;opacity:1;z-index:10}
+#workspace{display:block;position:absolute;top:75px;right:220px;bottom:0px;left:220px;text-align:center;opacity:1;z-index:10}
 #workspace[id]{position:fixed}
 #workspace>*:hover{background:rgba(18,161,217,0.3)}
 

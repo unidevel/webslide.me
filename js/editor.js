@@ -64,10 +64,12 @@ webslide.me.editor.prototype = {
 
 				that.__ui.slideCache.innerHTML = html + that.__ui.slideCache.innerHTML;
 
-				// Refill the Cache & update UI afterwards
+				// Refill the Cache & Update UI afterwards
 				that.__updateCache(true);
 				that.__updateUI();
 
+				// Update the location hash for having reload (re-open) capabilities
+				window.location.hash = '!' + file;
 
 
 				// Load Meta Information
@@ -97,8 +99,6 @@ webslide.me.editor.prototype = {
 					}
 				});
 
-			} else {
-				console.log('openFile', status);
 			}
 
 		});
