@@ -32,7 +32,7 @@ if(
 	$req['create_login']!='yes'
 	&& !empty($db['users'][$req['user']])
 	&& !empty($db['users'][$req['user']]['password'])
-	&& $db['users'][$req['user']]['password']===$req['pass']
+	&& $db['users'][$req['user']]['password']===sha1(md5($req['pass']))
 ){
 	if($return = $obj['database']->login($req['user'])){
 		header('HTTP/1.0 200 OK');
@@ -63,7 +63,7 @@ if(
 	if($obj['database']->create($req['user'],array(
 		'name' => 'John Doe',
 		'email' => $req['email'],
-		'password' => $req['pass']
+		'password' => sha1(md5($req['pass']))
 	))){
 
 		if($return=$obj['database']->login($req['user'])){
