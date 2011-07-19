@@ -144,6 +144,10 @@
 
 // This will replace links to webslide.me by correcting every a.href
 (function fixDomainIssues(){
+
+	// Nothing to do
+	if (document.location.host.match(/webslide.me/)) return;
+
 	var elements = document.getElementsByTagName('a');
 	for (var e = 0, l = elements.length; e < l; e++) {
 		if (elements[e].href.match(/webslide.me/)) {

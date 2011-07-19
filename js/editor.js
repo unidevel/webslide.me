@@ -731,6 +731,9 @@ webslide.me.editor.prototype = {
 			for (var e = 0, l = elements.length; e < l; e++) {
 				elements[e].onchange = function() {
 					that.__updateParserFromUI(this.getAttribute('data-rel'), this);
+					if (this.getAttribute('data-rel') == 'slide') {
+						that.saveSlide();
+					}
 				};
 			}
 
