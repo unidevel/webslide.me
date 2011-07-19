@@ -1,5 +1,9 @@
 RewriteEngine on
 
+# Protection
+RewriteRule ^database\/database.json$ /portal
+
+
 # BEGIN Developer Mode
 RewriteRule ^(dashboard|license|login|logout|portal|tour)\/dev$ index.php?q=$1&dev=1
 RewriteRule ^(play)\/dev\/([A-Za-z0-9-_]+).html$ index.php?q=$1\/$2&dev=1
