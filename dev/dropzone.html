@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Editor | Dropzone</title>
+	<meta charset="utf-8">
+	<meta name="robots" content="INDEX,FOLLOW" />
+	<meta name="revisit-after" content="3 days" />
+	<meta name="copyright" content="Christoph Martens / martens.ms" />
+	<!-- user is allowed to move the webapp to fit his needs (scalability!) -->
+	<!-- <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> -->
+
+	<!--[if lt IE 9]>
+	<script>
+	var html5 = 'aside nav article section header hgroup footer'.split(' ');
+	for (var i = 0, l = html5.length; i < l; i++) {
+		document.createElement(html5[i]);
+	}
+	</script>
+	<![endif]-->
+
+	<link rel="stylesheet" media="screen" href="/css/library.css" />
+	<link rel="stylesheet" media="screen" href="/css/play-animations.css" />
+	<link rel="stylesheet" media="screen" href="/css/theme-basic.css" />
+	<link id="meta-theme" rel="stylesheet" media="screen" href="/css/theme-blue.css" />
+	<link rel="stylesheet" media="screen" href="/css/edit.css" />
+</head>
+<body>
+
+<!-- sidebar: #properties -->
+<aside class="toolbar" title="Properties" id="properties">
+	<fieldset id="properties-media">
+		<legend>Media</legend>
+		<div id="dropzone">Drop Media Files here</div>
+		<div id="dropzone-status"></div>
+	</fieldset>
+</aside>
+
+<!-- lightbox: #lb-media -->
+<div class="lightbox hidden" id="lb-media">
+	<header>Media</header>
+	<article>
+		<fieldset>
+			<legend>Media Uploads</legend>
+
+			<div id="media-uploads"></div>
+
+			<div class="actions" style="clear:right;margin-top:180px">
+				<a class="spritemap lb-hide" href="#lb-media">
+					<div class="action-okay"></div>
+					<span>Apply</span>
+				</a>
+			</div>
+		</fieldset>
+	</article>
+</div>
+
+<script src="/js/library.js"></script>
+<script src="/js/fixes.js"></script>
+<script src="/js/editor.js"></script>
+<script>
+var editor;
+(function() {
+	editor = new webslide.me.editor();
+
+	if (window.location.hash.match(/!/)) {
+		editor.openFile(window.location.hash.split(/!/)[1]);
+	}
+
+	// Update the Login Information
+	var element = document.getElementById('lb-save-url-user');
+	if (element) element.innerHTML = webslide.me.login.user;
+
+	// Prepare Lightbox Show Functionality & API-Callbacks of List-Updates
+	var elements = document.getElementsByClassName('lb-show');
+	for (var e = 0, l = elements.length; e < l; e++) {
+		var element = elements[e];
+		element.onclick = function(){
+			webslide.me.show(this.href);
+			return false;
+		};
+	}
+
+	// Prepare Lightbox Hide Functionality
+	var elements = document.getElementsByClassName('lb-hide');
+	for (var e = 0, l = elements.length; e < l; e++) {
+		var element = elements[e];
+		element.onclick = function(){
+			webslide.me.hide(this.href);
+			return false;
+		};
+	}
+
+})();
+</script>
+</body>
+</html>

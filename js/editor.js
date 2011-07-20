@@ -721,6 +721,9 @@ webslide.me.editor.prototype = {
 
 			this.__ui.dropzone = document.getElementById('dropzone');
 
+			this.__ui.dropzoneStatus = document.getElementById('dropzone-status');
+
+
 			// Stupid API. These events are required to listen on for drop-events
 			var stopEvents = 'dragenter dragover dragexit'.split(' ');
 			for (var s = 0, l = stopEvents.length; s < l; s++) {
@@ -734,9 +737,12 @@ webslide.me.editor.prototype = {
 			this.__ui.slideCache = document.getElementById('slides');
 
 			this.__ui.sendFeedback = document.getElementById('send-feedback');
-			this.__ui.sendFeedback.onclick = function() {
-				that.sendFeedback();
-			};
+			if (this.__ui.sendFeedback) {
+				this.__ui.sendFeedback.onclick = function() {
+					that.sendFeedback();
+				};
+			}
+
 
 			// Parser: Properties (sidebar)
 			var elements = document.querySelectorAll('select[data-rel]');
@@ -758,98 +764,118 @@ webslide.me.editor.prototype = {
 			}
 
 			this.__ui.theme = document.getElementById('meta-theme-preview');
-			if (this.__parserCache.meta && this.__parserCache.meta.theme) {
+			if (this.__ui.theme && this.__parserCache.meta && this.__parserCache.meta.theme) {
 				this.__ui.theme.value = this.__parserCache.meta.theme;
 			}
 
 			// UI: File (Webslide) functionality
 			this.__ui.openFile = document.getElementById('open-file');
-			this.__ui.openFile.onclick = function() {
+			if (this.__ui.openFile) {
+				this.__ui.openFile.onclick = function() {
 
-				var file = undefined,
-					list = document.querySelector(this.getAttribute('data-api'));
+					var file = undefined,
+						list = document.querySelector(this.getAttribute('data-api'));
 
-				if (!list) return false;
+					if (!list) return false;
 
-				var items = list.getElementsByTagName('input');
-				for (var i = 0, l = items.length; i < l; i++) {
-					if (items[i].checked) {
-						file = items[i].value;
-						break;
+					var items = list.getElementsByTagName('input');
+					for (var i = 0, l = items.length; i < l; i++) {
+						if (items[i].checked) {
+							file = items[i].value;
+							break;
+						}
 					}
-				}
 
-				if (file) {
-					that.openFile(file);
-					webslide.me.hide('#lb-open');
-				}
+					if (file) {
+						that.openFile(file);
+						webslide.me.hide('#lb-open');
+					}
 
-				return false;
-			};
+					return false;
+				};
+			}
 
 			this.__ui.createFile = document.getElementById('create-file');
-			this.__ui.createFile.onclick = function() {
-				that.createFile();
-			};
+			if (this.__ui.createFile) {
+				this.__ui.createFile.onclick = function() {
+					that.createFile();
+				};
+			}
 
 			this.__ui.playFile = document.getElementById('play-file');
-			this.__ui.playFile.onclick = function() {
-				that.playFile();
-			};
+			if (this.__ui.playFile) {
+				this.__ui.playFile.onclick = function() {
+					that.playFile();
+				};
+			}
 
 			this.__ui.saveFile = document.getElementById('save-file');
-			this.__ui.saveFile.onclick = function() {
-				that.__updateParserFromUI('meta');
-				that.saveFile();
-			};
+			if (this.__ui.saveFile) {
+				this.__ui.saveFile.onclick = function() {
+					that.__updateParserFromUI('meta');
+					that.saveFile();
+				};
+			}
 
 			this.__ui.removeFiles = document.getElementById('remove-files');
-			this.__ui.removeFiles.onclick = function() {
+			if (this.__ui.removeFiles) {
+				this.__ui.removeFiles.onclick = function() {
 
-				var list = document.querySelector(this.getAttribute('data-api'));
+					var list = document.querySelector(this.getAttribute('data-api'));
 
-				if (!list) return false;
+					if (!list) return false;
 
-				var items = list.getElementsByTagName('input');
-				for (var i = 0, l = items.length; i < l; i++) {
-					if (items[i] && items[i].checked && window.confirm('Sure to remove webslide "' + items[i].value +'"?')) {
-						that.removeFile(items[i].value);
-						// Item itself is within <li> or <p> in DOM
-						list.removeChild(items[i].parentNode);
+					var items = list.getElementsByTagName('input');
+					for (var i = 0, l = items.length; i < l; i++) {
+						if (items[i] && items[i].checked && window.confirm('Sure to remove webslide "' + items[i].value +'"?')) {
+							that.removeFile(items[i].value);
+							// Item itself is within <li> or <p> in DOM
+							list.removeChild(items[i].parentNode);
+						}
 					}
-				}
 
-			};
+				};
+			}
+
 
 			// UI: Slide functionality
 			this.__ui.createSlide = document.getElementById('create-slide');
-			this.__ui.createSlide.onclick = function() {
-				that.createSlide();
-			};
+			if (this.__ui.createSlide) {
+				this.__ui.createSlide.onclick = function() {
+					that.createSlide();
+				};
+			}
 
 			this.__ui.removeSlide = document.getElementById('remove-slide');
-			this.__ui.removeSlide.onclick = function() {
-				that.removeSlide();
-			};
+			if (this.__ui.removeSlide) {
+				this.__ui.removeSlide.onclick = function() {
+					that.removeSlide();
+				};
+			}
 
 
 			// UI: Element functionality
 			this.__ui.createElement = document.getElementById('create-element');
-			this.__ui.createElement.onclick = function() {
-				// Not required anymore. See above (this.__ui.parserElements)
-				// that.__updateParserFromUI('element');
-				that.createElement();
-			};
+			if (this.__ui.createElement) {
+				this.__ui.createElement.onclick = function() {
+					// Not required anymore. See above (this.__ui.parserElements)
+					// that.__updateParserFromUI('element');
+					that.createElement();
+				};
+			}
 
 			this.__ui.removeElement = document.getElementById('remove-element');
-			this.__ui.removeElement.onclick = function() {
-				that.removeElement();
-			};
+			if (this.__ui.removeElement) {
+				this.__ui.removeElement.onclick = function() {
+					that.removeElement();
+				};
+			}
 
 
 			// UI: Workspace functionality
 			this.__ui.workspace = document.getElementById('workspace');
 
+			// UI: Overlay functionality
 			this.__ui.overlay = document.createElement('textarea');
 			this.__ui.overlay.id = 'workspace-overlay';
 			this.__ui.overlay.setAttribute('data-rel', 'element');
@@ -1043,12 +1069,10 @@ webslide.me.editor.prototype = {
 					var file = files[f],
 						reader = new FileReader();
 
-					//reader.onprogress = function(event){
-					//	console.log(event.loaded, event.total);
-					//};
 					reader.onloadend = function(event) {
 						that.__handleFileReaderUpload(file, event);
 					};
+
 					reader.readAsDataURL(file);
 					// reader.readAsBinaryString(file);
 
@@ -1058,7 +1082,6 @@ webslide.me.editor.prototype = {
 
 		}
 	},
-
 
 	__handleFileReaderUpload: function(file, event) {
 
@@ -1079,7 +1102,7 @@ webslide.me.editor.prototype = {
 
 	__showMediaDialog: function() {
 
-		this.__ui.mediaThumbnails = document.getElementById('media-thumbnails');
+		this.__ui.mediaThumbnails = document.getElementById('media-uploads');
 
 		for (var f = 0, l = this.__fileCache.length; f < l; f++) {
 			var file = this.__fileCache[f];

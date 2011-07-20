@@ -41,7 +41,7 @@ body a{text-decoration:underline}
 #properties div,#properties .clear{clear:both}
 #properties .actions{margin-top:0.5em;padding-top:0.25em;border-top:1px solid #aaa;text-align:right}
 
-#properties-media-dropzone{height:50px;text-align:center;line-height:50px}
+#dropzone{height:50px;text-align:center;line-height:50px}
 
 /* workspace */
 #workspace{display:block;position:absolute;top:75px;right:220px;bottom:0px;left:220px;text-align:center;opacity:1;z-index:10}
