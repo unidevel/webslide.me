@@ -165,6 +165,10 @@
 		<legend>Media</legend>
 		<div id="dropzone">Drop Media Files here</div>
 		<div id="dropzone-status"></div>
+
+		<div class="actions">
+			<button class="lb-show" data-href="#lb-media">Show Available Media</button>
+		</div>
 	</fieldset>
 </aside>
 
@@ -265,10 +269,6 @@
 				</a>
 			</div>
 		</fieldset>
-		<fieldset>
-			<legend>Share Webslides</legend>
-			<div>// TODO: Share Functionality</div>
-		</fieldset>
 	</article>
 </div>
 
@@ -288,7 +288,7 @@
 				<div class="white" data-api="theme-white.css">&nbsp;</div>
 			</div>
 
-			<div class="actions" style="clear:right;margin-top:180px">
+			<div class="actions">
 				<a class="spritemap lb-hide" href="#lb-theme">
 					<div class="action-okay"></div>
 					<span>Apply</span>
@@ -303,14 +303,18 @@
 	<header>Media</header>
 	<article>
 		<fieldset>
-			<legend>Media Uploads</legend>
+			<legend>Available Media</legend>
 
-			<div id="media-uploads"></div>
+			<div class="workspace" id="media-preview"></div>
 
-			<div class="actions" style="clear:right;margin-top:180px">
-				<a class="spritemap lb-hide" href="#lb-media">
+			<div class="actions">
+				<a id="insert-media" class="spritemap disabled">
 					<div class="action-okay"></div>
-					<span>Apply</span>
+					<span>Insert</span>
+				</a>
+				<a class="spritemap lb-hide" href="#lb-media">
+					<div class="action-cancel"></div>
+					<span>Cancel</span>
 				</a>
 			</div>
 		</fieldset>
@@ -405,31 +409,14 @@ var editor;
 	}
 
 	// Prepare Lightbox Show Functionality & API-Callbacks of List-Updates
-	var elements = document.getElementsByClassName('lb-show');
-	for (var e = 0, l = elements.length; e < l; e++) {
-		var element = elements[e];
-		if (element.getAttribute('data-list')) {
-			element.onclick = function(){
-				var href = this.href;
-				updateListFromAPI(this.getAttribute('data-list'), this.getAttribute('data-list-type'), function(){
-					webslide.me.show(href);
-				});
-				return false;
-			};
-		} else {
-			element.onclick = function(){
-				webslide.me.show(this.href);
-				return false;
-			};
-		}
-	}
-
-	// Prepare Lightbox Hide Functionality
-	var elements = document.getElementsByClassName('lb-hide');
+	var elements = document.querySelectorAll('.lb-show[data-list]');
 	for (var e = 0, l = elements.length; e < l; e++) {
 		var element = elements[e];
 		element.onclick = function(){
-			webslide.me.hide(this.href);
+			var href = this.href;
+			updateListFromAPI(this.getAttribute('data-list'), this.getAttribute('data-list-type'), function(){
+				webslide.me.show(href);
+			});
 			return false;
 		};
 	}

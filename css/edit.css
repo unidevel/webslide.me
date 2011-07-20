@@ -60,6 +60,7 @@ body a{text-decoration:underline}
 .spritemap div,.spritemap span{display:block;text-align:center}
 .spritemap div{width:48px;height:48px;margin:0px auto;padding:0px;border:1px solid transparent;background-image:url('spritemap.png');background-position:0px 0px;cursor:pointer}
 .spritemap:hover div,.spritemap:focus div{border:1px solid #12a1d9}
+.spritemap.disabled{display:none}
 .spritemap .menu-create{background-position:0px 0px}
 .spritemap .menu-open{background-position:-48px 0px}
 .spritemap .menu-save{background-position:-96px 0px}
@@ -84,13 +85,18 @@ body a{text-decoration:underline}
 #lb-theme .sidebar .brown{color:#bfbfbf;background-color:#3c3522}
 #lb-theme .sidebar .white{color:#606060;background-color:#ffffff}
 
+/* lightbox: #lb-media */
+#lb-media .workspace {}
+#lb-media .workspace img {max-width:100px;max-height:100px;margin:10px;border:1px solid #444}
+
 /* lightbox: #lb-pictures */
 #lb-pictures .workspace {text-align:center;line-height:300px;}
 
 /* other stuff */
-.lightbox .workspace{width:400px;height:300px;margin:0 0 0.5em 0;font-size:30px}
+.lightbox .workspace{width:400px;height:auto;margin:0 0 0.5em 0;padding:0.5em 0;font-size:30px}
 .lightbox .sidebar{border:0 none}
-.lightbox .actions{display:inline-block;float:right;margin:0}
+/* .lightbox .actions{display:inline-block;float:right;margin:0} */
+.lightbox .actions {display:inline-block;position:absolute;bottom:0px;right:0px}
 .lightbox input[type=text],.lightbox input[type=email],.lightbox textarea{display:inline-block;width:15em;border:0 none;border-bottom:1px dotted #999}
 .lightbox textarea{float:left;padding:0;width:60%;height:10em;border:1px dotted #999;}
 

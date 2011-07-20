@@ -391,3 +391,35 @@ webslide.me.login = (function(){
 	};
 
 })();
+
+
+/*
+ * Lightbox functionality is used pretty everywhere, that's why it is here.
+ */
+(function lightboxFunctionality() {
+
+	var elements = document.getElementsByClassName('lb-show');
+	for (var e = 0, l = elements.length; e < l; e++) {
+		var element = elements[e],
+			href = element.href || element.getAttribute('data-href');
+		if (href) {
+			element.onclick = function() {
+				webslide.me.show(this.href || this.getAttribute('data-href'));
+				return false;
+			};
+		}
+	}
+
+	var elements = document.getElementsByClassName('lb-hide');
+	for (var e = 0, l = elements.length; e < l; e++) {
+		var element = elements[e],
+			href = element.href || element.getAttribute('data-href');
+		if (href) {
+			element.onclick = function() {
+				webslide.me.hide(this.href || this.getAttribute('data-href'));
+				return false;
+			};
+		}
+	}
+
+})();

@@ -1055,8 +1055,6 @@ webslide.me.editor.prototype = {
 
 	__handleDropzoneUpload: function(event) {
 
-		var that = this; // required for FileReader callbacks
-
 		event.stopPropagation();
 		event.preventDefault();
 
@@ -1065,17 +1063,9 @@ webslide.me.editor.prototype = {
 			var files = event.dataTransfer.files;
 			if (files.length) {
 
+				// This is done that way due to sucking async APIs.
 				for (var f = 0, l = files.length; f < l; f++) {
-					var file = files[f],
-						reader = new FileReader();
-
-					reader.onloadend = function(event) {
-						that.__handleFileReaderUpload(file, event);
-					};
-
-					reader.readAsDataURL(file);
-					// reader.readAsBinaryString(file);
-
+					this.__startUpload(files[f]);
 				}
 
 			}
@@ -1083,13 +1073,29 @@ webslide.me.editor.prototype = {
 		}
 	},
 
+	// The argument will prevent the linking from
+	// event.dataTransfer.files[current_>>Looped<<_Index]
+	__startUpload: function(file) {
+
+		var that = this,
+			reader = new FileReader();
+
+		reader.onloadend = function(event) {
+			that.__handleFileReaderUpload(file, event);
+		};
+
+		reader.readAsDataURL(file);
+		// reader.readAsBinaryString(file);
+
+	},
+
 	__handleFileReaderUpload: function(file, event) {
 
-		if (!this.__fileCache) {
-			this.__fileCache = [];
+		if (!this.__mediaCache) {
+			this.__mediaCache = [];
 		}
 
-		this.__fileCache.push({
+		this.__mediaCache.push({
 			name: file.name,
 			type: file.type,
 			size: file.size,
@@ -1102,20 +1108,36 @@ webslide.me.editor.prototype = {
 
 	__showMediaDialog: function() {
 
-		this.__ui.mediaThumbnails = document.getElementById('media-uploads');
+		var that = this;
 
-		for (var f = 0, l = this.__fileCache.length; f < l; f++) {
-			var file = this.__fileCache[f];
+		this.__ui.mediaPreview = document.getElementById('media-preview');
+		this.__ui.insertMedia = document.getElementById('insert-media');
+		this.__ui.insertMedia.onclick = function() {
+			that.__insertMedia();
+		};
+
+		for (var f = 0, l = this.__mediaCache.length; f < l; f++) {
+			var file = this.__mediaCache[f];
 
 			// FIXME: Find out generic styling / preview for different file types
 			if (!file.node) {
 				file.node = document.createElement('img');
+				file.node.setAttribute('data-id', f);
+				file.node.onclick = function() {
+					that.__activeMediaIndex = this.getAttribute('data-id');
+					that.__ui.insertMedia.className = 'spritemap';
+				};
 				file.node.src = file.data;
-				this.__ui.mediaThumbnails.appendChild(file.node);
+				this.__ui.mediaPreview.appendChild(file.node);
 			}
 		}
 
 		webslide.me.show('#lb-media');		
+	},
+
+	__insertMedia: function() {
+
+		console.log('would insert', this.__mediaCache[parseInt(this.__activeMediaIndex, 10)].name);
 	}
 
 };
