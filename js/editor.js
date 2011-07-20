@@ -719,6 +719,18 @@ webslide.me.editor.prototype = {
 
 			this.__ui = {};
 
+			this.__ui.dropzone = document.getElementById('dropzone');
+
+			// Stupid API. These events are required to listen on for drop-events
+			var stopEvents = 'dragenter dragover dragexit'.split(' ');
+			for (var s = 0, l = stopEvents.length; s < l; s++) {
+				this.__ui.dropzone.addEventListener(stopEvents[s], this.__stopEvent, false);
+			}
+
+			this.__ui.dropzone.addEventListener('drop', function(event) {
+				that.__handleDropzoneUpload(event);
+			}, false);
+
 			this.__ui.slideCache = document.getElementById('slides');
 
 			this.__ui.sendFeedback = document.getElementById('send-feedback');
@@ -738,7 +750,7 @@ webslide.me.editor.prototype = {
 			}
 
 			// Parser: Themes (lightbox #lb-themes)
-			var elements = document.querySelectorAll('div.themes-preview');
+			var elements = document.querySelectorAll('#lb-theme .preview-sidebar div');
 			for (var e = 0, l = elements.length; e < l; e++) {
 				elements[e].onclick = function() {
 					that.openTheme(this.getAttribute('data-api'));
@@ -998,6 +1010,89 @@ webslide.me.editor.prototype = {
 			return 'PARSE ERROR';
 		}
 
+	},
+
+
+
+
+
+
+
+
+
+	/* EXPERIMENTAL STUFF IS DOWN HERE */
+
+	__stopEvent: function(event) {
+		event.stopPropagation();
+		event.preventDefault();
+	},
+
+	__handleDropzoneUpload: function(event) {
+
+		var that = this; // required for FileReader callbacks
+
+		event.stopPropagation();
+		event.preventDefault();
+
+		if (event.dataTransfer && event.dataTransfer.files) {
+
+			var files = event.dataTransfer.files;
+			if (files.length) {
+
+				for (var f = 0, l = files.length; f < l; f++) {
+					var file = files[f],
+						reader = new FileReader();
+
+					//reader.onprogress = function(event){
+					//	console.log(event.loaded, event.total);
+					//};
+					reader.onloadend = function(event) {
+						that.__handleFileReaderUpload(file, event);
+					};
+					reader.readAsDataURL(file);
+					// reader.readAsBinaryString(file);
+
+				}
+
+			}
+
+		}
+	},
+
+
+	__handleFileReaderUpload: function(file, event) {
+
+		if (!this.__fileCache) {
+			this.__fileCache = [];
+		}
+
+		this.__fileCache.push({
+			name: file.name,
+			type: file.type,
+			size: file.size,
+			data: event.target.result
+		});
+
+		this.__showMediaDialog();
+
+	},
+
+	__showMediaDialog: function() {
+
+		this.__ui.mediaThumbnails = document.getElementById('media-thumbnails');
+
+		for (var f = 0, l = this.__fileCache.length; f < l; f++) {
+			var file = this.__fileCache[f];
+
+			// FIXME: Find out generic styling / preview for different file types
+			if (!file.node) {
+				file.node = document.createElement('img');
+				file.node.src = file.data;
+				this.__ui.mediaThumbnails.appendChild(file.node);
+			}
+		}
+
+		webslide.me.show('#lb-media');		
 	}
 
 };

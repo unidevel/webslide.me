@@ -56,13 +56,13 @@
 	</fieldset>
 	<fieldset>
 		<legend>Style</legend>
-		<a class="spritemap lb-show" href="#lb-themes">
-			<div class="menu-themes"></div>
-			<span>Themes</span>
+		<a class="spritemap lb-show" href="#lb-theme">
+			<div class="menu-theme"></div>
+			<span>Theme</span>
 		</a>
-		<a class="spritemap lb-show" href="#lb-layouts">
-			<div class="menu-layouts"></div>
-			<span>Layouts</span>
+		<a class="spritemap lb-show" href="#lb-layout">
+			<div class="menu-layout"></div>
+			<span>Layout</span>
 		</a>
 		<a class="spritemap lb-show" href="#lb-animations">
 			<div class="menu-animations"></div>
@@ -160,6 +160,11 @@
 			<button id="create-element">Create</button>
 			<button id="remove-element">Remove</button>
 		</div>
+	</fieldset>
+	<fieldset id="properties-media">
+		<legend>Media</legend>
+		<div id="dropzone">Drop Media Files here</div>
+		<div id="dropzone-status"></div>
 	</fieldset>
 </aside>
 
@@ -267,23 +272,43 @@
 	</article>
 </div>
 
-<!-- lightbox: #lb-themes -->
-<div class="lightbox hidden" id="lb-themes">
-	<header>Themes</header>
+<!-- lightbox: #lb-theme -->
+<div class="lightbox hidden" id="lb-theme">
+	<header>Theme</header>
 	<article>
 		<fieldset>
 			<legend>Available Themes</legend>
-			<section id="themes-preview" class="workspace left"><h1>Title</h1><p>Paragraph</p><ul><li>Item 1</li><li>Item 2</li></ul></section>
+			<section class="workspace left"><h1>Title</h1><p>Paragraph</p><ul><li>Item 1</li><li>Item 2</li></ul></section>
 
 			<input id="meta-theme-preview" type="hidden" data-rel="meta" data-attr="theme" value="theme-blue.css"/>
-			<div class="auto right">
-				<div class="themes-preview brown" data-api="theme-brown.css">&nbsp;</div>
-				<div class="themes-preview blue" data-api="theme-blue.css">&nbsp;</div>
-				<div class="themes-preview white" data-api="theme-white.css">&nbsp;</div>
+
+			<div class="sidebar auto right">
+				<div class="brown" data-api="theme-brown.css">&nbsp;</div>
+				<div class="blue" data-api="theme-blue.css">&nbsp;</div>
+				<div class="white" data-api="theme-white.css">&nbsp;</div>
 			</div>
 
 			<div class="actions" style="clear:right;margin-top:180px">
-				<a class="spritemap lb-hide" href="#lb-themes">
+				<a class="spritemap lb-hide" href="#lb-theme">
+					<div class="action-okay"></div>
+					<span>Apply</span>
+				</a>
+			</div>
+		</fieldset>
+	</article>
+</div>
+
+<!-- lightbox: #lb-media -->
+<div class="lightbox hidden" id="lb-media">
+	<header>Media</header>
+	<article>
+		<fieldset>
+			<legend>Media Uploads</legend>
+
+			<div id="media-thumbnails"></div>
+
+			<div class="actions" style="clear:right;margin-top:180px">
+				<a class="spritemap lb-hide" href="#lb-media">
 					<div class="action-okay"></div>
 					<span>Apply</span>
 				</a>
