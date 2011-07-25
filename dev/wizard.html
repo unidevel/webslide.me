@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Editor | Wizard-Test</title>
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" media="screen" href="/css/edit.css" />
+	<style>
+	#toolbar1 {
+		position:absolute;
+		width:200px;
+		top:0px;
+		right:auto;
+		bottom:0px;
+		left:0px;
+	}
+
+	#toolbar2 {
+		position:absolute;
+		width:200px;
+		top:auto;
+		right:0px;
+		bottom:0px;
+		left:auto;
+	}
+
+	aside {
+		background:grey;
+	}
+
+	#test1 {
+		background:red;
+		margin:50px;
+		width:100px;
+		height:100px;
+	}
+
+	#test2 {
+		position:relative;
+		background:green;
+		margin:0px;
+		padding:10px;
+		width:100px;
+		height:100px;
+	}
+
+	#test3 {
+		position:absolute;
+		background:blue;
+		top:200px;
+		right:auto;
+		bottom:auto;
+		left:400px;
+		width:100px;
+		height:100px;
+	}
+
+	#test4 {
+		background:yellow;
+		width:100px;
+		height:100px;
+	}
+
+	#test1, #test2, #test3, #test4 {
+		text-align:center;
+		line-height:100px;
+	}
+
+	</style>
+</head>
+<body>
+
+<aside id="toolbar1">
+	<div id="test1">Test #1</div>
+	<div id="test2">Test #2</div>
+</aside>
+
+<div id="test3">Test #3</div>
+
+<aside id="toolbar2">
+	<div id="test4">Test #4</div>
+</aside>
+
+
+
+<script src="/js/library.js"></script>
+<script src="/js/fixes.js"></script>
+<script>webslide.me.editor = {};</script>
+<script src="/js/editor.wizard.js"></script>
+<script>
+var wizard;
+(function() {
+	wizard = new webslide.me.editor.wizard([{
+		align: 'right',
+		selector: '#test1',
+		content: 'test1'
+	},{
+		align: 'right',
+		selector: '#test2',
+		content: 'test2'
+	},{
+		align: 'top',
+		selector: '#test3',
+		content: 'test3 (1of4)'
+	},{
+		align: 'right',
+		selector: '#test3',
+		content: 'test3 (2of4)'
+	},{
+		align: 'bottom',
+		selector: '#test3',
+		content: 'test3 (3of4)'
+	},{
+		align: 'left',
+		selector: '#test3',
+		content: 'test3 (4of4)'
+	},{
+		align: 'left',
+		selector: '#test4',
+		content: 'test4 (1of2)'
+	},{
+		align: 'top',
+		selector: '#test4',
+		content: 'test4 (2of2)'
+	}]);
+})();
+</script>
+</body>
+</html>

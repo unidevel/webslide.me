@@ -74,7 +74,7 @@
 				if (files[file]) {
 					css3fixer.innerText += '\n' + insertVendorPrefixes(sheet).trim();
 				} else {
-					console.log('No CSS3 patches for: ' + file);
+					window.console && console.warn('No patches applied for: ' + file);
 				}
 			}
 

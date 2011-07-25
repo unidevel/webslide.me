@@ -14,7 +14,14 @@
  * @white: #fff
 */
 
-body{margin:0;padding:0;color:#202020;background:url('portal.png') #fff repeat-x;font-family:Georgia,serif;font-size:14px}
+body{
+	margin: 0;
+	padding: 0;
+	color: #202020;
+	background: url('portal.png') #fff repeat-x;
+	font-family: Georgia, serif;
+	font-size: 14px
+}
 a{color:#12a1d9;text-decoration:none}
 a:focus,a:hover{color:#933}
 a.none{ color:#404040; text-decoration:none; }
