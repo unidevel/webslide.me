@@ -225,7 +225,6 @@ webslide.me.player.prototype = {
 		this.__ui.navi = document.createElement('div');
 		this.__ui.navi.id = 'navigation';
 
-
 		// previous button
 		this.__ui.prevButton = document.createElement('button');
 		this.__ui.prevButton.title = 'previous slide';
@@ -234,7 +233,6 @@ webslide.me.player.prototype = {
 		this.__ui.prevButton.onclick = function(){
 			that.go('prev');
 		};
-
 
 		// next button
 		this.__ui.nextButton = document.createElement('button');
