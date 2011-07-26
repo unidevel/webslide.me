@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>API Overview | webslide.me</title>
+	<meta charset="utf-8">
+
+	<!--[if lt IE 9]>
+	<script>
+	var html5 = 'aside nav article section header hgroup footer'.split(' ');
+	for (var i = 0, l = html5.length; i < l; i++) {
+		document.createElement(html5[i]);
+	}
+	</script>
+	<![endif]-->
+
+	<style>
+	body {
+		background: #404040;
+	}
+	#api-form {
+		width: 400px;
+		margin: 10px auto;
+		padding: 10px;
+		color: #444;
+		background: #fff;
+		border-radius: 10px;
+	}
+	#api-submit {
+		float: right;
+	}
+	fieldset {
+		margin: 0.5em auto;
+		border: 1px solid #c0c0c0;
+	}
+	legend {
+		padding: 2px 10px;
+		background: #f0f0f0;
+		border-radius: 3px;
+	}
+	label, select, input, textarea {
+		display: block;
+		float: left;
+		width: 49%;
+	}
+	input, select, textarea {
+		border: 1px solid #c0c0c0;
+	}
+	textarea {
+		min-height: 6em;
+	}
+	br {
+		clear: both;
+	}
+	ul, li {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	</style>
+</head>
+
+<body>
+
+<form id="api-form" method="post">
+	<fieldset>
+		<legend>API Overview</legend>
+		<select id="api-plugin" title="API Plugin">
+			<option selected="selected">-</option>
+			<optgroup label="public">
+				<option data-api="/api/webslides" title="returns a webslide list (json)" data-data="user">/webslides</option>
+				<option data-api="/api/feedback" title="feedback form" data-data="user,email,idea">/feedback</option>
+				<option data-api="/api/control/client" title="gets control data of a webslide" disabled="disabled">/control/client/filename.html</option>
+			</optgroup>
+			<optgroup label="private">
+				<option data-api="/api/edit/open" title="opens a webslide" data-data="user,skey,file,type:meta|webslide">/edit/open</option>
+				<option data-api="/api/edit/save" title="saves a webslide" disabled="disabled">/edit/save</option>
+				<option data-api="/api/edit/remove" title="removes a webslide" data-data="user,skey,file">/edit/remove</option>
+
+				<option data-api="/api/control" title="remote-controls a webslide" data-data="user,skey,active" disabled="disabled">/control/filename.html</option>
+			</optgroup>
+		</select>
+	</fieldset>
+	<fieldset id="api-context">Please select of the API details above</fieldset>
+	<button id="api-submit">Submit</button><br>
+</form>
+
+
+<script>
+
+WebAPI = function(ui) {
+
+	if (ui && typeof ui == 'object') {
+		for (var u in ui) {
+			this[u] = ui[u];
+		}
+	}
+
+	if (!this.context || !this.selector) {
+		throw "No Context or no Selector defined. Aborting.";
+	}
+
+	this.__init();
+
+};
+
+WebAPI.prototype = {
+
+	__init: function() {
+
+		var that = this;
+		this.selector.onchange = function() {
+			that.__update();
+		};
+
+
+	},
+
+	__update: function() {
+
+		var element = this.selector.getElementsByTagName('option')[this.selector.selectedIndex];
+
+		if (element && element.innerHTML != '-') {
+
+			var api = element.getAttribute('data-api'),
+				fields = element.getAttribute('data-data').split(','),
+				method = element.getAttribute('data-method') || 'post';
+
+			// console.log(api, method, fields);
+
+			if (api && method && fields && fields.length) {
+
+				this.__updateForm(api, method);
+
+				this.__resetInputFields();
+
+				for (var f = 0, l = fields.length; f < l; f++) {
+					this.__appendField(fields[f]);
+				}
+
+			}
+
+		}
+
+	},
+
+	__updateForm: function(api, method) {
+
+		this.form.setAttribute('action', api);
+		this.form.setAttribute('method', method);
+
+	},
+
+	__resetInputFields: function() {
+
+		this.context.innerHTML = '';
+
+	},
+
+	__appendField: function(key) {
+
+		var element;
+
+		if (!key.match(/:/)) {
+
+			switch (key) {
+				case 'email':
+				case 'user':
+				case 'skey':
+				case 'file':
+				case 'active':
+					element = document.createElement('input');
+					element.setAttribute('type', 'text');
+					element.setAttribute('name', key);
+				break;
+				case 'idea':
+					element = document.createElement('textarea');
+					element.setAttribute('name', key);
+				break;
+				default: console.log(key); break;
+			}
+
+			element.placeholder = key;
+
+		} else {
+
+			values = key.split(':')[1].split('|');
+			if (values && values.length) {
+
+				key = key.split(':')[0];
+
+				element = document.createElement('select');
+				element.setAttribute('name', key);
+
+				for (var v = 0, l = values.length; v < l; v++) {
+
+					var option = document.createElement('option');
+					option.innerHTML = values[v];
+					option.value = values[v];
+					element.appendChild(option);
+
+				}
+			}
+
+		}
+
+
+		if (element) {
+			this.context.appendChild(element);
+			this.context.appendChild(document.createElement('br'));
+		}
+
+	}
+
+};
+
+(function() {
+	document.getElementById('api-submit').onclick = function() {
+		document.getElementById('api-form').submit();
+	};
+
+	window.MyWebAPI = new WebAPI({
+		form: document.getElementById('api-form'),
+		context: document.getElementById('api-context'),
+		selector: document.getElementById('api-plugin')
+	});
+})();
+
+</script>
+</body>
+</html>

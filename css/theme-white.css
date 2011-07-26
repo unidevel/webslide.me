@@ -1,27 +1,23 @@
 /*
- * @author Christoph Martens
- * @url http://webslide.me
- * 
  * This file is the white theme
  * @required by editor & player
  */
 
-/* slide */
-#workspace,.workspace{
-	background-color:#fff;
+#workspace, .workspace {
+	background-color: #fff;
 }
-section{
-	color:#404040;
-	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
-	font-weight:bold;
+section {
+	color: #404040;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-weight: bold;
 }
-section a{
-	color:#ff4040;
+section a {
+	color: #ff4040;
 }
-footer{
-	color:#404040;
+footer {
+	color: #404040;
 }
-footer:hover{
-	color:#ffffff;
-	background:rgba(0,0,0,0.8);
+footer:hover {
+	color: #ffffff;
+	background: rgba(0, 0, 0, 0.8);
 }

@@ -1,25 +1,21 @@
 /*
- * @author Christoph Martens
- * @url http://webslide.me
- * 
  * This file is the brown theme
  * @required by editor & player
  */
 
-/* slide */
-#workspace,.workspace{
-	background-color:#3c3522;
-	background-image:-moz-radial-gradient( 50% 30% 90deg, circle, #5c5542 0%, #3c3522 600px);
-	background-image:-webkit-gradient(radial, 50% 30%, 0, 50% 30%, 600, from(#5c5542), to(#3c3522));
+#workspace, .workspace {
+	background-color: #3c3522;
+	background-image: -moz-radial-gradient(50% 30% 90deg, circle, #5c5542 0%, #3c3522 600px);
+	background-image: -webkit-gradient(radial, 50% 30%, 0, 50% 30%, 600, from(#5c5542), to(#3c3522));
 }
-section{
-	color:#bfbfbf;
-	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
-	font-weight:bold;
+section {
+	color: #bfbfbf;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-weight: bold;
 }
-section h1,section h2{
-	color:#ffffff;
+section h1, section h2{
+	color: #ffffff;
 }
-section mark,section .mark,section a{
-	color:#fbfbbf;
+section mark, section .mark, section a{
+	color: #fbfbbf;
 }

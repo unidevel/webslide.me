@@ -1,37 +1,33 @@
 /*
- * @author Christoph Martens
- * @url http://webslide.me
- * 
  * This file is the blue theme
  * @required by editor & player
  */
 
-/* slide */
-#workspace,.workspace{
-	background-color:#304160;
-	background-image:-moz-radial-gradient( 50% 30% 90deg, circle, #006EA0 0%, #304160 600px);
-	background-image:-webkit-gradient(radial, 50% 30%, 0, 50% 30%, 600, from(#006EA0), to(#304160));
+#workspace, .workspace {
+	background-color: #304160;
+	background-image: -moz-radial-gradient(50% 30% 90deg, circle, #006EA0 0%, #304160 600px);
+	background-image: -webkit-gradient(radial, 50% 30%, 0, 50% 30%, 600, from(#006EA0), to(#304160));
 }
-section{
-	color:#fff;
-	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
-	font-weight:bold;
+section {
+	color: #fff;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-weight: bold;
 }
-section a{
-	color:#fff;
-	text-decoration:underline;
-	font-style:italic;
+section a {
+	color: #fff;
+	text-decoration: underline;
+	font-style: italic;
 }
-section pre{
-	padding-left:0.5em;
-	border:1px dotted #fff;
-	border-left:0.25em solid #fff;
-	font-size:80%;
+section pre {
+	padding-left: 0.5em;
+	border: 1px dotted #fff;
+	border-left: 0.25em solid #fff;
+	font-size: 80%;
 }
-section ol{
-	list-style:inside decimal;
+section ol {
+	list-style: inside decimal;
 }
-section ul{
-	list-style:inside square;
+section ul {
+	list-style: inside square;
 }
 
