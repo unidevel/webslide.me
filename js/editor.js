@@ -13,7 +13,7 @@ webslide.me.editor = function(settings) {
 	if (settings && typeof settings == 'object') {
 		for (var s in settings) {
 			if (settings[s] !== undefined) {
-				this.settings[s] = settings[s];		
+				this.settings[s] = settings[s];
 			}
 		}
 	}
@@ -719,20 +719,13 @@ webslide.me.editor.prototype = {
 
 			this.__ui = {};
 
-			this.__ui.dropzone = document.getElementById('dropzone');
+			if (webslide.me.dropzone) {
+				this.__ui.dropzone = document.getElementById('dropzone');
+				this.__ui.dropzoneStatus = document.getElementById('dropzone-status');
+				this.__dropzone = new webslide.me.dropzone(this.__ui.dropzone, this.__handleDropzoneUpload);
 
-			this.__ui.dropzoneStatus = document.getElementById('dropzone-status');
-
-
-			// Stupid API. These events are required to listen on for drop-events
-			var stopEvents = 'dragenter dragover dragexit'.split(' ');
-			for (var s = 0, l = stopEvents.length; s < l; s++) {
-				this.__ui.dropzone.addEventListener(stopEvents[s], this.__stopEvent, false);
 			}
 
-			this.__ui.dropzone.addEventListener('drop', function(event) {
-				that.__handleDropzoneUpload(event);
-			}, false);
 
 			this.__ui.slideCache = document.getElementById('slides');
 
@@ -1036,108 +1029,6 @@ webslide.me.editor.prototype = {
 			return 'PARSE ERROR';
 		}
 
-	},
-
-
-
-
-
-
-
-
-
-	/* EXPERIMENTAL STUFF IS DOWN HERE */
-
-	__stopEvent: function(event) {
-		event.stopPropagation();
-		event.preventDefault();
-	},
-
-	__handleDropzoneUpload: function(event) {
-
-		event.stopPropagation();
-		event.preventDefault();
-
-		if (event.dataTransfer && event.dataTransfer.files) {
-
-			var files = event.dataTransfer.files;
-			if (files.length) {
-
-				// This is done that way due to sucking async APIs.
-				for (var f = 0, l = files.length; f < l; f++) {
-					this.__startUpload(files[f]);
-				}
-
-			}
-
-		}
-	},
-
-	// The argument will prevent the linking from
-	// event.dataTransfer.files[current_>>Looped<<_Index]
-	__startUpload: function(file) {
-
-		var that = this,
-			reader = new FileReader();
-
-		reader.onloadend = function(event) {
-			that.__handleFileReaderUpload(file, event);
-		};
-
-		reader.readAsDataURL(file);
-		// reader.readAsBinaryString(file);
-
-	},
-
-	__handleFileReaderUpload: function(file, event) {
-
-		if (!this.__mediaCache) {
-			this.__mediaCache = [];
-		}
-
-		this.__mediaCache.push({
-			name: file.name,
-			type: file.type,
-			size: file.size,
-			data: event.target.result
-		});
-
-		this.__showMediaDialog();
-
-	},
-
-	__showMediaDialog: function() {
-
-		var that = this;
-
-		this.__ui.mediaPreview = document.getElementById('media-preview');
-		this.__ui.insertMedia = document.getElementById('insert-media');
-		this.__ui.insertMedia.onclick = function() {
-			that.__insertMedia();
-		};
-
-		for (var f = 0, l = this.__mediaCache.length; f < l; f++) {
-			var file = this.__mediaCache[f];
-
-			// FIXME: Find out generic styling / preview for different file types
-			if (!file.node) {
-				file.node = document.createElement('img');
-				file.node.setAttribute('data-id', f);
-				file.node.onclick = function() {
-					that.__activeMediaIndex = this.getAttribute('data-id');
-					that.__ui.insertMedia.className = 'spritemap';
-				};
-				file.node.src = file.data;
-				this.__ui.mediaPreview.appendChild(file.node);
-			}
-		}
-
-		webslide.me.show('#lb-media');		
-	},
-
-	__insertMedia: function() {
-
-		console.log('would insert', this.__mediaCache[parseInt(this.__activeMediaIndex, 10)].name);
 	}
 
 };

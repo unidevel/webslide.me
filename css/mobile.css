@@ -1,0 +1,34 @@
+
+
+.view {
+	display:block;
+	position:absolute;
+	width:200px;
+	height:200px;
+    /*
+	top:0px;
+	right:0px;
+	bottom:0px;
+	left:0px;
+	*/
+	background:#d0d0d0;
+	border:1px solid black;
+}
+
+.view, .view.left, .view.right {
+	-webkit-transition: -webkit-transform 1s ease-out;
+}
+
+
+.view.left {
+	-webkit-transform: translate3d(-200px,0px,0px);
+}
+
+.view.active {
+	-webkit-transform: translate3d(0px,0px,0px);
+}
+
+.view.right {
+	-webkit-transform: translate3d(200px,0px,0px);
+}
+

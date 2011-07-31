@@ -45,6 +45,13 @@ switch($q[0]){
 		echo $tpl;
 		exit;
 	break;
+	case "mobile":
+		$obj['template']->load('mobile.html');
+		$tpl=$obj['template']->get();
+		header('Etag: '.md5($tpl));
+		echo $tpl;
+		exit;
+	break;
 	default:
 	case "login":
 	case "portal":

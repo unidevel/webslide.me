@@ -4,8 +4,8 @@ RewriteEngine on
 RewriteRule ^database\/database.json$ /portal
 
 # Portal
-RewriteRule ^(dashboard|license|login|logout|portal|tour)\/$ index.php?q=$1
-RewriteRule ^(dashboard|license|login|logout|portal|tour)$ index.php?q=$1
+RewriteRule ^(dashboard|license|login|logout|portal|tour|mobile)\/$ index.php?q=$1
+RewriteRule ^(dashboard|license|login|logout|portal|tour|mobile)$ index.php?q=$1
 
 # Editor, Player, Control
 RewriteRule ^(play)\/([A-Za-z0-9-_]+).html$ index.php?q=$1\/$2

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Mobile | webslide.me</title>
+	<meta charset="utf-8">
+	<meta name="copyright" content="Christoph Martens / martensms">
+
+	<link rel="stylesheet" media="screen" href="/css/mobile.css" />
+
+</head>
+<body>
+
+	<div class="view">
+		Home
+		<a href="#suggestions" data-viewid="1">Suggestions</a>
+		<a href="#favorites" data-viewid="2">Favorites</a>
+	</div>
+	<div id="suggestions" class="view">
+		<a href="#home" data-viewid="0">Home</a>
+		Suggestions
+	</div>
+	<div id="favorites" class="view">
+		<a href="#home" data-viewid="0">Home</a>
+		Favorites
+	</div>
+
+
+<script>
+(function() {
+
+	function updateViews(activeIndex) {
+		var elements = document.getElementsByClassName('view');
+		for (var e = 0, l = elements.length; e < l; e++) {
+			if (e < activeIndex) {
+				elements[e].className = 'view left';
+			} else if (e == activeIndex) {
+				elements[e].className = 'view active';
+			} else if (e > activeIndex) {
+				elements[e].className = 'view right';
+			}
+		}
+	}
+
+	var elements = document.getElementsByTagName('a');
+	for (var e = 0, l = elements.length; e < l; e++) {
+		var element = elements[e];
+		element.onclick = function() {
+			updateViews(this.getAttribute('data-viewid'));
+		};
+	}
+
+	// Initial update of Views
+	updateViews(0);
+
+})();
+</script>
+</body>
+</html>
+
