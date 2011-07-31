@@ -1,13 +1,11 @@
 
 
-webslide.me.dropzone = function(dropzone, settings) {
+webslide.me.dropzone = function(dropzone, callback) {
 
 	this.dropzone = dropzone;
 
-	this.settings = {};
-
-	for (var s in settings) {
-		this.settings[s] = settings[s];
+	if (typeof callback == 'function') {
+		this.callback = callback;
 	}
 
 	this.__init();
@@ -70,14 +68,14 @@ webslide.me.dropzone.prototype = {
 			that.__finishUpload(file, event);
 		};
 
-		file.readAsDataURL(file);
+		reader.readAsDataURL(file);
 		// alternatively: reader.readAsBinaryString(file);
 
 	},
 
 	__finishUpload: function(file, event) {
 
-		this.settings.onUpload && this.settings.onUpload({
+		this.callback && this.callback({
 			name: file.name,
 			type: file.type,
 			size: file.size,
@@ -87,16 +85,4 @@ webslide.me.dropzone.prototype = {
 	}
 
 };
-
-
-(function() {
-
-	var dropzone = new webslide.me.dropzone(document.getElementById('dropzone'), function(data) {
-		console.log('upload', data);
-	});
-
-})();
-
-
-
 

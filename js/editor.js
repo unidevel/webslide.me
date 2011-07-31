@@ -722,7 +722,9 @@ webslide.me.editor.prototype = {
 			if (webslide.me.dropzone) {
 				this.__ui.dropzone = document.getElementById('dropzone');
 				this.__ui.dropzoneStatus = document.getElementById('dropzone-status');
-				this.__dropzone = new webslide.me.dropzone(this.__ui.dropzone, this.__handleDropzoneUpload);
+				this.__dropzone = new webslide.me.dropzone(this.__ui.dropzone, function(data) {
+					that.__handleDropzoneUpload(data);
+				});
 
 			}
 
@@ -1029,6 +1031,10 @@ webslide.me.editor.prototype = {
 			return 'PARSE ERROR';
 		}
 
+	},
+
+	__handleDropzoneUpload: function(data) {
+		console.log(this, data);
 	}
 
 };
