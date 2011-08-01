@@ -23,8 +23,10 @@ if(!empty($req['user'])){
 				$meta=json_decode(file_get_contents($dir['home']."/".eregi_replace(".html",".json",$file)),true);
 
 				$webslides[]=array(
-					'value' => $file,
-					'label' => $meta['title']
+					'file' => $file,
+					'title' => $meta['title'],
+					'description' => $meta['description'],
+					'theme' => $meta['theme']
 				);
 			}
 		}

@@ -39,19 +39,17 @@ switch($q[0]){
 
 	// load portal
 	case "license":
-		$obj['template']->load('license.html');
-		$tpl=$obj['template']->get();
-		header('Etag: '.md5($tpl));
-		echo $tpl;
-		exit;
-	break;
 	case "mobile":
-		$obj['template']->load('mobile.html');
+	case "dashboard":
+	case "edit":
+	case "tour":
+		$obj['template']->load($q[0].'.html');
 		$tpl=$obj['template']->get();
 		header('Etag: '.md5($tpl));
 		echo $tpl;
 		exit;
 	break;
+	
 	default:
 	case "login":
 	case "portal":
@@ -63,14 +61,6 @@ switch($q[0]){
 
 		$obj['template']->load('portal.html');
 		$obj['template']->replace($arr);
-		$tpl=$obj['template']->get();
-		header('Etag: '.md5($tpl));
-		echo $tpl;
-		exit;
-	break;
-	case "tour":
-		$obj['template']->load('tour.html');
-		$obj['template']->replace(array('manifest'=>'/manifest/_.manifest'));
 		$tpl=$obj['template']->get();
 		header('Etag: '.md5($tpl));
 		echo $tpl;
@@ -98,97 +88,8 @@ switch($q[0]){
 			exit;
 		}
 	break;
-
-	// load the dashboard
-	case "dashboard":
-		if(
-			!empty($db['skeys'][$req['skey']])
-			&& $db['skeys'][$req['skey']]['user']===$req['user']
-			&& (
-				(!empty($db['skeys'][$req['skey']]['timestamp']) && $db['skeys'][$req['skey']]['timestamp']<(date('U')+60*60*24))
-				|| !isset($db['skeys'][$req['skey']]['timestamp'])
-			)
-		){
-			$dir['home']=$dir['db']."/".$req['user'];
-			$webslides=array();
-			if(is_dir($dir['home'])){
-				$dh=opendir($dir['home']);
-				while(($file=readdir($dh))!==false){
-					if(
-						is_file($dir['home']."/".$file)
-						&& preg_match("~\.html~Uis",$file)
-					){
-						$webslides[]=$dir['home']."/".$file;
-					}
-				}
-				closedir($dh);
-			}
-			@natsort($webslides);
 	
-			$dashboard=array();
-			$dashboard['user']=$req['user'];
-
-			$i=1;
-			foreach($webslides as $key => $url){
-				$tmp=array();
-				$tmp['json']=eregi_replace(".html",".json",$url);
 	
-				if(file_exists($tmp['json'])){
-					$json=json_decode(file_get_contents($tmp['json']),true);
-				}else{
-					$json=array('title','description','author','copyright');
-				}
-	
-				$tmp=array(
-					'title' => (($json['title'])?$json['title']:'No title'),
-					'description' => (($json['description'])?$json['description']:'No description'),
-					'theme' => (($json['theme'])?" ".eregi_replace("theme-","",eregi_replace(".css","",$json['theme'])):' white')
-					//'author' => (($json['author'])?$json['author']:'No author'),
-					//'copyright' => (($json['copyright'])?$json['copyright']:'No copyright')
-				);
-
-				$dashboard['items'].="
-<div class=\"themes-preview".$tmp['theme']."\">
-	<h4>".$tmp['title']."</h4>
-	<p>".$tmp['description']."</p>
-	<div class=\"webslide-actions\">
-		<a class=\"button\" href=\"/play/".basename($url)."\">Play</a>
-		<a class=\"button\" href=\"/edit/#!".basename($url)."\">Edit</a>
-	</div>
-</div>";
-				$i++;
-				unset($tmp);
-			}
-			if(empty($dashboard['items'])){
-				$dashboard['items']="<h3>Start with <a href=\"/edit/\">creating a webslide</a>.</h3><p>Questions? Have a look at <a href=\"/tour\">the Tour</a>.</p>";
-			}
-			$arr=array(
-				'dashboard' => $dashboard,
-				'manifest'=>'/manifest/_.manifest'
-			);
-
-			$obj['template']->load('dashboard.html');
-			$obj['template']->replace($arr);
-			header('Etag: '.md5($tpl));
-			echo $obj['template']->get();
-		}else{
-			header('Location: /login');
-			exit;
-		}
-	break;
-
-	// load webslide editor
-	case "edit":
-		$arr=array('manifest'=>"/manifest/_.manifest");
-		$obj['template']->load('edit.html');
-		$obj['template']->replace($arr);
-		$tpl=$obj['template']->get();
-
-		header('Etag: '.md5($tpl));
-		echo $tpl;
-		exit;
-	break;
-
 	// load webslide player
 	case "play":
 		$dir['home']=$dir['db']."/".$req['user'];

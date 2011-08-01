@@ -43,7 +43,7 @@
 	</header>
 	<article id="navigation">
 		<h4>Welcome</h4>
-		<p>You are logged in as <q>{{dashboard:user}}</q>. <a href="/logout">Logout</a></p>
+		<p>You are logged in as <q id="dashboard-user">demo</q>. <a href="/logout">Logout</a></p>
 
 		<h4>Services</h4>
 		<ul role="navigation">
@@ -75,7 +75,7 @@
 		Then share the play link and control all webslides during your presentation.
 	</div>
 	<section id="dashboard">
-	{{dashboard:items}}
+	You've got no webslides yet. Start with <a href="/edit">creating a webslide</a>.
 	<br class="clear"/>
 	</section>
 	<section id="profile">
@@ -100,9 +100,16 @@
 </footer>
 
 <script src="/js/library.js"></script>
+<script src="/js/dashboard.js"></script>
 <script>
 
+var dashboard;
 (function(){
+
+	dashboard = new webslide.me.dashboard(document.getElementById('dashboard'));
+
+	document.getElementById('dashboard-user').innerText = webslide.me.login.user;
+
 	var elements = document.getElementsByTagName('a');
 	for (var e = 0, l = elements.length; e < l; e++) {
 		if (elements[e].parentNode.id == 'navigation') {
@@ -117,6 +124,7 @@
 			};
 		}
 	}
+
 })();
 
 if(!window.location.hash){
