@@ -53,14 +53,7 @@ switch($q[0]){
 	default:
 	case "login":
 	case "portal":
-		if($q[0]=='login'){ $switch=''; }else{ $switch=' hidden'; }
-		$arr=array(
-			'manifest'=>'/manifest/_.manifest',
-			'switch' => $switch
-		);
-
 		$obj['template']->load('portal.html');
-		$obj['template']->replace($arr);
 		$tpl=$obj['template']->get();
 		header('Etag: '.md5($tpl));
 		echo $tpl;

@@ -64,7 +64,7 @@ webslide.me.dashboard.prototype = {
 				title = document.createElement('h4'),
 				desc = document.createElement('p');
 
-			container.className = 'themes-preview ' + slide.theme.replace(/theme-/,'').replace(/\.css/,'');
+			container.className = slide.theme.replace(/theme-/,'').replace(/\.css/,'');
 
 			title.innerText = slide.title || 'No Title';
 			desc.innerText = slide.description || 'No Description';
@@ -86,10 +86,6 @@ webslide.me.dashboard.prototype = {
 			container.appendChild(navi);
 
 			this.__context.appendChild(container);
-			this.__slideCache.push({
-				slide: slide,
-				node: container
-			});
 
 		}
 

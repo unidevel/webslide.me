@@ -27,8 +27,8 @@ footer,footer:hover{transition:all 0.5s ease}
 
 ---RULESET---
 --/css/portal.css--
-#dashboard .themes-preview{border-radius:10px}
-#dashboard .themes-preview,#dashboard .themes-preview:hover{transition:all 1s ease}
+#dashboard > div{border-radius:10px}
+#dashboard > div,#dashboard > div:hover{transition:all 1s ease}
 
 ---RULESET---
 --/css/edit.css--

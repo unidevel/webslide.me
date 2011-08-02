@@ -85,37 +85,6 @@ footer {
 #login-notify ul {
 	text-align: left;
 }
-#social {
-	text-align: center;
-	margin: 0;
-	padding: 0;
-}
-#social li {
-	display: inline-block;
-	width: auto;
-	margin: 0.5em;
-	list-style: none;
-}
-.social {
-	display: inline-block;
-	width: 48px;
-	height: 48px;
-	background: url('social.png') no-repeat 0px 0px;
-}
-.social span {
-	display: none;
-	visibility: hidden;
-	font-size: 0px;
-}
-.social.facebook {
-	background-position: 0px 0px;
-}
-.social.skype {
-	background-position: -48px 0px;
-}
-.social.twitter {
-	background-position: -96px 0px;
-}
 
 
 
@@ -156,7 +125,7 @@ footer {
 	display:block;
 }
 
-#dashboard .themes-preview {
+#dashboard > div {
 	display: inline-block;
 	float: left;
 	position: relative;
@@ -168,20 +137,34 @@ footer {
 	border: 1px solid #404040;
 	border-radius: 10px;
 }
-#dashboard .themes-preview, #dashboard .themes-preview:hover {
+#dashboard > div, #dashboard > div:hover {
 	transition: all 1s ease;
 }
-#dashboard .themes-preview:hover {
+#dashboard > div:hover {
 	background: #933;
 	border-color: #600;
 	opacity: 1;
 }
-#dashboard .themes-preview h4, #dashboard .themes-preview p {
+
+#dashboard > .blue {
+	color: #fff;
+	background-color: #304160;
+}
+#dashboard > .brown {
+	color: #bfbfbf;
+	background-color: #3c3522;
+}
+#dashboard > .white {
+	color: #606060;
+	background-color: #fff;
+}
+
+#dashboard h4, #dashboard p {
 	margin: 0.25em 0;
 	padding: 0;
 	text-align: center;
 }
-#dashboard .themes-preview h4 {
+#dashboard h4 {
 	font-size: 24px;
 	line-height: 24px;
 }

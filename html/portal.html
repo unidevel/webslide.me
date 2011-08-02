@@ -56,15 +56,15 @@
 	Want more?<br/>
 	<a href="http://demo.webslide.me/play/example.html" title="example webslide and demonstration">View a Webslide</a> or <a href="/tour/">Take the Tour</a>.
 </article>
+
+<article>
+	Updates on
+	<a href="http://github.com/martensms/webslide.me">github</a> or
+	<a href="http://twitter.com/martensms">twitter</a>
+</article>
 </div>
 
-<ul id="social">
-	<li><a class="social facebook" title="webslide.me on facebook" href="http://www.facebook.com/pages/webslideme/142240309152261"><span>webslide.me on facebook</span></a></li>
-	<li><a class="social skype" title="webslide.me on skype" href="skype:martens.ms"><span>webslide.me on skype</span></a></li>
-	<li><a class="social twitter" title="webslide.me on twitter" href="http://twitter.com/martensms"><span>webslide.me on twitter</span></a></li>
-</ul>
-
-<div id="login" class="lightbox{{switch}}">
+<div id="login" class="lightbox hidden">
 	<header>Login / Register</header>
 	<article>
 		<fieldset>
@@ -114,8 +114,10 @@
 
 <script src="/js/library.js"></script>
 <script src="/js/portal.js"></script>
+<script src="/js/fixes.js"></script>
 <script>
 (function(){
+
 	var login = new webslide.me.login();
 
 	function updateURLs(element) {
@@ -138,8 +140,12 @@
 		});
 	}
 
+	if (document.location.pathname.match(/login/)) {
+		webslide.me.show('#login');	
+	}
+
+
 })();
 </script>
-<script src="/js/fixes.js"></script>
 </body>
 </html>
