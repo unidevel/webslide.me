@@ -726,6 +726,8 @@ webslide.me.editor.prototype = {
 					that.__handleDropzoneUpload(data);
 				});
 
+				this.__ui.mediaPreview = document.getElementById('media-preview');
+
 			}
 
 
@@ -1034,7 +1036,57 @@ webslide.me.editor.prototype = {
 	},
 
 	__handleDropzoneUpload: function(data) {
+
 		console.log(this, data);
+
+		if (!this.__mediaCache) {
+			this.__mediaCache = [];
+		}
+
+		this.__mediaCache.push(data);
+
+		this.__updateMediaDialog();
+
+	},
+
+	__updateMediaDialog: function() {
+
+		for (var m = 0, l = this.__mediaCache.length; m < l; m++) {
+
+			var media = this.__mediaCache[m];
+
+			if (!media.node) {
+
+				media.node = document.createElement('img');
+				media.node.src = media.data;
+
+				// totally wrapping everything, dude.
+				(function(m, that) {
+					media.node.onclick = function() {
+						that.__updateMediaPreview(m);
+					};
+				})(m, this);
+
+				this.__ui.mediaPreview && this.__ui.mediaPreview.appendChild(media.node);
+
+}
+
+		}
+
+		webslide.me.show('#lb-media');
+
+	},
+
+	__updateMediaPreview: function(index) {
+
+		var media = this.__mediaCache[index];
+
+		if (media) {
+
+			console.log(media);
+
+		}
+
 	}
 
 };
