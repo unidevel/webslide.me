@@ -302,16 +302,21 @@ webslide.me.editor.prototype = {
 		if (target) {
 
 			var clone = document.createElement(target.tagName);
-			if (!target.tagName.match(/ul|ol/i)) {
-				clone.innerHTML = 'New Element';
-			} else {
+			if (target.tagName.match(/img/i)) {
+				clone.src = target.src;
+			} else if (target.tagName.match(/ul|ol/i)) {
 				clone.innerHTML = '<li>Entry A</li><li>Entry B</li>';
+				clone.onclick = function() {
+					that.openElement(this);
+				};
+			} else {
+				clone.innerHTML = 'Click me!';
+				clone.onclick = function() {
+					that.openElement(this);
+				};
 			}
 
 			clone.className = target.className;
-			clone.onclick = function(){
-				that.openElement(this);
-			};
 
 			this.__ui.workspace.appendChild(clone);
 			this.saveSlide();
@@ -1069,7 +1074,7 @@ webslide.me.editor.prototype = {
 
 				this.__ui.mediaPreview && this.__ui.mediaPreview.appendChild(media.node);
 
-}
+			}
 
 		}
 
@@ -1083,7 +1088,18 @@ webslide.me.editor.prototype = {
 
 		if (media) {
 
-			console.log(media);
+			var oldParserData = {
+				tagName: this.__parserCache.element.tagName,
+			};
+
+			this.__parserCache.element.tagName = 'img';
+			this.__parserCache.element.src = media.data;
+
+			this.createElement();
+
+			this.__parserCache.element.tagName = oldParserData.tagName;
+
+			webslide.me.hide('#lb-media');
 
 		}
 
