@@ -28,8 +28,8 @@ if (!$req['user']) {
 
 // Faster access for API plugins to determine if there's a valid session
 if(
-	!empty($db['keys'][$req['skey']])
-	&& $db['skeys'][$req['skey']]['user'] === $req['user']
+	!empty($db['skeys'][$req['skey']])
+	&& $db['skeys'][$req['skey']]['user'] == $req['user']
 	&& (
 		(!empty($db['skeys'][$req['skey']]['timestamp']) && $db['skeys'][$req['skey']]['timestamp'] < date('U' + 60*60*24))
 		|| !isset($db['skeys'][$req['skey']]['timestamp'])
@@ -41,15 +41,31 @@ if(
 }
 
 
-if(file_exists($q[0]."_".$q[1].".php")){
+if (file_exists($q[0]."_".$q[1].".php")) {
+
 	include $q[0]."_".$q[1].".php";
-}else if(file_exists($q[0].".php")){
+
+} else if (file_exists($q[0].".php")) {
+
 	include $q[0].".php";
-}else{
+
+} else if (strlen($q[0])) {
+
+	echo "\$req\n";
+	var_dump($req);
+
+	echo "\n\n\n\$_POST\n";
+	var_dump($_POST);
+
+	var_dump($_FILES);
+
+} else {
+
 	// API plugin not found
 	// header('HTTP/1.0 404 Not Found');
 	echo file_get_contents('api_overview.html');
 	exit;
+
 }
 
 ?>

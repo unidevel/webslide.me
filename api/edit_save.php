@@ -8,29 +8,16 @@
  * @skey = "string"
  * @webslide = <html>
  */
-if(!empty($_POST)){
-	foreach($_POST as $key => $val){
-		$req[$key]=$val;
-	}
-}else{
-	//return false; // return to api index
-}
 
-// fallback to demo user
-if(empty($req['user'])){ $req['user']='demo'; }
-if(empty($req['skey'])){ $req['skey']='demo'; }
 
 if(
-	!empty($db['skeys'][$req['skey']])
-	&& $db['skeys'][$req['skey']]['user']===$req['user']
-	&&
-	(
-		(!empty($db['skeys'][$req['skey']]['timestamp']) && $db['skeys'][$req['skey']]['timestamp']<(date('U')+60*60*24))
-		|| !isset($db['skeys'][$req['skey']]['timestamp'])
-	)
-	&& !in_array(basename($req['file']),$db['protected'])
+	$api['valid_session'] && !in_array(basename($req['file']), $db['protected'])
 ){
-	if(!empty($req['webslide'])){
+
+	var_dump($_FILES);
+	exit;
+
+	if (!empty($req['blob'])) {
 		// TODO: encode webslide to hexstring and decode it =/
 		// $req['webslide']=eregi_replace("_amp_","&",$req['webslide']);
 

@@ -172,7 +172,7 @@ webslide.me.editor.prototype = {
 				file: data.filename + '.html',
 				download: downloadYesOrNo,
 				meta: data.meta,
-				webslide: data.webslide
+				blob: data.webslide
 			}, function(result, status) {
 
 				callback && callback(result, status);

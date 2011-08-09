@@ -260,7 +260,7 @@ webslide.me.ajax = {
 		if (aSync && callback) {
 			xhr.onreadystatechange = function(){
 				if (xhr.readyState == 4) {
-					callback(xhr.responseText || xhr.responseXML, xhr.status);					
+					callback(xhr.responseText || xhr.responseXML, xhr.status);
 				}
 			};
 		}
@@ -272,6 +272,14 @@ webslide.me.ajax = {
 		} else if (!aSync && !callback){
 			return xhr.responseText || xhr.responseXML;
 		}
+
+	},
+
+	__getBlob: function(data, type) {
+
+		var bb = new WebKitBlobBuilder();
+		bb.append(data);
+		return bb.getBlob(type || 'text/plain');
 
 	},
 
@@ -297,6 +305,7 @@ webslide.me.ajax = {
 			};
 		}
 
+/*
 		xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
 		var _data = '', i = 0;
@@ -306,6 +315,25 @@ webslide.me.ajax = {
 		}
 
 		xhr.send((_data) ? _data : null);
+*/
+
+		var fd = new FormData();
+
+		for (var d in data) {
+
+			if (d === 'blob') {
+
+				fd.append(d, this.__getBlob(data[d]));
+
+			} else {
+				fd.append(d, data[d]);
+			}
+
+		}
+
+
+		xhr.send(fd);
+
 
 		if (!aSync && callback) {
 			callback(xhr.responseText || xhr.responseXML, xhr.status);
