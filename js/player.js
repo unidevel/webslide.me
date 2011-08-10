@@ -106,7 +106,7 @@ webslide.me.player.prototype = {
 				this.__activeSlideIndex = nextSlideIndex;
 
 				window.location.hash = nextSlide.id;
-				this.__ui.pagenumber.innerText = nextSlide.id;
+				this.__ui.pagenumber.innerText = nextSlide.id.replace(/slide-/,'');
 
 			}
 
@@ -168,7 +168,7 @@ webslide.me.player.prototype = {
 				this.__activeSlideIndex = prevSlideIndex;
 
 				window.location.hash = prevSlide.id;
-				this.__ui.pagenumber.innerText = prevSlide.id;
+				this.__ui.pagenumber.innerText = prevSlide.id.replace(/slide-/,'');
 
 			}
 
@@ -319,7 +319,7 @@ webslide.me.player.prototype = {
 
 				for (var p = 0, pl = playMethods.length; p < pl; p++) {
 					this.lib.addEvent(slides[s], playMethods[p], function(event){
-						that.__handleEvent.apply(event); 
+						that.__handleEvent.apply(event);
 					});
 				}
 
