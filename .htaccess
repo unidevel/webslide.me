@@ -32,6 +32,9 @@ RewriteRule ^api\/feedback$ api/index.php?q=feedback
 
 # Media Handling
 # q=media/img/test.png || media/css/myfile.css
+
+# FIXME: Wahhhh! Rewriting-Mess! Clean thiz up, dude!
 RewriteRule ^(js|css)\/(.*)$ index.php?q=media\/$1\/$2
-RewriteRule ^(play|edit|control)\/([A-Za-z0-9-_]+).(gif|jpg|jpeg|png)$ index.php?q=media\/img\/$2\.$3
+RewriteRule ^([A-Za-z0-9-_]+).(gif|jpg|jpeg|png)$ index.php?q=media\/img\/$1\.$2
+RewriteRule ^(play)\/([A-Za-z0-9-_]+).(gif|jpg|jpeg|png)$ index.php?q=media\/img\/$2\.$3
 
