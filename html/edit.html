@@ -366,14 +366,13 @@ var editor;
 
 
 	// FIXME: Implement POST-capabilities?
-	function updateListFromAPI(link, type, callback) {
+	function updateWebslidesListFromAPI(link, type, callback) {
 		var context = document.querySelector(link),
-			api = context.getAttribute('data-api'),
-			method = context.getAttribute('data-method');
-
+			api = context.getAttribute('data-api');
+		
 		if (context) {
 
-			webslide.me.ajax[method](api, function(json, status) {
+			webslide.me.ajax.get(api, function(json, status) {
 
 				if (status == 200 && json) {
 
@@ -387,9 +386,10 @@ var editor;
 							var item = document.createElement('p'),
 								itemId = context.id + '-' + (r + 1);
 
+
 							item.innerHTML = [
-								'<input id="' +itemId+ '" type="' +type+ '" name="' +context.id+ '" value="' +results[r].value+ '"/>',
-								'<label class="auto" for="' +itemId+ '">' +results[r].label+ "</label>"
+								'<input id="' + itemId + '" type="' + type + '" name="' + context.id + '" value="' + results[r].file + '"/>',
+								'<label class="auto" for="' + itemId + '">' + results[r].title + ' <small>(' +results[r].file + ')</small></label>'
 							].join('');
 
 							context.appendChild(item);
@@ -412,7 +412,7 @@ var editor;
 		var element = elements[e];
 		element.onclick = function(){
 			var href = this.href;
-			updateListFromAPI(this.getAttribute('data-list'), this.getAttribute('data-list-type'), function(){
+			updateWebslidesListFromAPI(this.getAttribute('data-list'), this.getAttribute('data-list-type'), function(){
 				webslide.me.show(href);
 			});
 			return false;
