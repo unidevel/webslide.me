@@ -8,6 +8,10 @@
  *
  */
 
+
+
+window.setTimeout(function(){
+
 (function fixcss3(sheet) {
 
 	function insertVendorPrefixes(str) {
@@ -32,7 +36,7 @@
 	} else {
 
 		var elements = document.getElementsByTagName('link'),
-			files = [], // the url cache 
+			files = [], // the url cache
 			rules = []; // the rules cache (contained inside /css/css3fixes.htc)
 
 		// search for element stylesheets that have to be replaced
@@ -155,3 +159,5 @@
 		}
 	}
 })();
+
+}, 0);
