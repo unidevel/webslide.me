@@ -758,7 +758,7 @@ webslide.me.editor.prototype = {
 			}
 
 			// Parser: Themes (lightbox #lb-themes)
-			var elements = document.querySelectorAll('#lb-theme .preview-sidebar div');
+			var elements = document.querySelectorAll('#lb-theme .sidebar div');
 			for (var e = 0, l = elements.length; e < l; e++) {
 				elements[e].onclick = function() {
 					that.openTheme(this.getAttribute('data-api'));

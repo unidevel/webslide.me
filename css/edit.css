@@ -261,16 +261,14 @@ body a{
 .spritemap .menu-play {       background-position:-192px    0px }
 .spritemap .menu-theme {      background-position:   0px  -48px }
 .spritemap .menu-layout {     background-position: -48px  -48px }
-.spritemap .menu-animations { background-position: -96px  -48px }
-.spritemap .menu-pictures {   background-position:-144px  -48px }
-.spritemap .menu-movies {     background-position:-192px  -48px }
+.spritemap .menu-media {      background-position:-144px  -48px }
 .spritemap .menu-feedback {   background-position:   0px  -96px }
 .spritemap .menu-login {      background-position: -48px  -96px }
 .spritemap .action-okay {     background-position:   0px -144px }
 .spritemap .action-cancel {   background-position: -48px -144px }
 
 /* FIXME: Remove the following lines when these parts are implemented */
-.spritemap .menu-layout, .spritemap .menu-animations, .spritemap .menu-pictures, .spritemap .menu-movies {
+.spritemap .menu-layout {
 	opacity: 0.2;
 }
 
@@ -310,18 +308,11 @@ body a{
 
 
 
-/* .lightbox: #lb-pictures */
-#lb-pictures .workspace {
-	text-align: center;
-	line-height: 300px;
-}
-
-
-
 /* .lightbox */
 .lightbox .workspace {
 	width: 400px;
 	height: auto;
+	min-height: 200px;
 	margin: 0 0 0.5em 0;
 	padding: 0.5em 0;
 	font-size: 30px;
