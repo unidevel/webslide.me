@@ -25,8 +25,12 @@ webslide.me.app.prototype = {
 	navigateTo: function(viewportId) {
 
 		if (this.__viewports[viewportId]) {
+
 			var viewport = this.__viewports[viewportId];
 			this.wrapper.style.webkitTransform = 'translate3d(' + viewport.posX + 'px,' + viewport.posY + 'px, 0px)';
+
+			// Browser Bugs with offsetProperties =/
+			// window.location.hash = viewportId;
 		}
 
 
@@ -46,6 +50,14 @@ webslide.me.app.prototype = {
 		this.__initViewports();
 		this.__initLBS();
 		this.__updateUI(true);
+
+		if (window.location.hash.match(/#/)) {
+			var that = this;
+			window.setTimeout(function() {
+				var viewportId = window.location.hash.replace(/#/,'');
+				that.navigateTo(viewportId);
+			}, 0);
+		}
 
 	},
 
