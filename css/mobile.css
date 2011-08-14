@@ -1,34 +1,114 @@
 
-
-.view {
-	display:block;
-	position:absolute;
-	width:200px;
-	height:200px;
-    /*
-	top:0px;
-	right:0px;
-	bottom:0px;
-	left:0px;
-	*/
-	background:#d0d0d0;
-	border:1px solid black;
+body {
+	color: #202020;
 }
 
-.view, .view.left, .view.right {
-	-webkit-transition: -webkit-transform 1s ease-out;
+#viewport {
+    display: block;
+	border: 1px solid red;
+	position:relative;
+	overflow: hidden;
+	width: 240px;
+	height: 380px;
+}
+ 
+#viewport-wrapper {
+	display: block;
+	width: 100%;
+	height: 100%;
+	-webkit-transition:-webkit-transform 500ms ease-out;
+}           
+
+.viewport {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: url('portal.png') white repeat-x;
+}
+
+.viewport {
+	position: absolute;
+	top: 0px;
+	right: auto;
+    bottom: auto;
+	left: 0px;
 }
 
 
-.view.left {
-	-webkit-transform: translate3d(-200px,0px,0px);
+#home { top: 0px; left: 0px; }
+#favorites { top: 0px; left: -240px; }
+#suggestions { top: 0px; left: 240px; }
+
+
+
+
+
+.header {
+	margin: 0px auto;
+	padding: 12px 0px;
+	text-align: center;
+	font-size: 16px;
+}
+.header, .header a {
+	color: #404040;
+	text-decoration: none;
+}
+.header h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 1.2em;
+	font-family: Arial, sans-serif;
+}
+.header h1 span {
+	color: #12a1d9;
+}
+.header h2 {
+	margin: 0;
+	padding: 0;
+	font-size: 1em;
 }
 
-.view.active {
-	-webkit-transform: translate3d(0px,0px,0px);
+
+
+
+/* buttons */
+.button, .button {
+	margin: 0 5px;
+	cursor: pointer;
+	font-weight: bold;
+	border: 1px solid #007fb7;
+	color: #fff;
+	background-color: #6db3f2;
+	background-image: -moz-linear-gradient(top, #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #6db3f2), color-stop(50%, #54a3ee), color-stop(51%, #3690f0), color-stop(100%, #1e69de));
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6db3f2', endColorstr='#1e69de', GradientType=0);
+	border-radius: 5px;
+}
+.button:hover, .button:focus, a.button:hover, a.button:focus {
+	color: #fff;
+	border-color: #222;
+	background-color: #333;
+	background-image: -moz-linear-gradient(top, #333 0%, #777 50%, #666 51%, #333 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #333), color-stop(50%, #777), color-stop(51%, #666), color-stop(100%, #333));
 }
 
-.view.right {
-	-webkit-transform: translate3d(200px,0px,0px);
-}
 
+.button-left, .button-right {
+	position: absolute;
+	top: auto;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	margin: 0px 0px;
+	padding: 15px 10px;
+	text-decoration: none;
+}
+.button-left {
+	right: 55%;
+	text-align: left;
+}
+.button-right {
+	left: 55%;
+	text-align: right;
+}
+ 

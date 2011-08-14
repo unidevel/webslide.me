@@ -7,51 +7,42 @@
 
 	<link rel="stylesheet" media="screen" href="/css/mobile.css" />
 
+	<script src="/js/mobile.js"></script>
+
 </head>
 <body>
 
-	<div class="view">
-		Home
-		<a href="#suggestions" data-viewid="1">Suggestions</a>
-		<a href="#favorites" data-viewid="2">Favorites</a>
+<div id="viewport">
+	<div id="viewport-wrapper">
+		<div id="home" class="viewport">
+			<hgroup class="header">
+				<h1>webslide<span>.me</span></h1>
+				<h2>Home</h2>
+			</hgroup>
+			<a id="debug">Google Maps Test</a>
+			<a href="#favorites" class="navi button button-left">Favorites</a>
+			<a href="#suggestions" class="navi button button-right">Suggestions</a>
+		</div>
+		<div id="favorites" class="viewport">
+			<hgroup class="header">
+				<h1>webslide<span>.me</span></h1>
+				<h2>Favorites</h2>
+			</hgroup>
+			<!-- <a href="#home" class="navi button button-right">Home</a> -->
+		</div>
+		<div id="suggestions" class="viewport">
+			<hgroup class="header">
+				<h1>webslide<span>.me</span></h1>
+				<h2>Suggestions</h2>
+			</hgroup>
+		</div>
 	</div>
-	<div id="suggestions" class="view">
-		<a href="#home" data-viewid="0">Home</a>
-		Suggestions
-	</div>
-	<div id="favorites" class="view">
-		<a href="#home" data-viewid="0">Home</a>
-		Favorites
-	</div>
-
+</div>
 
 <script>
+var app = undefined;
 (function() {
-
-	function updateViews(activeIndex) {
-		var elements = document.getElementsByClassName('view');
-		for (var e = 0, l = elements.length; e < l; e++) {
-			if (e < activeIndex) {
-				elements[e].className = 'view left';
-			} else if (e == activeIndex) {
-				elements[e].className = 'view active';
-			} else if (e > activeIndex) {
-				elements[e].className = 'view right';
-			}
-		}
-	}
-
-	var elements = document.getElementsByTagName('a');
-	for (var e = 0, l = elements.length; e < l; e++) {
-		var element = elements[e];
-		element.onclick = function() {
-			updateViews(this.getAttribute('data-viewid'));
-		};
-	}
-
-	// Initial update of Views
-	updateViews(0);
-
+	app = new webslide.me.app();
 })();
 </script>
 </body>
