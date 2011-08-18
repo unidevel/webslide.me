@@ -76,7 +76,9 @@ window.setTimeout(function(){
 				sheet = sheet.substr(sheet.strpos('--',2) + 3); // exclude the filename from sheet now (+3 > --\n)
 
 				if (files[file]) {
-					css3fixer.innerText += '\n' + insertVendorPrefixes(sheet).trim();
+
+					// innerText won't update the computedStyles in Gecko. Don't know why =/
+					css3fixer.innerHTML += '\n' + insertVendorPrefixes(sheet).trim();
 				} else {
 					window.console && console.warn('No patches applied for: ' + file);
 				}
@@ -161,3 +163,4 @@ window.setTimeout(function(){
 })();
 
 }, 0);
+
