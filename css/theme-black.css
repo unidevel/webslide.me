@@ -17,11 +17,10 @@ section {
 section h1, section h2 {
 	color: #f8e064;
 }
-section pre, section strong {
+section a, section pre, section strong {
 	color: #eb446b;
 }
 section a {
-	color: #fff;
 	text-decoration: underline;
 	font-style: italic;
 }
