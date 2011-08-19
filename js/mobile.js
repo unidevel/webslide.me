@@ -1,8 +1,4 @@
 
-
-window.webslide = { me: {} };
-
-
 webslide.me.app = function() {
 
 	this.viewport = document.querySelector('#viewport') || document.body;
@@ -17,6 +13,12 @@ webslide.me.app = function() {
 
 
 webslide.me.app.prototype = {
+
+	templates: {
+
+		article: '<h3>{title}</h3><p class="description">{description}</p><div class="info"><a class="button" data-href="{url}">Play</a><span class="right">{user}<div class="views">{rank}</div></span>'
+
+	},
 
 	/*
 	 * PUBLIC API
@@ -33,6 +35,48 @@ webslide.me.app.prototype = {
 			// window.location.hash = viewportId;
 		}
 
+
+	},
+
+	update: function() {
+
+		var that = this;
+
+		webslide.me.ajax.post('/api/webslides', {
+			user: webslide.me.login.user
+		}, function(json, status) {
+
+			if (status === 200) {
+
+				var dataset = JSON.parse(json);
+
+				for (var d in dataset) {
+
+					var data = dataset[d],
+						template = that.templates.article.toString(),
+						helper = document.createElement('article');
+
+
+					for (var dd in data) {
+						template = template.replace(new RegExp('{' + dd + '}'), data[dd]);
+					}
+
+					// Additional information that is not delivered by server-side api
+
+					console.log(template);
+
+					// patch the template now!
+
+
+
+
+					console.log(data);
+
+				}
+
+			}
+
+		});
 
 	},
 
@@ -67,7 +111,7 @@ webslide.me.app.prototype = {
 
 			var that = this;
 			this.__lbsWatchId = navigator.geolocation.watchPosition(function(position) {
-				that.__updatePosition(position);
+				that.__updateLBSPosition(position);
 			});
 
 		}
@@ -91,21 +135,13 @@ webslide.me.app.prototype = {
 
 	},
 
-	__updatePosition: function(position) {
+	__updateLBSPosition: function(position) {
 
 		this.__coordinates = {
 			altitude: position.coords.altitude,
 			longitude: position.coords.longitude,
 			latitude: position.coords.latitude
 		};
-
-		var debug = document.querySelector('#debug');
-
-		debug.href = 'http://maps.google.de/maps?ll=' + this.__coordinates.latitude + ',' + this.__coordinates.longitude;
-
-//		debug.innerText = this.__coordinates.altitude;
-//		debug.innerText += '\nlong: ' + this.__coordinates.longitude;
-//		debug.innerText += '\nlat: ' + this.__coordinates.latitude;
 
 	},
 
@@ -116,6 +152,9 @@ webslide.me.app.prototype = {
 		if (!this.__ui || reset) {
 
 			this.__ui = {};
+
+			// FIXME: Remove this later
+			this.__ui.debug = document.querySelector("#debug");
 
 			this.__ui.naviElements = document.querySelectorAll('.navi');
 			for (var n = 0, nl = this.__ui.naviElements.length; n < nl; n++) {
@@ -134,6 +173,15 @@ webslide.me.app.prototype = {
 				};
 			}
 
+			this.__ui.favorites = document.querySelector('#favorites');
+			this.__ui.suggestions = document.querySelector('#suggestions');
+
+
+		}
+
+
+		if (this.__coordinates) {
+			this.__ui.debug.href = 'http://maps.google.de/maps?ll=' + this.__coordinates.latitude + ',' + this.__coordinates.longitude;
 		}
 
 	},
