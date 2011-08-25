@@ -120,13 +120,13 @@ webslide.me.storage.prototype = {
 
 		for (var p = 0, l = parts.length; p < l; p++) {
 
-			str = parts[p]:
+			str = parts[p];
 			while (str.charAt(0) === ' ') {
 				str = str.substring(1, str.length);
 			}
 
-			if (str.indexOf(nameEQ) === 0) {
-				return str.substring(nameEQ.length, str.length);
+			if (str.indexOf(nameEqual) === 0) {
+				return str.substring(nameEqual.length, str.length);
 			}
 
 		}
