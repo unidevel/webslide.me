@@ -142,7 +142,7 @@ webslide.me.storage.prototype = {
 		if (this.__type === 'session') {
 			window.name = json;
 		} else {
-			this.__createCookie('localStorage', data, 365);
+			this.__createCookie('localStorage', json, 365);
 		}
 
 	}
