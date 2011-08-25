@@ -85,7 +85,7 @@ String.prototype.strpos = function(needle, offset) {
 
 
 // webslide.me is our namespace for the whole library
-if (typeof webslide == 'undefined') {
+if (typeof webslide === 'undefined') {
 	webslide = {};
 	webslide.me = {};
 }
@@ -317,8 +317,6 @@ webslide.me.ajax = {
 		xhr.send((_data) ? _data : null);
 */
 
-
-
 		var fd = new FormData();
 
 		for (var d in data) {
@@ -421,6 +419,7 @@ webslide.me.login = (function(){
 	};
 
 })();
+
 
 
 /*
