@@ -1,77 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Editor | Dropzone-Test</title>
-	<meta charset="utf-8">
-	<meta name="robots" content="INDEX,FOLLOW" />
-	<meta name="revisit-after" content="3 days" />
-	<meta name="copyright" content="Christoph Martens / martens.ms" />
-	<!-- user is allowed to move the webapp to fit his needs (scalability!) -->
-	<!-- <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> -->
-
-	<!--[if lt IE 9]>
-	<script>
-	var html5 = 'aside nav article section header hgroup footer'.split(' ');
-	for (var i = 0, l = html5.length; i < l; i++) {
-		document.createElement(html5[i]);
-	}
-	</script>
-	<![endif]-->
-
-	<link rel="stylesheet" media="screen" href="/css/library.css" />
-	<link rel="stylesheet" media="screen" href="/css/play-animations.css" />
-	<link rel="stylesheet" media="screen" href="/css/theme-basic.css" />
-	<link id="meta-theme" rel="stylesheet" media="screen" href="/css/theme-blue.css" />
-	<link rel="stylesheet" media="screen" href="/css/edit.css" />
-</head>
 <body>
+<div id="dropzone" style="width:400px;height:400px;margin:0 auto;color:#fff;background:#404040;text-align:center;line-height:400px">Drop Media Files here</div>
 
-<!-- sidebar: #properties -->
-<aside class="toolbar" title="Properties" id="properties">
-	<fieldset id="properties-media">
-		<legend>Media</legend>
-		<div id="dropzone">Drop Media Files here</div>
-		<div id="dropzone-status"></div>
-
-		<div class="actions">
-			<button class="lb-show" data-href="#lb-media">Show Uploaded Media</button>
-		</div>
-	</fieldset>
-</aside>
-
-<!-- lightbox: #lb-media -->
-<div class="lightbox hidden" id="lb-media">
-	<header>Media</header>
-	<article>
-		<fieldset>
-			<legend>Media Uploads</legend>
-
-			<div class="workspace" id="media-preview"></div>
-
-			<div class="actions">
-				<a class="spritemap lb-hide" href="#lb-media">
-					<div class="action-okay"></div>
-					<span>Apply</span>
-				</a>
-			</div>
-		</fieldset>
-	</article>
-</div>
-
-<script src="/js/library.js"></script>
 <script src="/js/library.dropzone.js"></script>
-<script src="/js/fixes.js"></script>
-<script src="/js/editor.js"></script>
 <script>
-var editor;
+var dropzone;
 (function() {
-	editor = new webslide.me.editor();
-
-	if (window.location.hash.match(/!/)) {
-		editor.openFile(window.location.hash.split(/!/)[1]);
-	}
-
+	dropzone = new webslide.me.dropzone(document.querySelector('#dropzone'), function(data){
+		console.log(data);
+	});
 })();
 </script>
 </body>
-</html>

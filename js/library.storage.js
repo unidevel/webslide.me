@@ -1,8 +1,6 @@
 /*
  * webslide.me / 2011 by Christoph Martens
  *
- * Web Storage Polyfill
- *
  * Web: http://webslide.me, http://martens.ms
  *
  * Source and License:
@@ -89,7 +87,7 @@ webslide.me.storage.prototype = {
 		if (this.__type === 'session') {
 			data = window.name;
 		} else {
-			this.__readCookie('localStorage');
+			data = this.__readCookie('localStorage');
 		}
 
 		return data ? JSON.parse(data) : {};

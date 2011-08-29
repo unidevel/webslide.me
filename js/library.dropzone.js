@@ -1,4 +1,16 @@
+ /*
+ * webslide.me / 2011 by Christoph Martens
+ *
+ * Web: http://webslide.me, http://martens.ms
+ *
+ * Source and License:
+ * http://github.com/martensms/webslide.me
+ *
+ */
 
+if (typeof window.webslide === 'undefined') {
+	window.webslide = { me: {} };
+}
 
 webslide.me.dropzone = function(dropzone, callback) {
 
@@ -15,9 +27,9 @@ webslide.me.dropzone = function(dropzone, callback) {
 
 webslide.me.dropzone.prototype = {
 
-
-	settings: {
-		onMediaUpload: function(data){ console.log(data); }
+	// default callback
+	callback: function(data){
+		console.log(data);
 	},
 
 	__init: function() {

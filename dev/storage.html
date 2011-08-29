@@ -1,0 +1,40 @@
+<body>
+
+Hint: This is a polyfill for old browsers that don't support localStorage or sessionStorage.<br>
+<input id="data" placeholder="Set this to update Storage">
+<hr>
+
+<button onclick="control('session','read')">read sessionStorage</button>
+<button onclick="control('session','write')">write sessionStorage</button>
+
+<button onclick="control('local','read')">read localStorage</button>
+<button onclick="control('local','write')">write localStorage</button>
+
+<script src="/js/library.storage.js"></script>
+<script>
+
+control = function(type, action) {
+
+	var storage = type === 'session' ? window.sessionStorage : window.localStorage,
+		input = document.getElementById('data');
+
+	if (action === 'read') {
+
+		var data = storage.getItem('mykey');
+		if (data) {
+			var div = document.createElement('div');
+			div.innerHTML = data;
+			document.body.appendChild(div);
+		}
+		
+	} else if (action === 'write') {
+
+		var data = input.value || 'No Data Given';
+		storage.setItem('mykey', data);
+	
+	}
+
+}
+
+</script>
+</body>
