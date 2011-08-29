@@ -273,6 +273,7 @@ webslide.me.player.prototype = {
 			event = event.touches[0];
 		}
 
+
 		// Mouse Click
 		if (event.clientX) {
 
@@ -281,7 +282,7 @@ webslide.me.player.prototype = {
 				return;
 			}
 
-			if (event.clientX < window.innerWidth / 2) {
+			if (event.clientX > window.innerWidth / 2) {
 				this.go('next');
 			} else {
 				this.go('prev');
@@ -307,10 +308,10 @@ webslide.me.player.prototype = {
 
 	__attachEvents: function() {
 
-
 		var that = this,
 			slides = this.__slideCache,
 			playMethods = this.lib.playMethods;
+
 
 		// Only attach events if features were detected the right way
 		if (slides && slides.length && playMethods && playMethods.length) {
@@ -319,7 +320,7 @@ webslide.me.player.prototype = {
 
 				for (var p = 0, pl = playMethods.length; p < pl; p++) {
 					this.lib.addEvent(slides[s], playMethods[p], function(event){
-						that.__handleEvent.apply(event);
+						that.__handleEvent(event);
 					});
 				}
 
@@ -339,7 +340,7 @@ webslide.me.player.prototype = {
 				element.addEventListener(type, callback, true);
 			};
 		} else if (window.attachEvent) {
-			eventMethod = function(element, callback) {
+			eventMethod = function(element, type, callback) {
 				element.attachEvent(type, callback);
 			};
 		} else {

@@ -1,0 +1,39 @@
+/*
+ * This file is the blue theme
+ * @required by editor & player
+ */
+
+#workspace, .workspace {
+	background-color: #242424;
+	background-image: -moz-radial-gradient(50% 50%, ellipse closest-side, #242424 0%, #000000 100%);
+	background-image: -ms-radial-gradient(50% 50%, ellipse closest-side, #242424 0%, #000000 100%);
+	background-image: -o-radial-gradient(50% 50%, ellipse closest-side, #242424 0%, #000000 100%);
+	background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, #242424 0%, #000000 100%);
+}
+section {
+	color: #fff;
+	font-family: Anton, sans-serif;
+}
+section h1, section h2 {
+	color: #f8e064;
+}
+section a, section pre, section strong {
+	color: #eb446b;
+}
+section a {
+	text-decoration: underline;
+	font-style: italic;
+}
+section pre {
+	padding-left: 0.5em;
+	border: 1px dotted #fff;
+	border-left: 0.25em solid #fff;
+	font-size: 80%;
+}
+section ol {
+	list-style: inside decimal;
+}
+section ul {
+	list-style: inside square;
+}
+

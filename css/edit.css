@@ -283,6 +283,11 @@ body a{
 	border: 1px solid #aaa;
 	border-radius: 10px;
 }
+
+#lb-theme .sidebar .black {
+	color: #fff;
+	background-color: #242424;
+}
 #lb-theme .sidebar .blue {
 	color: #fff;
 	background-color: #304160;
